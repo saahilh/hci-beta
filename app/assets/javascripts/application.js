@@ -16,7 +16,7 @@
 
 $(document).on('page:change',function(){$(document).on('click', ".modal-backdrop", function(){$(".modal").click();});});
 
-$("#new-course-code").keydown(function (event) {
+$("#new-course-code, #ask input").keydown(function (event) {
 	var keypressed = event.keyCode || event.which;
 	if (keypressed == 13 && $(this).val()!="")
 		$(this).submit();

@@ -15,17 +15,23 @@ class CoursesController < ActionController::Base
 
 	def create
 		new_course = params[:new_course]
-		
+		success = 0
+
 		if(new_course.blank?)
 			msg = "Error: no name entered"
 		elsif(Course.where(name: new_course).count != 0)
 			msg = "Error: course already exists"
+		elsif(new_course.gsub(" ", "").length > 7)
+			msg = "Error: course code too long"
+		elsif !/[A-Z]{4} [0-9]{3}/.match(new_course)
+			msg = "Error: invalid course code format. Please use capital letters and insert a space between the letters and numbers. (e.g., ECSE 424)"
 		else
 			course = Course.create(name: new_course, lecturer: Lecturer.find(params[:lecturer_id]))
+			success = course.id
 			msg = "Successfully created course #{course.name}"
 		end
 
-		render 'message', locals:{ msg: msg, href: "/lecturers/#{params[:lecturer_id]}" }
+		render json: { data: { msg: msg, success: success }}
 	end
 
 	def ask_question
