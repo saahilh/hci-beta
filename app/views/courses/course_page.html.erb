@@ -1,0 +1,48 @@
+<%= render 'heading2', course: course.name, href: "/lecturers/#{course.lecturer.id}", button_text: " Leave Class", icon: "icon-arrow-leftf", logout: true %>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.1.2/coffee-script.min.js"></script>
+
+<script type="text/coffeescript">
+  ready = ->
+    App.cable.subscriptions.create { channel: "CourseChannel", room: "<%=course.name%>" },
+      received: (data) ->
+        if data["prof_question"]?
+          $("#questions").append(data["prof_question"])
+          $(".no-quest").remove();
+        else if data["delete_question"]?
+          $("#questions #q" + data["delete_question"]).remove();
+        else if data["in_class"]?
+          $("#q"+ data["in_class"] + " .in-class button").addClass("btn-success");
+          $("#q"+ data["in_class"] + " .after-class button").removeClass("btn-primary");
+        else if data["after_class"]?
+          $("#q"+ data["after_class"] + " .after-class button").addClass("btn-primary");
+          $("#q"+ data["after_class"] + " .in-class button").removeClass("btn-success");
+        else if data["thumbsup"]?
+          $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["count"]);
+        else if data["thumbsdown"]?
+          $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["count"]);
+</script>
+
+<div id="questions-container" class="row custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px">
+  <div class="col-md-1"></div>
+  <div id="questions" class="col-md-10" style="padding-left: 20px;">
+    <div class="separator-md"></div>
+    <% if course.questions.count > 0 %>
+    <% course.questions.order("upvotes DESC").each do |question| %>
+    <%= render 'prof_questions', question: question %>
+    <% end %>
+    <% else %>
+    <div class="row no-quest"><div class="col-md-12"><h1 class="center"> <i class="arrow">(No questions)</i> </h1></div></div>
+    <% end %>
+    <div class="separator-md"></div>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+
+<div class="separator-md"></div>
+
+<div id="poll-button" class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 big-line"><a href="poll_class.html"><div class="btn btn-inverse fit big-btn">Poll Class</div></a></div>
+  <div class="col-md-4"></div>
+</div>

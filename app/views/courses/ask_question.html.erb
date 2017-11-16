@@ -1,0 +1,58 @@
+<%= render 'heading2', href:"/index.html", button_text: "Leave Class", course: course.name, icon: "icon-arrow-left", logout: false %>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.1.2/coffee-script.min.js"></script>
+
+<script type="text/coffeescript">
+  ready = ->
+    App.cable.subscriptions.create { channel: "CourseChannel", room: "<%=course.name%>" },
+      received: (data) ->
+        if data["question"]?
+          $("#questions").append(data["question"])
+          $(".no-quest").remove();
+        else if data["delete_question"]?
+          $("#questions #q" + data["delete_question"]).remove();
+        else if data["in_class"]?
+          $("#questions #q" + data["in_class"] + " .status").text("Status: answered in class")
+        else if data["after_class"]?
+          $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
+        else if data["thumbsup"]?
+          $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["count"]);
+        else if data["thumbsdown"]?
+          $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["count"]);
+        else if data["poll"]
+          $("#modal-button").click()
+          $("#poll-body").html(data["poll"])
+</script>
+
+<div id="questions-container" class="row custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px">
+  <div class="col-md-1"></div>
+  <div id="questions" class="col-md-10" style="padding-left: 20px; padding-top: 10px; padding-bottom: 10px;">
+    <div class="separator-md"></div>
+    <% if course.questions.count==0 %>
+    <h1 class="no-quest center"> No questions available </h1>
+    <div class="no-quest separator-md"></div>
+    <% else %>
+    <% course.questions.order("upvotes DESC").all.each do |question| %>
+    <%= render 'student_questions', question: question %>
+    <% end %>
+    <% end %>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+
+<div class="separator-md"></div>
+
+<form action="/courses/<%=course.id%>/ask_question" method="post" data-remote="true">
+  <div id="ask" class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-7 big-line">
+      <input name="question" type="textarea" placeholder="Enter question here"/>
+    </div>
+    <div class="col-md-2 big-line center" style="padding-right:5px"><button type="submit" class="btn btn-inverse fit big-btn">Ask</button></div>
+    <div class="col-md-2"></div>
+  </div>
+</form>
+
+<a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
+
+<%= render 'student_poll_container_modal' %>
