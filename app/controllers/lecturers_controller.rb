@@ -13,6 +13,8 @@ class LecturersController < ActionController::Base
   end
 
   def create
+    success = false
+
     if(params[:pw]!=params[:cpw])
       msg = "Error: passwords do not match"
     elsif params[:pw].blank?||params[:name].blank?||params[:email].blank?
@@ -20,9 +22,10 @@ class LecturersController < ActionController::Base
     elsif Lecturer.where(email: params[:email]).count!=0
       msg = "Error: account with that mail already exists"
     else
-      msg = "Successfully created account"
+      msg = "Successfully created account!"
       Lecturer.create(name: params[:name], password: params[:pw], email: params[:email])
+      success = true
     end
-    # render 'message', locals:{ msg: msg, href: "/index.html" }
+    render json: { data:{msg: msg, success: success } }
   end
 end

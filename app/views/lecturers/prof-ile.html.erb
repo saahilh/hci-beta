@@ -1,15 +1,49 @@
-<div class="row">
-  <div class="col-md-8"></div>
-  <div class="col-md-4">
-    <div class="row">
-      <div class="col-md-8">
-        <a href="/index.html"><div class="btn btn-inverse fit pull-right" style="font-size: 30px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; opacity: 0.5"><i class="icon-power-off"></i>Logout</div></a>
-      </div>
-      <div class="col-md-4">
-      </div>
-    </div>
-  </div>
-</div>
+<script>
+  $(document).on('click', "#new-class-button", function(e){
+    e.preventDefault();
+    form = $("#new-class-form");
+    $.ajax({
+      type: form.attr("method"),
+      url: form.attr("action"),
+      data: form.serialize(),
+      success: function(response){
+        $(".modal-body.confirmation h4").text(response.data.msg); 
+        $("#open-confirmation-modal").click();
+        if(response.data.success!=0){
+          addClassButton($("#new-course-code").val(), response.data.success)
+        }
+      },
+      dataType: "json"
+    });
+  });
+
+  function addClassButton(course_name, course_id){
+    var class_button = ""
+
+    if($("#class-list").children(".row").last().children().length==3)
+      class_button += '<div class="separator-sm"></div><div class="row">'
+    
+    class_button += '<div class="col-md-4 big-line"><div class="row"><div class="col-md-9">            <a href="/courses/';
+    class_button += course_id
+    class_button += '/course_page"><div class="btn btn-inverse fit big-btn">';
+    class_button += course_name;
+    class_button += '</div></a></div>';
+
+    class_button += '<div class="col-md-3"><form action="/courses/';
+    class_button += course_id;
+    class_button += '/delete" method="post"><button type="submit" class="btn btn-danger fit big-btn">X</button></form></div></div></div>';
+
+    if($("#class-list").children(".row").last().children().length==3){
+      class_button += '</div>'
+      $("#class-list").html($("#class-list").html() + class_button);
+    }
+    else{
+      $("#class-list").children(".row").last().html($("#class-list").children(".row").last().html() + class_button)
+    }
+
+  }
+
+</script>
 
 <div id="classes">
   <div class="row"><div class="col-md-12"><span>Classes</span></div></div>
@@ -51,21 +85,47 @@
 <div class="separator-lg"></div>
 <div class="separator-lg"></div>
 
-<form action="/courses/create" method="post" id="new-class">
-  <div class="row"><div class="col-md-12"><span>Add class</span></div></div>
-  <div class="separator-sm"></div>
 
+<div class="row"><div class="col-md-12"><span>Add class</span></div></div>
+<div class="separator-sm"></div>
+
+<form id="new-class-form" action="/courses/create" method="post">
   <div class="row">
     <div class="col-md-12 big-line"><input id="new-course-code" name="new_course" type="textarea" placeholder="Enter course code (e.g., ECSE 424)"/></div>
   </div>
   <div class="hidden"><input name="lecturer_id" value=<%=lecturer.id if !lecturer.blank? %>></div>
   <div class="separator-md"></div>
-
-  <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4 big-line"><button type="submit" class="btn btn-inverse fit big-btn">Create new class</button></div>
-    <div class="col-md-4"></div>
-  </div>
+</div>
 </form>
 
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 big-line"><button id="new-class-button" type="submit" class="btn btn-inverse fit big-btn">Create new class</button></div>
+  <div class="col-md-4"></div>
+</div>
+
 <div class="separator-md"></div>
+
+<div id="new-class-modal" class="modal fade" role="dialog" style="overflow:hidden; display: none">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="background-color:#4d4c4c; opacity:0.8;">
+      <div class="modal-body confirmation" style="height: 350px !important; padding-top: 50px;">"
+        <h4 class="center">Confirmation</h4>
+
+        <div class="separator-lg"></div>
+
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-inverse big-btn fit" data-dismiss="modal">
+              Okay
+            </button>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a id="open-confirmation-modal" class="hidden" data-toggle="modal" data-target="#new-class-modal"></a>

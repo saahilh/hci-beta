@@ -25,17 +25,8 @@
 	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
 	<body class="container page-container">
-		<div class="box" style="background-color: none !important;">
-			<div id="heading">
-				<div class="row">
-					<div class="col-md-12">
-						<a href="/index.html" class="page-header center">
-							<h1 style="font-size:100px;">Classroom Friend</h1>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
+		<%= render '/partials/nav_bar' %>
+		
 		<div class="separator-md"></div>
 		<%= yield %>
 	</body>
