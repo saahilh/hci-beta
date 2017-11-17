@@ -1,0 +1,33 @@
+<a id="show-modal" class="hidden" data-toggle="modal" data-target="#message-modal"></a>
+
+<div id="message-modal" class="modal fade" role="dialog" style="overflow:hidden; display:none">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="background-color:#4d4c4c; opacity:0.8;">
+      <div class="modal-body confirmation" style="height: 300px !important; padding-top: 80px;">
+        <h4 class="center"><%= header.html_safe %></h4>
+
+        <div class="separator-sm">
+
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <p id="modal-message" class="white center"></p>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+
+        <div class="separator-md"></div>
+
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-inverse big-btn fit" data-dismiss="modal">
+              Okay
+            </button>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
