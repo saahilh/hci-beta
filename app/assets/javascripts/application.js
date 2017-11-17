@@ -16,12 +16,6 @@
 
 $(document).on('page:change',function(){$(document).on('click', ".modal-backdrop", function(){$(".modal").click();});});
 
-$("#new-course-code, #ask input").keydown(function (event) {
-	var keypressed = event.keyCode || event.which;
-	if (keypressed == 13 && $(this).val()!="")
-		$(this).submit();
-});
-
 $(document).on('click', ".response-button", function(){$("#responses").hide(); $("#change-response").show();})
 
 $(document).on('page:change', function(){
