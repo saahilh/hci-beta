@@ -5,7 +5,7 @@ class CoursesController < ActionController::Base
 		if(Course.where(name: course).count>0)
 			redirect_to "/courses/#{ Course.where(name: course).first.id }"
 		else
-			render 'message', locals: { msg: "Course not found: #{course}", href: "/index.html" }
+			render '/partials/message', locals: { msg: "Course not found: #{course}", href: "/index.html" }
 		end
 	end
 
@@ -18,13 +18,13 @@ class CoursesController < ActionController::Base
 		success = 0
 
 		if(new_course.blank?)
-			msg = "Error: no name entered"
+			msg = "No name entered"
 		elsif(Course.where(name: new_course).count != 0)
-			msg = "Error: course already exists"
+			msg = "Course already exists"
 		elsif(new_course.gsub(" ", "").length > 7)
-			msg = "Error: course code too long"
+			msg = "Course code too long"
 		elsif !/[A-Z]{4} [0-9]{3}/.match(new_course)
-			msg = "Error: invalid course code format. Please use capital letters and insert a space between the letters and numbers. (e.g., ECSE 424)"
+			msg = "Invalid course code format. Please use capital letters and insert a space between the letters and numbers. (e.g., ECSE 424)"
 		else
 			course = Course.create(name: new_course, lecturer: Lecturer.find(params[:lecturer_id]))
 			success = course.id
@@ -43,6 +43,7 @@ class CoursesController < ActionController::Base
 				prof_question: render_to_string('_prof_questions', layout:false, locals: {question: question})
 			)
 		end
+		render json: {data: {}}
 	end
 
 	def course_page

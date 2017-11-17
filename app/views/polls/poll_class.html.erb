@@ -1,20 +1,87 @@
 <%= render '/partials/heading2', course: course.name %>
 
+<script>
+  var optionCount = 2;
+
+  function addOption(){
+    $("#poll-form-container").append($('<div class="separator-md"></div>'));
+    optionCount += 1;   
+    var e = '<div id="option' + optionCount + '" class="row"><div class="col-md-1"><span>Option ' + optionCount + '</span></div><div class="col-md-11 big-line"><input id="opt' + optionCount + '" name="opt' + optionCount + '" type="textarea" class="form-control" placeholder="Type an answer for the poll here"/></div></div>'
+    $("#poll-form-container").append($(e));
+  }
+
+  function removeOption(){
+    if(optionCount > 2){
+      $("#poll-form-container separator-md").last().remove();
+      $("#option" + optionCount).remove();
+      optionCount -= 1;
+    }
+  }
+
+  function validateForm(){
+
+  }
+
+  $(document).on("click", "#add-option", addOption);
+  $(document).on("click", "#remove-option", removeOption);
+  $(document).on('click", "#start-polling-button', validateForm);
+
+  $(document).on('click', ".modal-backdrop", function(){$(".modal").click();});
+</script>
+
 <div class="row"><div class="col-md-12"><span>Question</span></div></div>
 <div class="separator-sm"></div>
 
-<form action="begin_poll" method="post">
-  <div id="poll-form" class="form-group custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px; padding-left: 15px">
+<form id="poll-form" action="begin_poll" method="post">
+  <div id="poll-form-container" class="form-group custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px; padding-left: 15px">
     <div class="row">
-      <div class="col-md-12 big-line"><input name="question" type="textarea" class="form-control" placeholder="Type your question for the poll here"/></div>
+      <div class="col-md-12 big-line"><input id="question" name="question" type="textarea" class="form-control" placeholder="Type your question for the poll here"/></div>
     </div>
 
     <div class="separator-md"></div>
+
+    <div id="option1" class="row">
+      <div class="col-md-1"><span>Option 1</span></div>
+      <div class="col-md-11 big-line"><input id="opt1" name="opt1" type="textarea" class="form-control" placeholder="Type an answer for the poll here"/></div>
+    </div>
+
+    <div class="separator-md"></div>
+
+    <div id="option2" class="row">
+      <div class="col-md-1"><span>Option 2</span></div>
+      <div class="col-md-11 big-line"><input id="opt2" name="opt2" type="textarea" class="form-control" placeholder="Type an answer for the poll here"/></div>
+    </div>
+
+  </div>
+ </form>
+
+ <div class="row">
+  <div class="col-md-4 big-line"><div id="add-option" class="btn btn-primary big-btn fit">Add Option</div></div>
+  <div class="col-md-4 big-line"><div id="remove-option" class="btn btn-danger big-btn fit">Remove Option</div></div>
+  <div class="col-md-4 big-line"><button id="start-polling-button" class="btn btn-inverse fit big-btn"><span>Initiate Polling</span></div>
   </div>
 
-  <div id="add_or_remove_options" class="row">
-     <div class="col-md-4 big-line"><div id="add-option" class="btn btn-primary big-btn fit">Add Option</div></div>
-    <div class="col-md-4 big-line"><div id="remove-option" class="btn btn-danger big-btn fit">Remove Option</div></div>
-    <div class="col-md-4 big-line"><button type="submit" class="btn btn-inverse fit big-btn"><span>Initiate Polling</span></div>
-  </div>
-</form>
+  <%= render '/partials/message_modal', header: "Error" %>
+
+  <script>
+    $(document).on('click', "#start-polling-button", function(e){
+      e.preventDefault();
+      form = $("#poll-form");
+      if(form.find("#question").val()=="" && (form.find("#opt1").val()==""||form.find("#opt2").val()=="")){
+        $("#modal-message").text("Please enter a question and at least two options.")
+        $("#show-modal").click();
+      }
+      else if(form.find("#question").val()==""){
+        $("#modal-message").text("Please enter a question.")
+        $("#show-modal").click();
+      }
+      else if(form.find("#opt1").val()==""||form.find("#opt2").val()==""){
+        $("#modal-message").text("Please enter at least two options.")
+        $("#show-modal").click();
+      }
+      else{
+        form.submit();
+      }
+
+    });
+  </script>

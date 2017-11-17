@@ -7,7 +7,13 @@
       url: form.attr("action"),
       data: form.serialize(),
       success: function(response){
-        $(".modal-body.confirmation h4").text(response.data.msg); 
+        if(response.data.success!=0)
+          $(".modal-body.confirmation h4").text("Success!")
+        else
+          $(".modal-body.confirmation h4").text("Error")
+
+        $("#modal-message").text(response.data.msg);
+
         $("#open-confirmation-modal").click();
         if(response.data.success!=0){
           addClassButton($("#new-course-code").val(), response.data.success)
@@ -16,6 +22,13 @@
       dataType: "json"
     });
   });
+
+  $(document).on('keydown', "#new-course-code", function (event) {
+    var keypressed = event.keyCode || event.which;
+    if (keypressed == 13 && $(this).val()!="")
+      $(this).submit();
+  });
+
 
   function addClassButton(course_name, course_id){
     var class_button = ""
@@ -110,9 +123,19 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content" style="background-color:#4d4c4c; opacity:0.8;">
       <div class="modal-body confirmation" style="height: 350px !important; padding-top: 50px;">"
-        <h4 class="center">Confirmation</h4>
+        <h4 class="center">Error</h4>
 
-        <div class="separator-lg"></div>
+        <div class="separator-sm">
+
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <p id="modal-message" class="white center"></p>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+
+        <div class="separator-md"></div>
 
         <div class="row">
           <div class="col-md-3"></div>

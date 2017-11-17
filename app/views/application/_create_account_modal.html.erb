@@ -11,9 +11,16 @@
       url: form.attr("action"),
       data: form.serialize(),
       success: function(response){ 
-        $(".modal-body.confirmation h4").text(response.data.msg); 
-        if(response.data.success)
+        if(response.data.success){
+          $(".modal-body.confirmation h4").text("Success!");
+          $("#modal-message").text(response.data.msg)
           $("#create-account-back").hide();
+        }
+        else{
+          $("#create-account-back").show();
+          $(".modal-body.confirmation h4").text("Error");
+          $("#modal-message").text(response.data.msg); 
+        }
       },
       dataType: "json"
     });
@@ -51,9 +58,19 @@
         </div>
       </div>
       <div class="modal-body confirmation" style="height: 300px !important; padding-top: 20px; display:none">
-        <h4 class="center">Confirmation</h4>
+        <h4 class="center">Success!</h4>
 
-        <div class="separator-lg"></div>
+        <div class="separator-sm">
+
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <p id="modal-message" class="white center"></p>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+
+        <div class="separator-md"></div>
 
         <div id="create-account-back" class="row">
           <div class="col-md-3"></div>

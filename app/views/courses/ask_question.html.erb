@@ -31,6 +31,26 @@
     },
     speak: function(){}
   });
+
+  $(document).on('keydown', "#ask-form input", function (event) {
+    var keypressed = event.keyCode || event.which;
+    if (keypressed == 13 && $(this).val()!="")
+      $("#ask button").click();
+  });
+
+  $(document).on('click', "#ask button", function(){
+    form = $("#ask-form");
+    $.ajax({
+      type: form.attr("method"),
+      url: form.attr("action"),
+      data: form.serialize(),
+      success: function(response){ 
+        $("#ask input").val("");
+      },
+      dataType: "json"
+    });
+  });
+
 </script>
 
 <div id="questions-container" class="row custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px">
@@ -51,16 +71,14 @@
 
 <div class="separator-md"></div>
 
-<form action="/courses/<%=course.id%>/ask_question" method="post" data-remote="true">
-  <div id="ask" class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-7 big-line">
+<div id="ask" class="row">
+  <div class="col-md-1"></div>
+  <form class="col-md-7 big-line" id="ask-form" action="/courses/<%=course.id%>/ask_question" method="post" data-remote="true">
       <input name="question" type="textarea" placeholder="Enter question here"/>
-    </div>
-    <div class="col-md-2 big-line center" style="padding-right:5px"><button type="submit" class="btn btn-inverse fit big-btn">Ask</button></div>
-    <div class="col-md-2"></div>
-  </div>
-</form>
+  </form>
+  <div class="col-md-2 big-line center" style="padding-right:5px"><button type="submit" class="btn btn-inverse fit big-btn">Ask</button></div>
+  <div class="col-md-2"></div>
+</div>
 
 <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
 
