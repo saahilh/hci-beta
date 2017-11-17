@@ -4,7 +4,7 @@ class LecturersController < ActionController::Base
     if(lecturer.count != 0 && lecturer.first.password==params[:pw])
       redirect_to "/lecturers/#{lecturer.first.id}"
     else
-      render 'message', locals:{ msg: "Invalid credentials entered", href: "/index.html" }
+      render '/partials/message', locals:{ msg: "Invalid credentials entered", href: "/index.html" }
     end
   end
 
@@ -16,13 +16,13 @@ class LecturersController < ActionController::Base
     success = false
 
     if(params[:pw]!=params[:cpw])
-      msg = "Error: passwords do not match"
+      msg = "Passwords do not match"
     elsif params[:pw].blank?||params[:name].blank?||params[:email].blank?
-      msg = "Error: left a field blank"
+      msg = "Left a field blank"
     elsif Lecturer.where(email: params[:email]).count!=0
-      msg = "Error: account with that mail already exists"
+      msg = "Account with that mail already exists"
     else
-      msg = "Successfully created account!"
+      msg = "Successfully created account"
       Lecturer.create(name: params[:name], password: params[:pw], email: params[:email])
       success = true
     end
