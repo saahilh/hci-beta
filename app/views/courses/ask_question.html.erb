@@ -1,8 +1,15 @@
+<%= render '/partials/nav_bar', leave_class_href: "/index.html" %>
 <%= render '/partials/heading2', course: course.name %>
 
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
 <script>
+  var counter = {}
+
+  for(var i = 0; i < $(".upvotes").length; i++){
+    counter[$($(".upvotes")[i]).closest(".question").parent().attr("id")] = parseInt($($(".upvotes")[i]).text())
+  }
+
   App.room = App.cable.subscriptions.create({
     channel: "CourseChannel",
     room: room_name
@@ -12,21 +19,42 @@
     received: function(data) {
       if(data["question"]){
         $("#questions").append(data["question"]);
+        counter["q" + data["question_id"]] = 0;
         $(".no-quest").remove();
       }
       else if(data["delete_question"])
         $("#questions #q" + data["delete_question"]).remove();
-      else if(data["in_class"])
-        $("#questions #q" + data["in_class"] + " .status").text("Status: answered in class")
-      else if(data["after_class"])
-        $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
-      else if(data["thumbsup"])
-        $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["count"]);
+      else if(data["in_class"]){
+        if(data["pending"])
+          $("#questions #q" + data["in_class"] + " .status").text("Status: pending")
+        else
+          $("#questions #q" + data["in_class"] + " .status").text("Status: answered in class")
+      }
+      else if(data["after_class"]){
+        if(data["pending"])
+          $("#questions #q" + data["after_class"] + " .status").text("Status: pending")
+        else
+          $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
+      }
+      else if(data["thumbsup"]){
+        var e = $("#q"+ data["thumbsup"] + " .upvotes")
+        e.text(" " + data["count"]);
+        counter["q"+data["thumbsup"]]+=1;
+
+        var container = e.closest(".question").parent()
+        while(parseInt(data["count"]) > parseInt(container.prev().find(".upvotes").text())){
+          $(container).insertBefore($(container).prev())
+        }
+      }
       else if(data["thumbsdown"])
         $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["count"]);
       else if(data["poll"]){
-        $("#modal-button").click()
+        if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
+          $("#modal-button").click()
         $("#poll-body").html(data["poll"])
+      }
+      else if(data["poll_end"]){
+        $("#poll-body").html(data["chart"])
       }
     },
     speak: function(){}
@@ -74,7 +102,7 @@
 <div id="ask" class="row">
   <div class="col-md-1"></div>
   <form class="col-md-7 big-line" id="ask-form" action="/courses/<%=course.id%>/ask_question" method="post" data-remote="true">
-      <input name="question" type="textarea" placeholder="Enter question here"/>
+    <input name="question" type="textarea" placeholder="Enter question here"/>
   </form>
   <div class="col-md-2 big-line center" style="padding-right:5px"><button type="submit" class="btn btn-inverse fit big-btn">Ask</button></div>
   <div class="col-md-2"></div>
@@ -82,4 +110,4 @@
 
 <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
 
-<%= render 'student_poll_container_modal' %>
+<%= render '/polls/student_poll_container_modal' %>

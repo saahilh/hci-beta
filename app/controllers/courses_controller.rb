@@ -3,9 +3,9 @@ class CoursesController < ActionController::Base
 		course = params[:course_code]
 
 		if(Course.where(name: course).count>0)
-			redirect_to "/courses/#{ Course.where(name: course).first.id }"
+			render json: { data: { redirect: "/courses/#{ Course.where(name: course).first.id }" } }
 		else
-			render '/partials/message', locals: { msg: "Course not found: #{course}", href: "/index.html" }
+			render json: { data: { msg: "Course not found: #{course}" } }
 		end
 	end
 
@@ -40,7 +40,8 @@ class CoursesController < ActionController::Base
 			question = Question.create(question: params[:question], upvotes: 0, downvotes: 0, status: "pending", course_id: course.id)
 			CourseChannel.broadcast_to(course, 
 				question: render_to_string('_student_questions', layout:false, locals: {question: question}),
-				prof_question: render_to_string('_prof_questions', layout:false, locals: {question: question})
+				prof_question: render_to_string('_prof_questions', layout:false, locals: {question: question}),
+				question_id: question.id
 			)
 		end
 		render json: {data: {}}

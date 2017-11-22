@@ -23,11 +23,11 @@ class PollsController < ActionController::Base
 		poll = Poll.find(params[:poll_id])
 		poll.update_column(:active, false)
 
-		CourseChannel.broadcast_to(course, poll_end: true)
-
 		data = poll.options.pluck(:value, :selected)
 
-		render 'professor_poll_results', locals: {poll: poll, data: data}
+		CourseChannel.broadcast_to(course, { poll_end: true, chart: render_to_string('student_poll_results', layout: false, locals: { data: data, question: poll.question }) } )
+
+		render 'professor_poll_results', locals: { poll: poll, data: data }
 	end
 
 	def answer

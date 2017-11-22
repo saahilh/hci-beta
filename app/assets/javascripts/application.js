@@ -13,8 +13,7 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
-
-$(document).on('page:change',function(){$(document).on('click', ".modal-backdrop", function(){$(".modal").click();});});
+//= require chartkick
 
 $(document).on('click', ".response-button", function(){$("#responses").hide(); $("#change-response").show();})
 
@@ -35,4 +34,3 @@ $(document).on('page:change', function(){
 });
 
 $(document).on('click', ".icon-flag", function(){$(this).closest(".question.row").hide();})
-$(document).on('click', ".modal-backdrop", function(){$(".modal").click();});

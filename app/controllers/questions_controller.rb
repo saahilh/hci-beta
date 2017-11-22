@@ -11,19 +11,27 @@ class QuestionsController < ActionController::Base
 
 	def in_class
 		question = Question.find(params[:id])
-		question.update_column(:status, "answered in class")
+		new_status = "answered in class"
+
+		new_status = "pending" if(question.status==new_status)
+
+		question.update_column(:status, new_status)
 		
 		CourseChannel.broadcast_to(Course.find(question.course.id), 
-			in_class: question.id
+			in_class: question.id, pending: new_status=="pending"
 		)
 	end
 
 	def after_class
 		question = Question.find(params[:id])
-		question.update_column(:status, "will answer after class")
+		new_status = "will answer after class"
+
+		new_status = "pending" if(question.status==new_status)
+
+		question.update_column(:status, new_status)
 		
 		CourseChannel.broadcast_to(Course.find(question.course.id), 
-			after_class: question.id
+			after_class: question.id, pending: new_status=="pending"
 		)
 	end
 
