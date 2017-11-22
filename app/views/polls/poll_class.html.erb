@@ -1,3 +1,31 @@
+<nav class="navbar navbar-fixed-top" style="background-color: none !important; padding-bottom: 15px">
+  <div class="container-fluid row">
+    <div class="col-md-3">
+      <a href="/courses/<%=course.id%>/course_page">
+        <div class="btn btn-inverse fit" style="font-size: 30px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; opacity: 0.5">
+          <i class="icon-arrow-left"></i> Back
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6 center">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <a class="navbar-brand" href="/index.html"><h4 style="font-size:50px; padding-top:10px;"> Classroom Friend </h4></a>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <a href="/lecturers/<%= course.lecturer.id %>">
+        <div class="btn btn-inverse fit" style="font-size: 30px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; opacity: 0.5">
+          <i class="icon-home"></i> Home
+        </div>
+      </a>
+    </div>
+  </div>
+</nav>
+
 <%= render '/partials/heading2', course: course.name %>
 
 <script>
@@ -18,15 +46,9 @@
     }
   }
 
-  function validateForm(){
-
-  }
-
   $(document).on("click", "#add-option", addOption);
   $(document).on("click", "#remove-option", removeOption);
-  $(document).on('click", "#start-polling-button', validateForm);
 
-  $(document).on('click', ".modal-backdrop", function(){$(".modal").click();});
 </script>
 
 <div class="row"><div class="col-md-12"><span>Question</span></div></div>
@@ -53,35 +75,12 @@
     </div>
 
   </div>
- </form>
+</form>
 
- <div class="row">
+<div class="row">
   <div class="col-md-4 big-line"><div id="add-option" class="btn btn-primary big-btn fit">Add Option</div></div>
   <div class="col-md-4 big-line"><div id="remove-option" class="btn btn-danger big-btn fit">Remove Option</div></div>
   <div class="col-md-4 big-line"><button id="start-polling-button" class="btn btn-inverse fit big-btn"><span>Initiate Polling</span></div>
   </div>
 
   <%= render '/partials/message_modal', header: "Error" %>
-
-  <script>
-    $(document).on('click', "#start-polling-button", function(e){
-      e.preventDefault();
-      form = $("#poll-form");
-      if(form.find("#question").val()=="" && (form.find("#opt1").val()==""||form.find("#opt2").val()=="")){
-        $("#modal-message").text("Please enter a question and at least two options.")
-        $("#show-modal").click();
-      }
-      else if(form.find("#question").val()==""){
-        $("#modal-message").text("Please enter a question.")
-        $("#show-modal").click();
-      }
-      else if(form.find("#opt1").val()==""||form.find("#opt2").val()==""){
-        $("#modal-message").text("Please enter at least two options.")
-        $("#show-modal").click();
-      }
-      else{
-        form.submit();
-      }
-
-    });
-  </script>

@@ -1,3 +1,4 @@
+<%= render '/partials/nav_bar', leave_class_href: "/lecturers/#{course.lecturer.id}", logout_href: '/index.html' %>
 <%= render '/partials/heading2', course: course.name %>
 
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
@@ -17,12 +18,22 @@
       else if(data["delete_question"])
         $("#questions #q" + data["delete_question"]).remove();
       else if(data["in_class"]){
-        $("#q"+ data["in_class"] + " .in-class button").addClass("btn-success");
-        $("#q"+ data["in_class"] + " .after-class button").removeClass("btn-primary");
+        if(data["pending"]){
+          $("#q"+ data["in_class"] + " .in-class button").removeClass("btn-success");
+        }
+        else{
+          $("#q"+ data["in_class"] + " .in-class button").addClass("btn-success");
+          $("#q"+ data["in_class"] + " .after-class button").removeClass("btn-primary");
+        }
       }
       else if(data["after_class"]){
-        $("#q"+ data["after_class"] + " .after-class button").addClass("btn-primary");
-        $("#q"+ data["after_class"] + " .in-class button").removeClass("btn-success");
+        if(data["pending"]){
+          $("#q"+ data["after_class"] + " .after-class button").removeClass("btn-primary");
+        }
+        else{
+          $("#q"+ data["after_class"] + " .after-class button").addClass("btn-primary");
+          $("#q"+ data["after_class"] + " .in-class button").removeClass("btn-success");
+        }
       }
     },
     speak: function(){}

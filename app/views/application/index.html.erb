@@ -1,3 +1,27 @@
+<script>
+  $(document).on('click', "#join-class, #lecturer-login", function(e){
+    e.preventDefault();
+    var form = $(this).closest('form');
+
+    $.ajax({
+      type: form.attr("method"),
+      url: form.attr("action"),
+      data: form.serialize(),
+      success: function(response){
+        if(response.data.msg){
+          $(".modal-body.confirmation h4").text("Error")
+          $("#modal-message").text(response.data.msg);
+          $("#show-modal").click();
+        }
+        else{
+          window.location.href = response.data.redirect;
+        }
+      },
+      dataType: "json"
+    });
+  })
+</script>
+
 <div id="student-form">
   <div class="row">
     <div class="col-md-12">
@@ -10,7 +34,7 @@
         <input class="awesomplete" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list=<%=Course.all.pluck(:name).join(",")%>>
       </div>
       <div class="col-md-3 big-line">
-        <button type="submit"class="btn btn-inverse fit big-btn">Join Class</button>
+        <button id="join-class" class="btn btn-inverse fit big-btn">Join Class</button>
       </div>
     </div>
   </form>
@@ -34,7 +58,7 @@
       <div class="col-md-5 big-line"><input type="textarea" name="email" placeholder="e.g., john.doe@mail.mcgill.ca"/></div>
       <div class="col-md-4 big-line"><input type="password" name="pw" /></div>
       <div class="col-md-3 big-line">
-        <button type="submit" class="btn btn-inverse fit big-btn">Login</button>
+        <button id="lecturer-login" class="btn btn-inverse fit big-btn">Login</button>
       </div>
     </div>
   </form>
@@ -44,4 +68,5 @@
   </div>
 </div>
 
+<%= render '/partials/message_modal', header: "Error" %>
 <%= render 'create_account_modal' %>
