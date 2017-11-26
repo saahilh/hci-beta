@@ -20,11 +20,11 @@
     </div>
     <div class="col-md-3">
       <% if defined?(logout_href) %>
-      <a href="<%= logout_href %>">
-        <div class="btn btn-inverse fit pull-right" style="font-size: 30px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; opacity: 0.5">
+      <form method="post" action="<%= logout_href %>">
+        <button type="submit" class="btn btn-inverse fit pull-right" style="font-size: 30px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; opacity: 0.5">
           <i class="icon-power-off"></i> Logout
-        </div>
-      </a>
+        </button>
+      </form>
       <% end %>
     </div>
   </div>

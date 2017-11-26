@@ -1,4 +1,4 @@
-<%= render '/partials/nav_bar', leave_class_href: "/lecturers/#{course.lecturer.id}", logout_href: '/index.html' %>
+<%= render '/partials/nav_bar', leave_class_href: "/lecturers/#{course.lecturer.id}", logout_href: '/lecturers/logout' %>
 <%= render '/partials/heading2', course: course.name %>
 
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
@@ -34,11 +34,14 @@
     received: function(data) {
       if(data["prof_question"]){
         $("#questions").append(data["prof_question"])
-        $(".no-quest").remove();
+        $("#no-quest").hide();
         sort_question(data["question_id"], "0", "0");
       }
-      else if(data["delete_question"])
+      else if(data["delete_question"]){
         $("#questions #q" + data["delete_question"]).remove();
+        if($(".question").length==0)
+          $("#no-quest").show();
+      }
       else if(data["in_class"]){
         if(data["pending"]){
           $("#q"+ data["in_class"] + " .in-class button").removeClass("btn-success");
@@ -69,7 +72,9 @@
         sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"]);
       }
       else if(data["flag_thresh_alert"]){
-        $("#q" + data["flag_thresh_alert"]).hide();
+        $("#q" + data["flag_thresh_alert"]).remove();
+        if($(".question").length==0)
+          $("#no-quest").show();
       }
     },
     speak: function(){}
@@ -78,15 +83,19 @@
 
 <div id="questions-container" class="row custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px">
   <div class="col-md-1"></div>
-  <div id="questions" class="col-md-10" style="padding-left: 20px;">
+  <div id="questions" class="col-md-10" style="padding-left: 20px; padding-top: 10px; padding-bottom: 10px;">
+
     <div class="separator-md"></div>
-    <% if course.questions.count > 0 %>
-    <% course.questions.order("upvotes DESC, downvotes ASC").each do |question| %>
+
+    <div id="no-quest" <% if course.questions.count!=0 %>style="display:none;"<% end %>>
+      <h1 class="no-quest center"> No questions available </h1>
+      <div class="no-quest separator-md"></div>
+    </div>
+
+    <% course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").each do |question| %>
     <%= render 'prof_questions', question: question %>
     <% end %>
-    <% else %>
-    <div class="row no-quest"><div class="col-md-12"><h1 class="center"> <i class="arrow">(No questions)</i> </h1></div></div>
-    <% end %>
+
   </div>
   <div class="col-md-1"></div>
 </div>

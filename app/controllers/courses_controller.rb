@@ -20,7 +20,7 @@ class CoursesController < ActionController::Base
 		set_cookie
 		flagged = Student.find(cookies[:student]).flagged
 		flagged = flagged.blank? ? {} : JSON.parse(flagged)
-		render 'ask_question', locals: { course: Course.find(params[:id]), flagged: flagged }
+		render 'ask_question', locals: { course: Course.find(params[:id]), flagged: flagged, data: JSON.parse(Student.find(cookies[:student]).question_data) }
 	end
 
 	def create
@@ -61,7 +61,12 @@ class CoursesController < ActionController::Base
 	end
 
 	def course_page
-		render 'course_page', locals: {course: Course.find(params[:id]) }
+		course = Course.find(params[:id])
+	    if(cookies[:logged_in].to_s==course.lecturer.id.to_s)
+	  	  render 'course_page', locals: {course: course }
+	    else
+	      render '/message', locals: { message: "Error: not logged in" }
+	    end
 	end
 
 	def delete
