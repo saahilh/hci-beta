@@ -15,15 +15,20 @@
         <div class="row">
           <div class="col-md-9">
             <a href="/courses/<%=course.id%>/course_page">
-              <div class="btn btn-inverse fit big-btn">
-                <%= course.name%>
+              <div class="dropdown">
+                <button class="btn btn-inverse dropdown-toggle big-btn" type="button" data-toggle="dropdown">
+                  <%= course.name%>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu big-btn">
+                <li>
+                  <form action="/courses/<%=course.id%>/delete" method="post">
+                    <button type="submit" class="btn btn-danger fit big-btn"> Delete</button>
+                  </form>
+                </li>
+                </ul>
               </div>
             </a>
-          </div>
-          <div class="col-md-3">
-            <form action="/courses/<%=course.id%>/delete" method="post">
-              <button type="submit" class="btn btn-danger fit big-btn">X</button>
-            </form>
           </div>
         </div>
       </div>
@@ -62,15 +67,15 @@
 <div id="new-class-modal" class="modal fade" role="dialog" style="overflow:hidden; display: none">
   <div class="modal-dialog modal-sm">
     <div class="modal-content" style="background-color:#4d4c4c; opacity:0.8;">
-      <div class="modal-body confirmation" style="height: 350px !important; padding-top: 50px;">"
-        <h4 class="center">Error</h4>
+      <div class="modal-body confirmation" style="height: 300px !important; padding-top: 50px;">"
+        <h5 class="center" style="font-size: 40px;">Error</h5>
 
         <div class="separator-sm">
 
         <div class="row">
           <div class="col-md-1"></div>
           <div class="col-md-10">
-            <p id="modal-message" class="white center"></p>
+            <h4 id="modal-message" class="white center"></h4>
           </div>
           <div class="col-md-1"></div>
         </div>
@@ -84,7 +89,7 @@
               Okay
             </button>
           </div>
-          <div class="col-md-3"></div>
+          <!-- <div class="col-md-3"></div> -->
         </div>
       </div>
     </div>
