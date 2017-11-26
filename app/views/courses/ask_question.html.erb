@@ -4,10 +4,24 @@
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
 <script>
-  var counter = {}
+  function sort_question(id, upvotes, downvotes){
+    var container = $("#q"+ id + " .upvotes").closest(".question").parent();
 
-  for(var i = 0; i < $(".upvotes").length; i++){
-    counter[$($(".upvotes")[i]).closest(".question").parent().attr("id")] = parseInt($($(".upvotes")[i]).text())
+    while(parseInt(upvotes) > parseInt(container.prev().find(".upvotes").text())){
+      $(container).insertBefore($(container).prev());
+    }
+
+    while(parseInt(upvotes) < parseInt(container.next().find(".upvotes").text())){
+      $(container).insertAfter($(container).next());
+    }
+
+    while((parseInt(upvotes)==parseInt(container.prev().find(".upvotes").text())) && parseInt(downvotes) < parseInt(container.prev().find(".downvotes").text())){
+      $(container).insertBefore($(container).prev());
+    }
+
+    while((parseInt(upvotes)==parseInt(container.next().find(".upvotes").text())) && parseInt(downvotes) > parseInt(container.next().find(".downvotes").text())){
+      $(container).insertAfter($(container).next());
+    }
   }
 
   App.room = App.cable.subscriptions.create({
@@ -19,8 +33,8 @@
     received: function(data) {
       if(data["question"]){
         $("#questions").append(data["question"]);
-        counter["q" + data["question_id"]] = 0;
         $(".no-quest").remove();
+        sort_question(data["question_id"], "0", "0");
       }
       else if(data["delete_question"])
         $("#questions #q" + data["delete_question"]).remove();
@@ -37,17 +51,15 @@
           $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
       }
       else if(data["thumbsup"]){
-        var e = $("#q"+ data["thumbsup"] + " .upvotes")
-        e.text(" " + data["count"]);
-        counter["q"+data["thumbsup"]]+=1;
-
-        var container = e.closest(".question").parent()
-        while(parseInt(data["count"]) > parseInt(container.prev().find(".upvotes").text())){
-          $(container).insertBefore($(container).prev())
-        }
+        $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
+        $("#q"+ data["thumbsup"] + " .downvotes").text(" " + data["downvote_count"]);
+        sort_question(data["thumbsup"], data["upvote_count"], data["downvote_count"])
       }
-      else if(data["thumbsdown"])
-        $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["count"]);
+      else if(data["thumbsdown"]){
+        $("#q"+ data["thumbsdown"] + " .upvotes").text(" " + data["upvote_count"]);
+        $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["downvote_count"]);
+        sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"])
+      }
       else if(data["poll"]){
         if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
           $("#modal-button").click()
@@ -55,6 +67,9 @@
       }
       else if(data["poll_end"]){
         $("#poll-body").html(data["chart"])
+      }
+      else if(data["flag_thresh_alert"]){
+        $("#q" + data["flag_thresh_alert"]).hide();
       }
     },
     speak: function(){}
@@ -89,8 +104,10 @@
     <h1 class="no-quest center"> No questions available </h1>
     <div class="no-quest separator-md"></div>
     <% else %>
-    <% course.questions.order("upvotes DESC").all.each do |question| %>
+    <% course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").all.each do |question| %>
+    <% if !flagged["#{question.id}"] %>
     <%= render 'student_questions', question: question %>
+    <% end %>
     <% end %>
     <% end %>
   </div>

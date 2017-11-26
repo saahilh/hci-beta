@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171113195525) do
+ActiveRecord::Schema.define(version: 20171126192751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,14 +52,24 @@ ActiveRecord::Schema.define(version: 20171113195525) do
 
   create_table "questions", force: :cascade do |t|
     t.string "question"
-    t.integer "upvotes"
-    t.integer "downvotes"
+    t.integer "upvotes", default: 0
+    t.integer "downvotes", default: 0
     t.string "course"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
+    t.string "status", default: "pending"
     t.bigint "course_id"
+    t.integer "flagged", default: 0
+    t.bigint "student_id"
     t.index ["course_id"], name: "index_questions_on_course_id"
+    t.index ["student_id"], name: "index_questions_on_student_id"
+  end
+
+  create_table "students", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "question_data", default: ""
+    t.text "flagged", default: ""
   end
 
 end

@@ -4,6 +4,27 @@
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
 <script>
+  function sort_question(id, upvotes, downvotes){
+    var container = $("#q"+ id + " .upvotes").closest(".question").parent();
+
+    while(parseInt(upvotes) > parseInt(container.prev().find(".upvotes").text())){
+      $(container).insertBefore($(container).prev());
+    }
+
+    while(parseInt(upvotes) < parseInt(container.next().find(".upvotes").text())){
+      $(container).insertAfter($(container).next());
+    }
+
+    while((parseInt(upvotes)==parseInt(container.prev().find(".upvotes").text())) && parseInt(downvotes) < parseInt(container.prev().find(".downvotes").text())){
+      $(container).insertBefore($(container).prev());
+    }
+
+    while((parseInt(upvotes)==parseInt(container.next().find(".upvotes").text())) && parseInt(downvotes) > parseInt(container.next().find(".downvotes").text())){
+      $(container).insertAfter($(container).next());
+    }
+  }
+
+
   App.room = App.cable.subscriptions.create({
     channel: "CourseChannel",
     room: room_name
@@ -14,6 +35,7 @@
       if(data["prof_question"]){
         $("#questions").append(data["prof_question"])
         $(".no-quest").remove();
+        sort_question(data["question_id"], "0", "0");
       }
       else if(data["delete_question"])
         $("#questions #q" + data["delete_question"]).remove();
@@ -35,6 +57,20 @@
           $("#q"+ data["after_class"] + " .in-class button").removeClass("btn-success");
         }
       }
+      else if(data["thumbsup"]){
+        $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
+        $("#q"+ data["thumbsup"] + " .downvotes").text(" " + data["downvote_count"]);
+        sort_question(data["thumbsup"], data["upvote_count"], data["downvote_count"])
+
+      }
+      else if(data["thumbsdown"]){
+        $("#q"+ data["thumbsdown"] + " .upvotes").text(" " + data["upvote_count"]);
+        $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["downvote_count"]);
+        sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"]);
+      }
+      else if(data["flag_thresh_alert"]){
+        $("#q" + data["flag_thresh_alert"]).hide();
+      }
     },
     speak: function(){}
   });
@@ -45,13 +81,12 @@
   <div id="questions" class="col-md-10" style="padding-left: 20px;">
     <div class="separator-md"></div>
     <% if course.questions.count > 0 %>
-    <% course.questions.order("upvotes DESC").each do |question| %>
+    <% course.questions.order("upvotes DESC, downvotes ASC").each do |question| %>
     <%= render 'prof_questions', question: question %>
     <% end %>
     <% else %>
     <div class="row no-quest"><div class="col-md-12"><h1 class="center"> <i class="arrow">(No questions)</i> </h1></div></div>
     <% end %>
-    <div class="separator-md"></div>
   </div>
   <div class="col-md-1"></div>
 </div>
