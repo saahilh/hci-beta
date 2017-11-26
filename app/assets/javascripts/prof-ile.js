@@ -7,11 +7,11 @@ $(document).on('click', "#new-class-button", function(e){
     data: form.serialize(),
     success: function(response){
       if(response.data.success!=0){
-        $(".modal-body.confirmation h4").text("Success!")
+        $(".modal-body.confirmation h5").text("Success!")
         $("#no-courses").hide();
       }
       else
-        $(".modal-body.confirmation h4").text("Error")
+        $(".modal-body.confirmation h5").text("Error")
 
       $("#modal-message").text(response.data.msg);
 
