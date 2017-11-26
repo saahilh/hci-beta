@@ -4,7 +4,7 @@
 
   <div id="class-list">
     <div class="row">
-      <% if lecturer.courses.count > 0 %>
+      
       <% lecturer.courses.each_with_index do |course, index| %>
       <% if index % 3 == 0 && index!=0 %>
     </div>
@@ -28,9 +28,7 @@
         </div>
       </div>
       <% end %>
-      <% else %>
-      <div class="row"><div class="col-md-12"><h1 class="center"> <i class="arrow">(you have no courses)</i> </h1></div></div>
-      <% end %>
+      <div id="no-courses" class="row" style="<% if lecturer.courses.count > 0 %> display:none; <%end%>"><div class="col-md-12"><h1 class="center"> <i class="arrow">(you have no courses)</i> </h1></div></div>
     </div>
   </div>
 </div>

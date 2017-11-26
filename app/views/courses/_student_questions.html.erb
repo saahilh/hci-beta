@@ -33,9 +33,12 @@
       </div>
     </div>
     <div class="col-md-1 center" style="padding-top:5px">
-      <i class="icon-flag icon-2x" style="color:#800000;"></i>
+      <form data-remote="true" action="/questions/<%=question.id%>/flag" method="post">
+        <button type="submit" class="btn btn-danger">
+          <span class="icon-flag icon-2x"></span>
+        </button>
+      </form>
     </div>
   </div>
-
   <div class="separator-sm"></div>
 </div>

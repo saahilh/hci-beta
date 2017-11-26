@@ -1,4 +1,11 @@
 class CoursesController < ActionController::Base
+	def set_cookie
+		if cookies[:student].blank? 
+			student = Student.create
+			cookies[:student] = { value: student.id, expires: 3.hours.from_now }
+		end
+	end
+
 	def select_course
 		course = params[:course_code]
 
@@ -10,7 +17,10 @@ class CoursesController < ActionController::Base
 	end
 
 	def show
-		render 'ask_question', locals: { course: Course.find(params[:id]) }
+		set_cookie
+		flagged = Student.find(cookies[:student]).flagged
+		flagged = flagged.blank? ? {} : JSON.parse(flagged)
+		render 'ask_question', locals: { course: Course.find(params[:id]), flagged: flagged }
 	end
 
 	def create
@@ -35,10 +45,13 @@ class CoursesController < ActionController::Base
 	end
 
 	def ask_question
+		set_cookie
+
 		course = Course.find(params[:id])
 		if(!params[:question].blank?)
-			question = Question.create(question: params[:question], upvotes: 0, downvotes: 0, status: "pending", course_id: course.id)
-			CourseChannel.broadcast_to(course, 
+			question = Question.create(question: params[:question], course_id: course.id, student: Student.find(cookies[:student]))
+			CourseChannel.broadcast_to(
+				course, 
 				question: render_to_string('_student_questions', layout:false, locals: {question: question}),
 				prof_question: render_to_string('_prof_questions', layout:false, locals: {question: question}),
 				question_id: question.id
@@ -63,7 +76,4 @@ class CoursesController < ActionController::Base
 		render 'poll_class', locals:{ course: Course.find(params[:id]) }
 	end
 
-	def test_poll
-		puts params
-	end
 end

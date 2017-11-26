@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   post "/questions/*id/after_class" => "questions#after_class"
   post "/questions/*id/thumbsup" => "questions#thumbsup"
   post "/questions/*id/thumbsdown" => "questions#thumbsdown"
+  post "/questions/*id/flag" => "questions#flag"
 
   post "/courses/create" => "courses#create"
   post "/lecturers/create" => "lecturers#create"

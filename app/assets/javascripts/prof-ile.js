@@ -6,8 +6,10 @@ $(document).on('click', "#new-class-button", function(e){
     url: form.attr("action"),
     data: form.serialize(),
     success: function(response){
-      if(response.data.success!=0)
+      if(response.data.success!=0){
         $(".modal-body.confirmation h4").text("Success!")
+        $("#no-courses").hide();
+      }
       else
         $(".modal-body.confirmation h4").text("Error")
 
