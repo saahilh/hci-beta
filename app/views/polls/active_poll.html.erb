@@ -11,7 +11,7 @@
     connected: function() {},
     disconnected: function() {},
     received: function(data) {
-      if(data["answered"])
+      if(data["answered"]&&!data["changed"])
           $("#counter").text(parseInt($("#counter").text()) + 1);
     },
     speak: function(){}

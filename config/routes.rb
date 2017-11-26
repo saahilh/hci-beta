@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   post "/courses/create" => "courses#create"
   post "/lecturers/create" => "lecturers#create"
+  
+  post "/lecturers/logout" => "lecturers#logout"
 
   post 'courses/*id/ask_question' => "courses#ask_question"
   post 'courses/*id/delete' => "courses#delete"

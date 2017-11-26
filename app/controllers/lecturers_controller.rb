@@ -1,7 +1,9 @@
 class LecturersController < ActionController::Base
+
   def login
     lecturer = Lecturer.where(email: params[:email])
     if(lecturer.count != 0 && lecturer.first.password==params[:pw])
+      cookies[:logged_in] = { value: lecturer.first.id, expires: 3.hours.from_now }
       render json: { data: { redirect: "/lecturers/#{lecturer.first.id}" } }
     else
       render json: { data: { msg: "Invalid credentials entered" } }
@@ -9,7 +11,16 @@ class LecturersController < ActionController::Base
   end
 
   def show
-  	render 'prof-ile', locals:{ lecturer: Lecturer.find(params[:id]) }
+    if(cookies[:logged_in].to_s==params[:id].to_s)
+  	  render 'prof-ile', locals:{ lecturer: Lecturer.find(params[:id]) }
+    else
+      render '/message', locals: { message: "Error: not logged in" }
+    end
+  end
+
+  def logout
+    cookies.delete :logged_in
+    render '/message', locals: { message: "Successfully logged out" }
   end
 
   def create
@@ -28,4 +39,5 @@ class LecturersController < ActionController::Base
     end
     render json: { data:{msg: msg, success: success } }
   end
+
 end

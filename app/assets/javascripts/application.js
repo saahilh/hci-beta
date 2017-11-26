@@ -15,7 +15,15 @@
 //= require_tree .
 //= require chartkick
 
-$(document).on('click', ".response-button", function(){$("#responses").hide(); $("#change-response").show();})
+$(document).on('click', ".response-button", function(){
+  $("#responses").hide(); 
+  $("#change-response").show();
+})
+
+$(document).on('click', "#change-response-button", function(){
+  $("#responses").show(); 
+  $("#change-response").hide();
+})
 
 $(document).on('page:change', function(){
   (function($){

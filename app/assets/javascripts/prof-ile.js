@@ -24,10 +24,13 @@ $(document).on('click', "#new-class-button", function(e){
   });
 });
 
+$("#new-course-code").unbind();
+
 $(document).on('keydown', "#new-course-code", function (event) {
   var keypressed = event.keyCode || event.which;
-  if (keypressed == 13 && $(this).val()!="")
-    $(this).submit();
+  if (keypressed == 13 && $(this).val()!=""){
+    $("#new-class-button").click();
+  }
 });
 
 
