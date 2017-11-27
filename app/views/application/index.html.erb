@@ -32,7 +32,7 @@
   <form action="select_course" method="post">
     <div class="row">
       <div class="col-md-9 big-line">
-        <input class="awesomplete" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list=<%=Course.all.pluck(:name).join(",")%>>
+        <input class="awesomplete" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list="<%=Course.all.pluck(:name).join(",")%>">
       </div>
       <div class="col-md-3 big-line">
         <button id="join-class" class="btn btn-inverse fit big-btn">Join Class</button>

@@ -44,7 +44,6 @@ class PollsController < ActionController::Base
 		data = data.blank? ? {} : JSON.parse(data)
 		changed = false
 
-		puts "\n\ndata is #{data} for poll #{poll.id}\n\n"
 		if(data["#{poll.id}"])
 			changed = true
 			option = Option.find(data["#{poll.id}"])
