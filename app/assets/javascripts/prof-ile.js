@@ -7,11 +7,11 @@ $(document).on('click', "#new-class-button", function(e){
     data: form.serialize(),
     success: function(response){
       if(response.data.success!=0){
-        $(".modal-body.confirmation h5").text("Success!")
+        $(".modal-body.confirmation h4").text("Success!")
         $("#no-courses").hide();
       }
       else
-        $(".modal-body.confirmation h5").text("Error")
+        $(".modal-body.confirmation h4").text("Error")
 
       $("#modal-message").text(response.data.msg);
 
@@ -37,18 +37,17 @@ $(document).on('keydown', "#new-course-code", function (event) {
 function addClassButton(course_name, course_id){
   var class_button = ""
 
-  if($("#class-list").children(".row").last().children().length==3)
+  if($("#class-list").children(".row").last().children(".col-md-4").length==3)
     class_button += '<div class="separator-sm"></div><div class="row">'
   
-  class_button += '<div class="col-md-4 big-line"><div class="row"><div class="col-md-9">            <a href="/courses/';
-  class_button += course_id
-  class_button += '/course_page"><div class="btn btn-inverse fit big-btn">';
-  class_button += course_name;
-  class_button += '</div></a></div>';
-
-  class_button += '<div class="col-md-3"><form action="/courses/';
-  class_button += course_id;
-  class_button += '/delete" method="post"><button type="submit" class="btn btn-danger fit big-btn">X</button></form></div></div></div>';
+  class_button += '<div class="col-md-4 big-line"> <div class="row"><div class="col-md-9"><div class="dropdown"> <button class="btn btn-inverse dropdown-toggle big-btn" type="button" data-toggle="dropdown">'
+  class_button +=  course_name
+  class_button += '</button>'
+  class_button += '<ul class="dropdown-menu" style="background:#CCCCCC; border:none; box-shadow:none; width:220px"><li><div class="row"><div class="col-md-1"></div><div class="col-md-10"><a href="/courses/'
+  class_button +=  course_id    
+  class_button += '/course_page"><button class="btn btn-primary fit big-btn">View</button></a><div class="col-md-1"></div></div></div></li><div class="separator-sm"></div><li><form action="/courses/'
+  class_button +=  course_id 
+  class_button += '/delete" method="post"><div class="row"><div class="col-md-1"></div><div class="col-md-10"><button type="submit" class="btn btn-danger fit big-btn"> Delete</button></div><div class="col-md-1"></div></div></form></li></ul></div></div></div></div>'
 
   if($("#class-list").children(".row").last().children().length==3){
     class_button += '</div>'

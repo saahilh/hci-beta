@@ -101,6 +101,11 @@
     }
   })
 
+  $(document).ready(function(){
+    if($("#poll-body").html().replace(/\s/g,"")!="")
+      $("#modal-button").click();
+  })
+
   $(document).on('click', "#ask-button", function(){
     form = $("#ask-form");
     $.ajax({
@@ -164,4 +169,4 @@
 
 <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
 
-<%= render '/polls/student_poll_container_modal' %>
+<%= render '/polls/student_poll_container_modal', course: course %>
