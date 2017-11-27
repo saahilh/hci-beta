@@ -81,7 +81,7 @@
       }
       else if(data["flag_thresh_alert"]){
         $("#q" + data["flag_thresh_alert"]).remove();
-        if($(".question").length==0)
+        if($(".question:visible").length==0)
           $("#no-quest").show();
       }
     },
