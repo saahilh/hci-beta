@@ -9,12 +9,16 @@
     room: room_name
   }, {
     connected: function() {},
-    disconnected: function() {},
+    disconnected: function() { App.room.unsubscribe(); },
     received: function(data) {
-      if(data["answered"]&&!data["changed"])
+      if(data["answered"]&&!data["changed"]){
           $("#counter").text(parseInt($("#counter").text()) + 1);
+        }
       else if(data["connected"]){
         $("#active-connections").text(parseInt($("#active-connections").text())+1)
+      }
+      else if(data["disconnected"]){
+        $("#active-connections").text(parseInt($("#active-connections").text())-1)
       }
     },
     speak: function(){}
@@ -34,7 +38,7 @@
   
   <div class="separator-sm"></div>
 
-  <% poll.options.each do |option| %>
+  <% poll.options.order(:number).each do |option| %>
   <div id="option<%option.number%>" class="row">
     <div class="col-md-1">
       <span>
@@ -53,7 +57,7 @@
 
 <div id="response_counter" class="row">
   <div class="col-md-4"></div>
-  <div class="col-md-4"><div class="btn btn-inverse fit disabled"><span id="counter">0</span> out of <span id="active-connections"><%= ActionCable.server.connections.length %></span> students have answered</div></div>
+  <div class="col-md-4"><div class="btn btn-inverse fit disabled"><span id="counter">0</span> out of <span id="active-connections"><%= ActionCable.server.connections.length - 1 %></span> students have answered</div></div>
   <div class="col-md-4"></div>
 </div>
 
