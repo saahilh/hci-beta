@@ -5,6 +5,7 @@
   <div class="separator-sm"></div>
 
   <div id="class-list">
+    <div id="no-courses" class="row" style="<% if lecturer.courses.count > 0 %> display:none; <%end%>"><div class="col-md-12"><h1 class="center"> <i class="arrow">(you have no courses)</i> </h1></div></div>
     <div class="row">
 
       <% lecturer.courses.each_with_index do |course, index| %>
@@ -21,16 +22,17 @@
               <button class="btn btn-inverse dropdown-toggle big-btn" type="button" data-toggle="dropdown">
                 <%= course.name%>
               </button>
-              <ul class="dropdown-menu" style="background:none; border:none; box-shadow:none">
+              <ul class="dropdown-menu" style="background:#CCCCCC; border:none; box-shadow:none; width:220px">
                 <li>
                   <div class="row">
-                    <div class="col-md-2"></div>
+                    <div class="col-md-1"></div>
                     <div class="col-md-10">
                       <a href="/courses/<%=course.id%>/course_page">
                         <button class="btn btn-primary fit big-btn">
                           View
                         </button>
                       </a>
+                      <div class="col-md-1"></div>
                     </div>
                   </div>
                 </li>
@@ -38,10 +40,11 @@
                 <li>
                   <form action="/courses/<%=course.id%>/delete" method="post">
                     <div class="row">
-                      <div class="col-md-2"></div>
+                      <div class="col-md-1"></div>
                       <div class="col-md-10">
                         <button type="submit" class="btn btn-danger fit big-btn"> Delete</button>
                       </div>
+                      <div class="col-md-1"></div>
                     </div>
                   </form>
                 </li>
@@ -51,7 +54,6 @@
         </div>
       </div>
       <% end %>
-      <div id="no-courses" class="row" style="<% if lecturer.courses.count > 0 %> display:none; <%end%>"><div class="col-md-12"><h1 class="center"> <i class="arrow">(you have no courses)</i> </h1></div></div>
     </div>
   </div>
 </div>
@@ -84,14 +86,14 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content" style="background-color:#4d4c4c; opacity:0.8;">
       <div class="modal-body confirmation" style="height: 300px !important; padding-top: 50px;">"
-        <h5 class="center" style="font-size: 40px;">Error</h5>
+        <h4 class="center"></h4>
 
         <div class="separator-sm">
 
           <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-              <h4 id="modal-message" class="white center"></h4>
+              <p id="modal-message" class="white center"></p>
             </div>
             <div class="col-md-1"></div>
           </div>
@@ -105,7 +107,6 @@
                 Okay
               </button>
             </div>
-            <!-- <div class="col-md-3"></div> -->
           </div>
         </div>
       </div>
