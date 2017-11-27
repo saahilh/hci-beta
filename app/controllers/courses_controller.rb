@@ -10,7 +10,7 @@ class CoursesController < ActionController::Base
 		course = params[:course_code]
 
 		if(Course.where(name: course).count>0)
-			render json: { data: { redirect: "/courses/#{ Course.where(name: course).first.id }" } }
+			render json: { data: { redirect: "/courses/#{ Course.where(name: course.upcase).first.id }" } }
 		else
 			render json: { data: { msg: "Course not found: #{course}" } }
 		end
