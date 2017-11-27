@@ -13,6 +13,9 @@
     received: function(data) {
       if(data["answered"]&&!data["changed"])
           $("#counter").text(parseInt($("#counter").text()) + 1);
+      else if(data["connected"]){
+        $("#active-connections").text(parseInt($("#active-connections").text())+1)
+      }
     },
     speak: function(){}
   });
@@ -50,7 +53,7 @@
 
 <div id="response_counter" class="row">
   <div class="col-md-4"></div>
-  <div class="col-md-4"><div class="btn btn-inverse fit disabled"><span id="counter">0</span> out of <%= ActionCable.server.connections.length %> students have answered</div></div>
+  <div class="col-md-4"><div class="btn btn-inverse fit disabled"><span id="counter">0</span> out of <span id="active-connections"><%= ActionCable.server.connections.length %></span> students have answered</div></div>
   <div class="col-md-4"></div>
 </div>
 

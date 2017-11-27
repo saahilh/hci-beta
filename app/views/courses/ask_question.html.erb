@@ -132,7 +132,8 @@
 
     <% course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").all.each do |question| %>
     <% if !flagged["#{question.id}"] %>
-    <%= render 'student_questions', question: question, vote: data["#{question.id}"] %>
+    <% vote = (data["#{question.id}"].blank? ? "" : data["#{question.id}"]) %>
+    <%= render 'student_questions', question: question, vote: vote %>
     <% end %>
     <% end %>
   </div>
