@@ -2,7 +2,10 @@ class LecturersController < ActionController::Base
 
   def login
     lecturer = Lecturer.where(email: params[:email])
-    if(lecturer.count != 0 && lecturer.first.password==params[:pw])
+
+    sha1_password = Digest::SHA1.hexdigest("#{params[:pw]}")
+
+    if(lecturer.count != 0 && BCrypt::Password.new(lecturer.first.password_digest) == sha1_password)
       cookies[:logged_in] = { value: lecturer.first.id, expires: 3.hours.from_now }
       render json: { data: { redirect: "/lecturers/#{lecturer.first.id}" } }
     else
@@ -20,24 +23,29 @@ class LecturersController < ActionController::Base
 
   def logout
     cookies.delete :logged_in
-    render '/message', locals: { message: "Successfully logged out" }
+    redirect_to "/index"
   end
 
   def create
     success = false
+    if(!(params[:pw].blank? || params[:cpw].blank?))
+      params[:pw] = Digest::SHA1.hexdigest("#{params[:pw]}")
+      params[:cpw] = Digest::SHA1.hexdigest("#{params[:cpw]}")
 
-    if(params[:pw]!=params[:cpw])
-      msg = "Passwords do not match"
-    elsif params[:pw].blank?||params[:name].blank?||params[:email].blank?
-      msg = "Left a field blank"
-    elsif Lecturer.where(email: params[:email]).count!=0
-      msg = "Account with that mail already exists"
+      if(params[:pw]!=params[:cpw])
+        msg = "Passwords do not match"
+      elsif params[:pw].blank?||params[:name].blank?||params[:email].blank?
+        msg = "Left a field blank"
+      elsif Lecturer.where(email: params[:email]).count!=0
+        msg = "Account with that mail already exists"
+      else
+        msg = "Successfully created account"
+        Lecturer.create(name: params[:name], password_digest: BCrypt::Password.create(params[:pw]).to_s, email: params[:email])
+        success = true
+      end
     else
-      msg = "Successfully created account"
-      Lecturer.create(name: params[:name], password: params[:pw], email: params[:email])
-      success = true
+      msg = "Password or password confirmation is blank"
     end
-    render json: { data:{msg: msg, success: success } }
+    render json: { data:{ msg: msg, success: success } }
   end
-
 end
