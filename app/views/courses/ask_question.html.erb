@@ -29,7 +29,7 @@
     room: room_name
   }, {
     connected: function() {},
-    disconnected: function() {},
+    disconnected: function() { App.room.unsubscribe(); },
     received: function(data) {
       if(data["question"]){
         $("#questions").append(data["question"]);
@@ -80,6 +80,10 @@
     },
     speak: function(){}
   });
+
+  $(document).on('click', "#leave-class, #home", function(){
+    App.room.unsubscribe();
+  })
 
   $("#ask-form input").unbind();
 

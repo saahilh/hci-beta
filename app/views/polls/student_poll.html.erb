@@ -11,7 +11,7 @@
       <div class="separator-lg"></div>
       <div id="responses" class="row">
         <div class="col-md-12">
-          <% poll.options.each_with_index do |option, index| %>
+          <% poll.options.order(:number).each_with_index do |option, index| %>
           <form action="<%=poll.course.id%>/answer_poll" method="post">
             <div class="row center"><div class="col-md-12">
               <button data-remote="true" type="submit" name="opt<%=option.id%>" class="btn btn-inverse fit response-button"><%= option.value %></button>

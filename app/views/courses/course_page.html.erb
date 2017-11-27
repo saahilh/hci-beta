@@ -30,7 +30,7 @@
     room: room_name
   }, {
     connected: function() {},
-    disconnected: function() {},
+    disconnected: function() { App.room.unsubscribe(); },
     received: function(data) {
       if(data["prof_question"]){
         $("#questions").append(data["prof_question"])
