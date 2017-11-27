@@ -11,17 +11,19 @@
     </div>
     <div class="in-class col-md-1" style="padding-top:5px">
       <form data-remote="true" method="post" action="/questions/<%=question.id%>/in_class">
-        <button class="btn btn<% if question.status!="answered in class" %>-outline<%end%>-success">in class</button>
+        <button class="btn <% if question.status!="answered in class" %>btn-outline-success text-success<%else%>btn-success<%end%>">in class</button>
       </form>
     </div>
     <div class="after-class col-md-1" style="padding-top:5px">
       <form data-remote="true" method="post" action="/questions/<%=question.id%>/after_class">
-        <button class="btn btn<% if question.status!="will answer after class" %>-outline<%end%>-primary">after class</button>
+        <button class="btn <% if question.status!="will answer after class" %>btn-outline-primary text-primary<%else%>btn-primary<%end%>">after class</button>
       </form>
     </div>
     <div class="col-md-2" style="padding-top:5px; padding-left:40px">
       <form data-remote="true" method="post" action="/questions/<%=question.id%>/delete">
-        <button type="submit" class="center icon-trash icon-2x" style="color:#800000;"></button>
+        <button type="submit" class="center btn btn-inverse delete-button" style="color:#800000;">
+          <span class="icon-trash icon-2x"></span>
+        </button>
       </form>
     </div>
   </div>

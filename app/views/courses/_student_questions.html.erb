@@ -6,14 +6,14 @@
           <span class="big-text"><%= question.question %></span>
         </div>
         <div class="col-md-1 center arrow">
-          <form vote-remote="true" action="/questions/<%=question.id%>/thumbsup" method="post">
+          <form data-remote="true" action="/questions/<%=question.id%>/thumbsup" method="post">
             <button type="submit" class="btn <% if vote=="up" %>btn-primary<%else%>btn-outline-primary<%end%>">
               <span class="icon-thumbs-up <%if vote!="up"%>text-primary<%end%>"></span>
             </button>
           </form>
         </div>
         <div class="col-md-1 center arrow">
-          <form vote-remote="true" action="/questions/<%=question.id%>/thumbsdown" method="post">
+          <form data-remote="true" action="/questions/<%=question.id%>/thumbsdown" method="post">
             <button type="submit" class="btn <%if vote=="down" %>btn-danger<%else%>btn-outline-danger<%end%>">
               <span class="icon-thumbs-down <%if vote!="down"%>text-danger<%end%>"></span>
             </button>
@@ -33,8 +33,8 @@
       </div>
     </div>
     <div class="col-md-1 center" style="padding-top:5px">
-      <form vote-remote="true" action="/questions/<%=question.id%>/flag" method="post">
-        <button type="submit" class="btn btn-inverse">
+      <form data-remote="true" action="/questions/<%=question.id%>/flag" method="post">
+        <button type="submit" class="btn btn-inverse delete-button">
           <span class="icon-trash icon-2x"></span>
         </button>
       </form>

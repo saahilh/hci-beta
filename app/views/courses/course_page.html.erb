@@ -4,6 +4,9 @@
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
 <script>
+
+  $(document).on('click', ".delete-button", function(){$(this).closest(".question.row").parent().hide();});
+
   function sort_question(id, upvotes, downvotes){
     var container = $("#q"+ id + " .upvotes").closest(".question").parent();
 
@@ -47,17 +50,17 @@
           $("#q"+ data["in_class"] + " .in-class button").removeClass("btn-success");
         }
         else{
-          $("#q"+ data["in_class"] + " .in-class button").addClass("btn-success");
-          $("#q"+ data["in_class"] + " .after-class button").removeClass("btn-primary");
+          $("#q"+ data["in_class"] + " .in-class button").addClass("btn-success").removeClass("text-success");
+          $("#q"+ data["in_class"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
         }
       }
       else if(data["after_class"]){
         if(data["pending"]){
-          $("#q"+ data["after_class"] + " .after-class button").removeClass("btn-primary");
+          $("#q"+ data["after_class"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
         }
         else{
-          $("#q"+ data["after_class"] + " .after-class button").addClass("btn-primary");
-          $("#q"+ data["after_class"] + " .in-class button").removeClass("btn-success");
+          $("#q"+ data["after_class"] + " .after-class button").addClass("btn-primary").removeClass("text-primary");
+          $("#q"+ data["after_class"] + " .in-class button").removeClass("btn-success").addClass("text-success");
         }
       }
       else if(data["thumbsup"]){
@@ -87,7 +90,7 @@
 
     <div class="separator-md"></div>
 
-    <div id="no-quest" <% if course.questions.count!=0 %>style="display:none;"<% end %>>
+    <div id="no-quest" <% if course.questions.where("flagged < #{Question::FLAG_THRESHOLD}").count!=0 %>style="display:none;"<% end %>>
       <h1 class="no-quest center"> No questions available </h1>
       <div class="no-quest separator-md"></div>
     </div>

@@ -4,6 +4,13 @@
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
 <script>
+
+  $(document).on('click', ".delete-button", function(){
+    $(this).closest(".question.row").parent().hide();
+    if($(".question:visible").length==0)
+          $("#no-quest").show();
+  });
+
   function sort_question(id, upvotes, downvotes){
     var container = $("#q"+ id + " .upvotes").closest(".question").parent();
 
@@ -129,7 +136,7 @@
 
     <div class="separator-md"></div>
     
-    <div id="no-quest" <% if course.questions.count!=0 %>style="display:none;"<% end %>>
+    <div id="no-quest" <% if course.questions.where("flagged < #{Question::FLAG_THRESHOLD}").count!=0 %>style="display:none;"<% end %>>
       <h1 class="no-quest center"> No questions available </h1>
       <div class="no-quest separator-md"></div>
     </div>
