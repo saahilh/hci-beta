@@ -20,7 +20,9 @@ class CoursesController < ActionController::Base
 		set_cookie
 		flagged = Student.find(cookies[:student]).flagged
 		flagged = flagged.blank? ? {} : JSON.parse(flagged)
-		render 'ask_question', locals: { course: Course.find(params[:id]), flagged: flagged, data: JSON.parse(Student.find(cookies[:student]).question_data) }
+		data = Student.find(cookies[:student]).question_data
+		data = data.blank? ? {} : JSON.parse(data)
+		render 'ask_question', locals: { course: Course.find(params[:id]), flagged: flagged, data: data }
 	end
 
 	def create
@@ -52,7 +54,7 @@ class CoursesController < ActionController::Base
 			question = Question.create(question: params[:question], course_id: course.id, student: Student.find(cookies[:student]))
 			CourseChannel.broadcast_to(
 				course, 
-				question: render_to_string('_student_questions', layout:false, locals: {question: question}),
+				question: render_to_string('_student_questions', layout:false, locals: {question: question, vote: ""}),
 				prof_question: render_to_string('_prof_questions', layout:false, locals: {question: question}),
 				question_id: question.id
 			)
