@@ -17,7 +17,7 @@ $(document).on('click', "#new-class-button", function(e){
 
       $("#open-confirmation-modal").click();
       if(response.data.success!=0){
-        addClassButton($("#new-course-code").val(), response.data.success)
+        addClassButton($("#new-course-code").val().toUpperCase(), response.data.success)
       }
     },
     dataType: "json"
@@ -36,7 +36,8 @@ $(document).on('keydown', "#new-course-code", function (event) {
 
 function addClassButton(course_name, course_id){
   var class_button = ""
-
+  if(course_name.length==7)
+    course_name = course_name.slice(0, 4) + " " + course_name.slice(4);
   if($("#class-list").children(".row").last().children(".col-md-4").length==3)
     class_button += '<div class="separator-sm"></div><div class="row">'
   

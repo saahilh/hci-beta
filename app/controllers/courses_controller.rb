@@ -8,8 +8,9 @@ class CoursesController < ActionController::Base
 
 	def select_course
 		course = params[:course_code]
+		course = course.insert(4, " ") if course.length == 7
 
-		if(Course.where(name: course).count>0)
+		if(Course.where(name: course.upcase).count>0)
 			render json: { data: { redirect: "/courses/#{ Course.where(name: course.upcase).first.id }" } }
 		else
 			render json: { data: { msg: "Course not found: #{course}" } }
@@ -26,7 +27,8 @@ class CoursesController < ActionController::Base
 	end
 
 	def create
-		new_course = params[:new_course]
+		new_course = params[:new_course].upcase
+		new_course = new_course.insert(4, " ") if new_course.length == 7
 		success = 0
 
 		if(new_course.blank?)
@@ -35,8 +37,8 @@ class CoursesController < ActionController::Base
 			msg = "Course already exists"
 		elsif(new_course.gsub(" ", "").length > 7)
 			msg = "Course code too long"
-		elsif !/[A-Z]{4} [0-9]{3}/.match(new_course)
-			msg = "Invalid course code format. Please use capital letters and insert a space between the letters and numbers. (e.g., ECSE 424)"
+		elsif !/[A-z]{4} [0-9]{3}/.match(new_course)
+			msg = "Invalid course code"
 		else
 			course = Course.create(name: new_course, lecturer: Lecturer.find(params[:lecturer_id]))
 			success = course.id
