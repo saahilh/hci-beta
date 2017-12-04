@@ -1,7 +1,7 @@
 <div id="q<%=question.id%>">
-  <div class="question row">
-    <div class="col-md-11" style="padding-left:30px">
-      <div class="row">
+  <div class="question row" style="height: 70px">
+    <div class="col-md-11" style="padding-left:30px;">
+      <div class="row" style=" height: 35px">
         <div class="col-md-10">
           <span class="big-text"><%= question.question %></span>
         </div>
@@ -20,7 +20,7 @@
           </form>
         </div>
       </div>
-      <div class="row">
+      <div class="row" >
         <div class="col-md-10 arrow" style="padding-left: 40px">
           <span class="status">Status: <%= question.status %></span>
         </div>
@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-1 center" style="padding-top:5px">
+    <div class="col-md-1 center" style="padding-top:5px;">
       <form data-remote="true" action="/questions/<%=question.id%>/flag" method="post">
         <button type="submit" class="btn btn-inverse delete-button">
           <span class="icon-trash icon-2x"></span>
