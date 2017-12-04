@@ -183,6 +183,10 @@ span, h1, h2, h3, h4, h5{
   height: 70px;
 }
 
+.med-line{
+  height: 50px;
+}
+
 input, textarea, password{
   background-color:black !important;
   color: white !important;
