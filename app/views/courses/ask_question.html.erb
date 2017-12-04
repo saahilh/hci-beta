@@ -72,12 +72,14 @@
         sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"])
       }
       else if(data["poll"]){
+        $("#poll-body").html(data["poll"])
         if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
           $("#modal-button").click()
-        $("#poll-body").html(data["poll"])
       }
       else if(data["poll_end"]){
         $("#poll-body").html(data["chart"])
+        if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
+          $("#modal-button").click()
       }
       else if(data["flag_thresh_alert"]){
         $("#q" + data["flag_thresh_alert"]).remove();
@@ -161,7 +163,7 @@
 <div class="row">
   <div class="col-md-1"></div>
   <form class="col-md-7 big-line" id="ask-form" action="/courses/<%=course.id%>/ask_question" method="post" data-remote="true">
-    <input name="question" type="textarea" placeholder="Enter question here"/>
+    <input name="question" type="textarea" placeholder="Enter question here" maxlength="105"/>
   </form>
   <div class="col-md-2 big-line center" style="padding-right:5px"><button id="ask-button" type="submit" class="btn btn-inverse fit big-btn">Ask</button></div>
   <div class="col-md-2"></div>

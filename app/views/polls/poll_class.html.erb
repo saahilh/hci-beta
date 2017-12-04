@@ -28,17 +28,28 @@
   var optionCount = 2;
 
   function addOption(){
-    $("#poll-form-container").append($('<div class="separator-sm"></div>'));
-    optionCount += 1;   
-    var e = '<div id="option' + optionCount + '" class="row"><div class="col-md-1"><span>Option ' + optionCount + '</span></div><div class="col-md-11 big-line"><input id="opt' + optionCount + '" name="opt' + optionCount + '" type="textarea" class="form-control" placeholder="Type an answer for the poll here"/></div></div>'
-    $("#poll-form-container").append($(e));
+    if(optionCount < 5){
+      if(optionCount==2)
+        $("#remove-option").removeClass("disabled");
+      $("#poll-form-container").append($('<div class="separator-sm"></div>'));
+      optionCount += 1;   
+      var e = '<div id="option' + optionCount + '" class="row"><div class="col-md-1"><span>Option ' + optionCount + '</span></div><div class="col-md-11 med-line"><input id="opt' + optionCount + '" name="opt' + optionCount + '" type="textarea" class="form-control" placeholder="Type an answer for the poll here" maxlength="30"/></div></div>'
+      $("#poll-form-container").append($(e));
+      if(optionCount==5)
+        $("#add-option").addClass("disabled");
+
+    }
   }
 
   function removeOption(){
     if(optionCount > 2){
+      if(optionCount==5)
+        $("#add-option").removeClass("disabled");
       $("#poll-form-container separator-sm").last().remove();
       $("#option" + optionCount).remove();
       optionCount -= 1;
+      if(optionCount==2)
+        $("#remove-option").addClass("disabled");
     }
   }
 
@@ -51,7 +62,7 @@
 <div class="separator-sm"></div>
 
 <form id="poll-form" action="begin_poll" method="post">
-  <div id="poll-form-container" class="form-group custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px; padding-left: 15px">
+  <div id="poll-form-container" class="form-group custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 380px; padding-left: 15px">
     <div class="row">
       <div class="col-md-12 big-line"><input id="question" name="question" type="textarea" class="form-control" placeholder="Type your question for the poll here"/></div>
     </div>
@@ -60,14 +71,14 @@
 
     <div id="option1" class="row">
       <div class="col-md-1"><span>Option 1</span></div>
-      <div class="col-md-11 big-line"><input id="opt1" name="opt1" type="textarea" class="form-control" placeholder="Type an answer for the poll here"/></div>
+      <div class="col-md-11 med-line"><input id="opt1" name="opt1" type="textarea" class="form-control" placeholder="Type an answer for the poll here" maxlength="30"/></div>
     </div>
 
     <div class="separator-sm"></div>
 
     <div id="option2" class="row">
       <div class="col-md-1"><span>Option 2</span></div>
-      <div class="col-md-11 big-line"><input id="opt2" name="opt2" type="textarea" class="form-control" placeholder="Type an answer for the poll here"/></div>
+      <div class="col-md-11 med-line"><input id="opt2" name="opt2" type="textarea" class="form-control" placeholder="Type an answer for the poll here" maxlength="30"/></div>
     </div>
 
   </div>
@@ -75,7 +86,7 @@
 
 <div class="row">
   <div class="col-md-4 big-line"><div id="add-option" class="btn btn-primary big-btn fit">Add Option</div></div>
-  <div class="col-md-4 big-line"><div id="remove-option" class="btn btn-danger big-btn fit">Remove Option</div></div>
+  <div class="col-md-4 big-line"><div id="remove-option" class="btn btn-danger big-btn fit disabled">Remove Option</div></div>
   <div class="col-md-4 big-line"><button id="start-polling-button" class="btn btn-inverse fit big-btn"><span>Initiate Polling</span></div>
   </div>
 

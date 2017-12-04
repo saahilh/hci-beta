@@ -1,9 +1,9 @@
 <div id="q<%=question.id%>">
-  <div class="question row" style="height: 70px">
+  <div class="question row" style="height: 75px">
     <div class="col-md-11" style="padding-left:30px;">
-      <div class="row" style=" height: 35px">
+      <div class="row" style=" height: 40px">
         <div class="col-md-10">
-          <span class="big-text"><%= question.question %></span>
+          <span class="question-span" style="font-size:18px; word-wrap:break-word;" maxlength="105"><%= question.question %></span>
         </div>
         <div class="col-md-1 center arrow">
           <form data-remote="true" action="/questions/<%=question.id%>/thumbsup" method="post">
