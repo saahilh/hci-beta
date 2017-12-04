@@ -247,3 +247,7 @@ input, textarea, password{
   margin-bottom: 90px;
 }
 
+#create-account-modal{
+  padding-right:800px;
+}
+
