@@ -5,136 +5,66 @@
 
 <script>
 
-  $(document).on('click', ".delete-button", function(){
-    $(this).closest(".question.row").parent().hide();
-    if($(".question:visible").length==0)
-          $("#no-quest").show();
-  });
-
-  function sort_question(id, upvotes, downvotes){
-    var container = $("#q"+ id + " .upvotes").closest(".question").parent();
-
-    while(parseInt(upvotes) > parseInt(container.prev().find(".upvotes").text())){
-      $(container).insertBefore($(container).prev());
+/*
+App.room = App.cable.subscriptions.create({
+  channel: "CourseChannel",
+  room: room_name
+}, {
+  connected: function() {},
+  disconnected: function() { App.room.unsubscribe(); },
+  received: function(data) {
+    if(data["question"]){
+      $("#questions").append(data["question"]);
+      $("#no-quest").hide();
+      sort_question(data["question_id"], "0", "0");
     }
-
-    while(parseInt(upvotes) < parseInt(container.next().find(".upvotes").text())){
-      $(container).insertAfter($(container).next());
+    else if(data["delete_question"]){
+      $("#questions #q" + data["delete_question"]).remove();
+      if($(".question").length==0){
+        $("#no-quest").show();
+      }
     }
-
-    while((parseInt(upvotes)==parseInt(container.prev().find(".upvotes").text())) && parseInt(downvotes) < parseInt(container.prev().find(".downvotes").text())){
-      $(container).insertBefore($(container).prev());
+    else if(data["in_class"]){
+      if(data["pending"])
+        $("#questions #q" + data["in_class"] + " .status").text("Status: pending")
+      else
+        $("#questions #q" + data["in_class"] + " .status").text("Status: answered in class")
     }
-
-    while((parseInt(upvotes)==parseInt(container.next().find(".upvotes").text())) && parseInt(downvotes) > parseInt(container.next().find(".downvotes").text())){
-      $(container).insertAfter($(container).next());
+    else if(data["after_class"]){
+      if(data["pending"])
+        $("#questions #q" + data["after_class"] + " .status").text("Status: pending")
+      else
+        $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
     }
-  }
-
-  App.room = App.cable.subscriptions.create({
-    channel: "CourseChannel",
-    room: room_name
-  }, {
-    connected: function() {},
-    disconnected: function() { App.room.unsubscribe(); },
-    received: function(data) {
-      if(data["question"]){
-        $("#questions").append(data["question"]);
-        $("#no-quest").hide();
-        sort_question(data["question_id"], "0", "0");
-      }
-      else if(data["delete_question"]){
-        $("#questions #q" + data["delete_question"]).remove();
-        if($(".question").length==0){
-          $("#no-quest").show();
-        }
-      }
-      else if(data["in_class"]){
-        if(data["pending"])
-          $("#questions #q" + data["in_class"] + " .status").text("Status: pending")
-        else
-          $("#questions #q" + data["in_class"] + " .status").text("Status: answered in class")
-      }
-      else if(data["after_class"]){
-        if(data["pending"])
-          $("#questions #q" + data["after_class"] + " .status").text("Status: pending")
-        else
-          $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
-      }
-      else if(data["thumbsup"]){
-        $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
-        $("#q"+ data["thumbsup"] + " .downvotes").text(" " + data["downvote_count"]);
-        sort_question(data["thumbsup"], data["upvote_count"], data["downvote_count"])
-      }
-      else if(data["thumbsdown"]){
-        $("#q"+ data["thumbsdown"] + " .upvotes").text(" " + data["upvote_count"]);
-        $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["downvote_count"]);
-        sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"])
-      }
-      else if(data["poll"]){
-        $("#poll-body").html(data["poll"])
-        if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
-          $("#modal-button").click()
-      }
-      else if(data["poll_end"]){
-        $("#poll-body").html(data["chart"])
-        if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
-          $("#modal-button").click()
-      }
-      else if(data["flag_thresh_alert"]){
-        $("#q" + data["flag_thresh_alert"]).remove();
-        if($(".question:visible").length==0)
-          $("#no-quest").show();
-      }
-    },
-    speak: function(){}
-  });
-
-  $(document).on('click', "#leave-class, #home", function(){
-    App.room.unsubscribe();
-  })
-
-  $("#ask-form input").unbind();
-
-  $(document).on('keypress', '#ask-form input', function(e){
-    if (e.keyCode == 13 && $('#ask-form input').val()!=""){
-      $("#ask-button").click();
-      $('#ask-form input').val('');
+    else if(data["thumbsup"]){
+      $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
+      $("#q"+ data["thumbsup"] + " .downvotes").text(" " + data["downvote_count"]);
+      sort_question(data["thumbsup"], data["upvote_count"], data["downvote_count"])
     }
-  })
-
-  $(document).ready(function(){
-    if($("#poll-body").html().replace(/\s/g,"")!="")
-      $("#modal-button").click();
-  })
-
-  $(document).on('click', "#ask-button", function(){
-    form = $("#ask-form");
-    $.ajax({
-      type: form.attr("method"),
-      url: form.attr("action"),
-      data: form.serialize(),
-      success: function(response){ 
-        $("#ask-form input").val("");
-      },
-      dataType: "json"
-    });
-  });
-
-  $(document).on('click', '.btn-danger, .btn-outline-danger', function(){
-    $(this).toggleClass("btn-outline-danger").toggleClass("btn-danger");
-    $(this).find("span").toggleClass("text-danger");
-    $(this).closest(".question").find(".icon-thumbs-up").addClass("text-primary")
-    $(this).closest(".question").find(".icon-thumbs-up").parent().removeClass("btn-primary").addClass("btn-outline-primary");
-  })
-
-  $(document).on('click', '.btn-primary, .btn-outline-primary', function(){
-    $(this).toggleClass("btn-outline-primary").toggleClass("btn-primary");
-    $(this).find("span").toggleClass("text-primary");
-    $(this).closest(".question").find(".icon-thumbs-down").addClass("text-danger")
-    $(this).closest(".question").find(".icon-thumbs-down").parent().removeClass("btn-danger").addClass("btn-outline-danger");
-  })
-
+    else if(data["thumbsdown"]){
+      $("#q"+ data["thumbsdown"] + " .upvotes").text(" " + data["upvote_count"]);
+      $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["downvote_count"]);
+      sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"])
+    }
+    else if(data["poll"]){
+      $("#poll-body").html(data["poll"])
+      if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
+        $("#modal-button").click()
+    }
+    else if(data["poll_end"]){
+      $("#poll-body").html(data["chart"])
+      if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
+        $("#modal-button").click()
+    }
+    else if(data["flag_thresh_alert"]){
+      $("#q" + data["flag_thresh_alert"]).remove();
+      if($(".question:visible").length==0)
+        $("#no-quest").show();
+    }
+  },
+  speak: function(){}
+});
+*/
 </script>
 
 <div id="questions-container" class="row custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 380px">

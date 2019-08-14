@@ -69,7 +69,7 @@ class QuestionsController < ActionController::Base
 		
 		CourseChannel.broadcast_to(
 			Course.find(question.course.id), 
-			thumbsup: question.id,
+			vote: question.id,
 			upvote_count: question.upvotes,
 			downvote_count: question.downvotes
 		)
@@ -94,7 +94,7 @@ class QuestionsController < ActionController::Base
 		
 		CourseChannel.broadcast_to(
 			Course.find(question.course.id), 
-			thumbsdown: question.id,
+			vote: question.id,
 			upvote_count: question.upvotes,
 			downvote_count: question.downvotes
 		)
