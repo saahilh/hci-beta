@@ -29,18 +29,16 @@ $(document).on('click', "#change-response-button", function(){
   $("#change-response").hide();
 })
 
-$(document).on('page:change', function(){
-  (function($){
-    $(window).on("load",function(){
-      $(".custom-bar").mCustomScrollbar({
-        axis: "y",
-        alwaysShowScrollBar: 2,
-        theme: "3d-thick",
-        scrollInertia:0,
-        mouseWheelPixels: 170
-      });
-    });
-  })(jQuery);
+$(window).on("load", function(){
+  $(".custom-bar").mCustomScrollbar({
+    axis: "y",
+    alwaysShowScrollBar: 2,
+    theme: "3d-thick",
+    scrollInertia: 0,
+    mouseWheelPixels: 170
+  });
+});
 
+$(document).on('page:change', function(){
   $("#questions-container").attr("style", $("#questions-container").attr("style") + ";height:" + ($(document).height() - 400) + "px");
 });
