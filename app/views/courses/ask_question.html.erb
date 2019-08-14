@@ -3,88 +3,19 @@
 
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
-<script>
-
-/*
-App.room = App.cable.subscriptions.create({
-  channel: "CourseChannel",
-  room: room_name
-}, {
-  connected: function() {},
-  disconnected: function() { App.room.unsubscribe(); },
-  received: function(data) {
-    if(data["question"]){
-      $("#questions").append(data["question"]);
-      $("#no-quest").hide();
-      sort_question(data["question_id"], "0", "0");
-    }
-    else if(data["delete_question"]){
-      $("#questions #q" + data["delete_question"]).remove();
-      if($(".question").length==0){
-        $("#no-quest").show();
-      }
-    }
-    else if(data["in_class"]){
-      if(data["pending"])
-        $("#questions #q" + data["in_class"] + " .status").text("Status: pending")
-      else
-        $("#questions #q" + data["in_class"] + " .status").text("Status: answered in class")
-    }
-    else if(data["after_class"]){
-      if(data["pending"])
-        $("#questions #q" + data["after_class"] + " .status").text("Status: pending")
-      else
-        $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
-    }
-    else if(data["thumbsup"]){
-      $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
-      $("#q"+ data["thumbsup"] + " .downvotes").text(" " + data["downvote_count"]);
-      sort_question(data["thumbsup"], data["upvote_count"], data["downvote_count"])
-    }
-    else if(data["thumbsdown"]){
-      $("#q"+ data["thumbsdown"] + " .upvotes").text(" " + data["upvote_count"]);
-      $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["downvote_count"]);
-      sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"])
-    }
-    else if(data["poll"]){
-      $("#poll-body").html(data["poll"])
-      if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
-        $("#modal-button").click()
-    }
-    else if(data["poll_end"]){
-      $("#poll-body").html(data["chart"])
-      if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
-        $("#modal-button").click()
-    }
-    else if(data["flag_thresh_alert"]){
-      $("#q" + data["flag_thresh_alert"]).remove();
-      if($(".question:visible").length==0)
-        $("#no-quest").show();
-    }
-  },
-  speak: function(){}
-});
-*/
-</script>
-
-<div id="questions-container" class="row custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 380px">
+<div id="questions-container" class="row custom-bar">
   <div class="col-md-1"></div>
-  <div id="questions" class="col-md-10" style="padding-left: 20px; padding-top: 10px; padding-bottom: 10px;">
 
-    <div class="separator-md"></div>
-    
-    <div id="no-quest" <% if course.questions.where("flagged < #{Question::FLAG_THRESHOLD}").count!=0 %>style="display:none;"<% end %>>
-      <h1 class="no-quest center"> No questions available </h1>
-      <div class="no-quest separator-md"></div>
-    </div>
+  <div id="questions" class="col-md-10">
+    <h1 id="no-questions"> No questions available </h1>
 
     <% course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").all.each do |question| %>
-    <% if !flagged["#{question.id}"] %>
-    <% vote = (data["#{question.id}"].blank? ? "" : data["#{question.id}"]) %>
-    <%= render 'student_questions', question: question, vote: vote %>
+    <% if !flagged[question.id.to_s] %>
+    <%= render 'student_questions', question: question, vote: data[question.id.to_s] %>
     <% end %>
     <% end %>
   </div>
+  
   <div class="col-md-1"></div>
 </div>
 

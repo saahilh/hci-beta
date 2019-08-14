@@ -1,7 +1,7 @@
-<div id="q<%=question.id%>" class="question-item">
+<div id="q<%=question.id%>" class="question-item student">
 	<div class="question-data">
-		<span class="text" maxlength="105"><%= question.question %></span>
-		<span class="status">Status: <%= question.status %></span>
+		<span class="question-text" maxlength="105"><%= question.question %></span>
+		<span class="question-status">Status: <%= question.status %></span>
 	</div>
 	
 	<form data-remote="true" action="/questions/<%=question.id%>/thumbsup" method="post">

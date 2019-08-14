@@ -1,32 +1,20 @@
-<div id="q<%=question.id%>">
-  <div class="question row">
-    <div class="col-md-8" style="padding-left:50px">
-      <div class="row">
-        <div class="col-md-2">
-          <div class="row"><div class="col-md-12 arrow"><i class="fa fa-thumbs-up icon-large white arrow"></i><span class="upvotes"> <%= question.upvotes %></span></div></div>
-          <div class="row"><div class="col-md-12 arrow"><i class="fa fa-thumbs-down icon-large white arrow"></i><span class="downvotes"> <%= question.downvotes %></span></div></div>
-        </div>
-        <div class="col-md-10" style="padding-top: 10px"><span class="big-text"><%= question.question %></span></div>
-      </div>
-    </div>
-    <div class="in-class col-md-1" style="padding-top:5px">
-      <form data-remote="true" method="post" action="/questions/<%=question.id%>/in_class">
-        <button class="btn <% if question.status!="answered in class" %>text-success<%else%>btn-success<%end%>">in class</button>
-      </form>
-    </div>
-    <div class="after-class col-md-1" style="padding-top:5px">
-      <form data-remote="true" method="post" action="/questions/<%=question.id%>/after_class">
-        <button class="btn <% if question.status!="will answer after class" %>text-primary<%else%>btn-primary<%end%>">after class</button>
-      </form>
-    </div>
-    <div class="col-md-2" style="padding-top:5px; padding-left:40px">
-      <form data-remote="true" method="post" action="/questions/<%=question.id%>/delete">
-        <button type="submit" class="center btn btn-dark delete-button" style="color:#800000;">
-          <span class="fa fa-trash icon-2x"></span>
-        </button>
-      </form>
-    </div>
+<div id="q<%=question.id%>" class="question-item professor">
+  <div class="question-votes">
+    <span class="fa fa-thumbs-up"> <%= question.upvotes %></span>
+    <span class="fa fa-thumbs-down"> <%= question.downvotes %></span>
   </div>
 
-  <div class="question-separator separator-sm"></div>
+  <span class="question-text"><%= question.question %></span>
+
+  <form data-remote="true" method="post" action="/questions/<%=question.id%>/in_class">
+    <button class="btn <%= question.status=="answered in class" ? "btn-success" : "text-success" %>">in class</button>
+  </form>
+
+  <form data-remote="true" method="post" action="/questions/<%=question.id%>/after_class">
+    <button class="btn <%= question.status=="will answer after class" ? "btn-primary" :  "text-primary" %>">after class</button>
+  </form>
+
+  <form data-remote="true" method="post" action="/questions/<%=question.id%>/delete">
+    <button type="submit" class="btn fa fa-trash icon-2x btn-dark" style="color:#800000;"></button>
+  </form>
 </div>
