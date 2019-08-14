@@ -1,0 +1,112 @@
+#questions-container{
+	overflow-y: auto; 
+	overflow-x: hidden; 
+	height: 380px;
+}
+
+#questions{
+	padding-left: 20px; 
+	padding-top: 10px; 
+	padding-bottom: 10px;
+}
+
+.question-item{
+  background: #8c8c8c;
+  box-shadow: 3px 3px 3px grey; 
+  border-radius: 5px;
+	cursor: default;
+	padding: 2%;
+	margin-bottom: 10px;
+
+	display: grid;
+	grid-gap: 10px 10px;
+	
+	span{
+		word-wrap: break-word;
+	}
+}
+
+.question-item.student{
+	grid-template-columns: 9fr 1fr 1fr 1fr;
+
+	.question-data{
+		grid-row: 1;
+		grid-column: span 9;
+		
+		display: grid;
+		grid-template-columns: 1fr;
+		
+		.question-text{
+			grid-row: 1;
+			font-size: 18px;
+		}
+		
+		.question-status{
+			grid-row: 2;
+			margin-left: 20px;
+		}
+	}
+
+	form{
+		grid-row: 1;
+		grid-column: span 1;
+		
+		display: grid;
+		grid-template-columns: 1fr;
+		
+		width: 50%;
+		height: 50%;
+		
+		.btn{
+			grid-row: 1;
+			grid-column: span 1;
+			text-align: center;
+		}
+		
+		span{
+			grid-row: 2;
+			grid-column: span 1;
+			text-align: center;
+		}
+	}
+}
+
+.question-item.professor{
+	grid-template-columns: 1fr 8fr 1fr 1fr 1fr;
+
+	.question-votes{
+		grid-row: 1;
+		grid-column: span 1;
+
+		display: grid;
+		grid-template-columns: 1fr;
+
+		.fa-thumbs-up{
+			grid-row: 1;
+		}
+
+		.fa-thumbs-down{
+			grid-row: 2;
+		}
+	}
+
+	.question-text{
+		grid-row: 1;
+		grid-column: span 8;
+		font-size: 20px;
+	}
+
+	form{
+		grid-row: 1;
+		grid-column: span 1;
+	}
+}
+
+#no-questions{
+	display: none;
+}
+
+#no-questions:only-child{
+	display: block;
+	text-align: center;
+}

@@ -13,6 +13,7 @@
 //= require jquery
 //= require rails-ujs
 //= require turbolinks
+//= require jsapi
 //= require_tree .
 //= require chartkick
 //= require bootstrap.min
