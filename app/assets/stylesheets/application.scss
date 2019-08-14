@@ -226,25 +226,21 @@ input, textarea, password{
   padding-top: 10px !important;
 }
 
-.page-header, .page-header:hover
-{   
+.page-header, .page-header:hover{   
   text-decoration: none;
   cursor: pointer;
   color: white;
 }
 
-.dropdown-menu 
-{ 
+.dropdown-menu { 
   background-color: danger; 
 }
 
-.modal-body h4
-{
+.modal-body h4{
   font-size: 30px;
 }
 
-.modal-body p
-{
+.modal-body p{
   font-size: 20px;
 }
 
@@ -257,10 +253,30 @@ input, textarea, password{
   padding-right:800px;
 }
 
-.thumbs-down.true{
-  background-color:red;
-}
+.navbar.container-fluid{
+  padding-bottom: 15px;
 
-.thumbs-down.false{
-  background-color:yellow;
+  display: grid;
+  grid-template-columns: 3fr 6fr 3fr;
+  text-align: center;
+
+  #leave-class{
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  #home{
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  #logout{
+    grid-row: 1;
+    grid-column: 3;
+  }
+
+  form button{
+    height: 100%;
+    width: 100%;
+  }
 }
