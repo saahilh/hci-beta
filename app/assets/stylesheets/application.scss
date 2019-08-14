@@ -213,12 +213,66 @@ input, textarea, password{
   opacity: 0.6 !important;
 }
 
-.question{
+.question-item {
   background: #8c8c8c;
   box-shadow: 3px 3px 3px grey; 
-  border-radius: 5px; 
-  padding-bottom: 10px !important;
-  padding-top: 10px !important;
+  border-radius: 5px;
+	cursor: default;
+	padding: 2%;
+	margin-bottom: 10px;
+
+	display: grid;
+	grid-gap: 10px 10px;
+	grid-template-columns: 9fr 1fr 1fr 1fr;
+	
+	span{
+		word-wrap: break-word;
+	}
+	
+	.question-data{
+		grid-row: 1;
+		grid-column: span 9;
+		
+		display: grid;
+		grid-template-columns: 1fr;
+		
+		.text{
+			grid-row: 1;
+			font-size: 18px;
+		}
+		
+		.status{
+			grid-row: 2;
+			margin-left: 20px;
+		}
+	}
+
+	form{
+		grid-row: 1;
+		grid-column: span 1;
+		
+		display: grid;
+		grid-template-columns: 1fr;
+		
+		width: 50%;
+		height: 50%;
+		
+		.btn{
+			grid-row: 1;
+			grid-column: span 1;
+			text-align: center;
+		}
+		
+		span{
+			grid-row: 2;
+			grid-column: span 1;
+			text-align: center;
+		}
+	}
+}
+
+.question-item:last-of-type{
+	margin-bottom: none;
 }
 
 .my-question{
@@ -259,3 +313,10 @@ input, textarea, password{
   padding-right:800px;
 }
 
+.thumbs-down.true{
+  background-color:red;
+}
+
+.thumbs-down.false{
+  background-color:yellow;
+}

@@ -1,44 +1,20 @@
-<div id="q<%=question.id%>">
-  <div class="question row" style="height: 75px">
-    <div class="col-md-11" style="padding-left:30px;">
-      <div class="row" style=" height: 40px">
-        <div class="col-md-10">
-          <span class="question-span" style="font-size:18px; word-wrap:break-word;" maxlength="105"><%= question.question %></span>
-        </div>
-        <div class="col-md-1 center arrow">
-          <form data-remote="true" action="/questions/<%=question.id%>/thumbsup" method="post">
-            <button type="submit" class="btn <% if vote=="up" %>btn-primary<%else%>btn-outline-primary<%end%>">
-              <span class="icon-thumbs-up <%if vote!="up"%>text-primary<%end%>"></span>
-            </button>
-          </form>
-        </div>
-        <div class="col-md-1 center arrow">
-          <form data-remote="true" action="/questions/<%=question.id%>/thumbsdown" method="post">
-            <button type="submit" class="btn <%if vote=="down" %>btn-danger<%else%>btn-outline-danger<%end%>">
-              <span class="icon-thumbs-down <%if vote!="down"%>text-danger<%end%>"></span>
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="row" >
-        <div class="col-md-10 arrow" style="padding-left: 40px">
-          <span class="status">Status: <%= question.status %></span>
-        </div>
-        <div class="col-md-1 center arrow">
-          <span class="upvotes"><%= question.upvotes %></span>
-        </div>
-        <div class="col-md-1 center arrow">
-          <span class="downvotes"><%= question.downvotes %></span>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-1 center" style="padding-top:5px;">
-      <form data-remote="true" action="/questions/<%=question.id%>/flag" method="post">
-        <button type="submit" class="btn btn-inverse delete-button">
-          <span class="icon-trash icon-2x"></span>
-        </button>
-      </form>
-    </div>
-  </div>
-  <div class="separator-sm"></div>
+<div id="q<%=question.id%>" class="question-item">
+	<div class="question-data">
+		<span class="text" maxlength="105"><%= question.question %></span>
+		<span class="status">Status: <%= question.status %></span>
+	</div>
+	
+	<form data-remote="true" action="/questions/<%=question.id%>/thumbsup" method="post">
+		<button type="submit" class="btn fa fa-thumbs-up<%= vote=="up" ? " btn-primary" : " text-primary" %>"></button>
+		<span><%= question.upvotes %></span>
+	</form>
+
+	<form data-remote="true" action="/questions/<%=question.id%>/thumbsdown" method="post">
+		<button type="submit" class="btn fa fa-thumbs-down<%= vote=="down" ? " btn-danger" : " text-danger" %>"></button>
+		<span><%= question.downvotes %></span>
+	</form>
+
+	<form data-remote="true" action="/questions/<%=question.id%>/flag" method="post">
+		<button type="submit" class="btn fa fa-flag btn-warning"></button>
+	</form>
 </div>
