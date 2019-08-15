@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "login" => "applcation#index"
   get 'select_course' => "application#index"
 
-  get "courses/*id/course_page" => "courses#course_page"
+  get "courses/*id/course_page" => "courses#professor_course_page"
   get 'courses/*id/poll_class' => 'polls#new'
 
   get "courses/*id/end_poll" => "polls#new"

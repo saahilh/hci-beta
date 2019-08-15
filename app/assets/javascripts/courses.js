@@ -1,7 +1,7 @@
 $(document).ready(function(){
-  if($("#poll-body").html().replace(/\s/g,"")!=""){
-    $("#modal-button").click();
-  }
+  //if($("#poll-body").html().replace(/\s/g,"")!=""){
+  //  $("#modal-button").click();
+  //}
 
   let upvote_identifier = ".fa-thumbs-up";
   let downvote_identifier = ".fa-thumbs-down";
@@ -47,18 +47,6 @@ $(document).ready(function(){
           $("#no-quest").show();
         }
       }
-      else if(data["in_class"]){
-        if(data["pending"])
-          $("#questions-container #q" + data["in_class"] + " .status").text("Status: pending")
-        else
-          $("#questions-container #q" + data["in_class"] + " .status").text("Status: answered in class")
-      }
-      else if(data["after_class"]){
-        if(data["pending"])
-          $("#questions-container #q" + data["after_class"] + " .status").text("Status: pending")
-        else
-          $("#questions-container #q" + data["after_class"] + " .status").text("Status: will answer after class")
-      }
       else if(data["thumbsup"]){
         $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
         $("#q"+ data["thumbsup"] + " .downvotes").text(" " + data["downvote_count"]);
@@ -94,11 +82,29 @@ $(document).ready(function(){
     room: room_name
   }, {
     connected: function() {},
-    disconnected: function() { App.room.unsubscribe(); },
+    disconnected: function() { 
+      App.room.unsubscribe(); 
+    },
     received: function(data) {
-      if(data["prof_question"]){
-        $("#questions-container").append(data["prof_question"])
-        sort_question(data["question_id"]);
+      if(data["question"]){
+        $("#questions-container.student-questions .mCSB_container").append(data["student_question"]);
+        $("#questions-container.professor-questions .mCSB_container").append(data["professor_question"]);
+        sort_question($("#q"+ data["question_id"]));
+      }
+      else if(data["pending"]){
+        $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: pending");
+        $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
+        $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
+      }
+      else if(data["in_class_enabled"]){
+        $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: answered in class");
+        $("#questions-container #q" + data["question_id"] + " .in-class button").addClass("btn-success").removeClass("text-success");
+        $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
+      }
+      else if(data["after_class_enabled"]){
+        $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: will answer after class");
+        $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
+        $("#questions-container #q" + data["question_id"] + " .after-class button").addClass("btn-primary").removeClass("text-primary");
       }
       else if(data["delete_question"]){
         $("#questions-container #q" + data["delete_question"]).remove();
@@ -107,7 +113,7 @@ $(document).ready(function(){
         let question = $("#q"+ data["vote"]);
         question.find(upvote_identifier).text(" " + data["upvote_count"]);
         question.find(downvote_identifier).text(" " + data["downvote_count"]);
-        sort_question(question)
+        sort_question(question);
       }
       else if(data["flag_thresh_alert"]){
         $("#q" + data["flag_thresh_alert"]).remove();
@@ -160,24 +166,4 @@ $(document).ready(function(){
   $(document).on('click', delete_identifier, function(){
     $(this).closest(".question-item").hide();
   });
-
-  /*$(document).on('click')
-        if(data["pending"]){
-          $("#q"+ data["in_class"] + " .in-class button").removeClass("btn-success");
-        }
-        else{
-          $("#q"+ data["in_class"] + " .in-class button").addClass("btn-success").removeClass("text-success");
-          $("#q"+ data["in_class"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
-        }
-      }
-      else if(data["after_class"]){
-        if(data["pending"]){
-          $("#q"+ data["after_class"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
-        }
-        else{
-          $("#q"+ data["after_class"] + " .after-class button").addClass("btn-primary").removeClass("text-primary");
-          $("#q"+ data["after_class"] + " .in-class button").removeClass("btn-success").addClass("text-success");
-        }
-      }
-  */
 })
