@@ -1,10 +1,10 @@
 class CoursesController < ActionController::Base
 	include AuthenticationHelper
 
-	before_action :set_course, only: [:show, :ask_question, :professor_course_page, :delete, :poll]
+	before_action :set_course, only: [:show, :ask_question, :lecturer_course_page, :destroy, :poll]
 	before_action :set_student, only: [:show, :ask_question]
-	before_action :set_lecturer, only: [:professor_course_page, :delete]
-	before_action :authenticate_lecturer_for_course, only: [:professor_course_page]
+	before_action :set_lecturer, only: [:lecturer_course_page, :destroy]
+	before_action :authenticate_lecturer_for_course, only: [:lecturer_course_page]
 
 	def select_course
 		@course = Course.find_by(name: params[:course_code].gsub(" ", ""))
@@ -49,7 +49,7 @@ class CoursesController < ActionController::Base
 				@course,
 				question: true,
 				student_question: render_to_string('_student_question', layout:false, locals: {question: question, vote: ""}),
-				professor_question: render_to_string('_professor_question', layout:false, locals: {question: question}),
+				lecturer_question: render_to_string('_lecturer_question', layout:false, locals: {question: question}),
 				question_id: question.id
 			)
 		end
@@ -57,11 +57,11 @@ class CoursesController < ActionController::Base
 		render json: { data: {} }
 	end
 
-	def professor_course_page
-		render 'professor_course_page'
+	def lecturer_course_page
+		render 'lecturer_course_page'
 	end
 
-	def delete
+	def destroy
 		@course.delete
 		redirect_to @lecturer
 	end

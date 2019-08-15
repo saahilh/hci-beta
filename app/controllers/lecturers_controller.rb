@@ -17,7 +17,7 @@ class LecturersController < ActionController::Base
   end
 
   def show
-  	render 'prof-ile', locals:{ lecturer: @lecturer }
+  	render 'lecturer_profile', locals:{ lecturer: @lecturer }
   end
 
   def logout

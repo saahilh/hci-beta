@@ -88,7 +88,7 @@ $(document).ready(function(){
     received: function(data) {
       if(data["question"]){
         $("#questions-container.student-questions .mCSB_container").append(data["student_question"]);
-        $("#questions-container.professor-questions .mCSB_container").append(data["professor_question"]);
+        $("#questions-container.lecturer-questions .mCSB_container").append(data["lecturer_question"]);
         sort_question($("#q"+ data["question_id"]));
       }
       else if(data["pending"]){

@@ -33,7 +33,7 @@ class PollsController < ActionController::Base
 
 		CourseChannel.broadcast_to(@course, { poll_end: true, chart: render_to_string('student_poll_results', layout: false, locals: { data: data, question: poll.question }) } )
 
-		render 'professor_poll_results', locals: { poll: poll, data: data }
+		render 'lecturer_poll_results', locals: { poll: poll, data: data }
 	end
 
 	def answer
