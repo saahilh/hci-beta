@@ -156,7 +156,7 @@ $(document).ready(function(){
       url: form.attr("action"),
       data: form.serialize(),
       success: function(response){ 
-        $(".ask-question form input").val("");
+        $(".ask-question form input").val('');
       },
       dataType: "json"
     });

@@ -34,7 +34,9 @@ class CoursesController < ActionController::Base
 			msg = "Invalid course code"
 		else
 			course = Course.create(name: new_course_name, lecturer: Lecturer.find(params[:lecturer_id]))
-			success = course.id
+			success = "<a class=\"btn btn-default big-btn fit course-button\" data-method=\"get\" href=\"/courses/#{course.id}/course_page\">#{course.name}</a>"
+			success += "<a class=\"btn btn-danger big-btn delete-button fa fa-arrow-left\" data-method=\"delete\" rel=\"no-follow\" href=\"/courses/#{course.id}\">Delete</a>"
+			puts success
 			msg = "Successfully created course #{course.name}"
 		end
 
