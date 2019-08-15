@@ -1,33 +1,18 @@
 class CoursesController < ActionController::Base
+	include AuthenticationHelper
+
 	before_action :set_course, only: [:show, :ask_question, :professor_course_page, :delete, :poll]
 	before_action :set_student, only: [:show, :ask_question]
 	before_action :set_lecturer, only: [:professor_course_page, :delete]
-
-	def set_course
-		@course = Course.find(params[:id])
-	end
-
-	def set_student
-		@student = Student.find_by(id: cookies[:student])
-
-		if @student.nil? # set cookie
-			@student = Student.create
-			cookies[:student] = { value: cookies[:student], expires: 3.hours.from_now }
-		end
-	end
-
-	def set_lecturer
-		@lecturer = Lecturer.find_by(id: cookies[:logged_in])
-	end
+	before_action :authenticate_lecturer_for_course, only: [:professor_course_page]
 
 	def select_course
-		course_name = params[:course_code].gsub(" ", "")
-		@course = Course.find_by(name: course_name)
+		@course = Course.find_by(name: params[:course_code].gsub(" ", ""))
 
 		if @course
 			render json: { data: { redirect: "/courses/#{@course.id}" } }
 		else
-			render json: { data: { msg: "Course not found: #{course_name}" } }
+			render json: { data: { msg: "Course not found: #{params[:course_code]}" } }
 		end
 	end
 
@@ -73,15 +58,7 @@ class CoursesController < ActionController::Base
 	end
 
 	def professor_course_page
-		if @lecturer
-			if @lecturer.id.to_s == @course.lecturer.id.to_s
-				render 'professor_course_page'
-  		else
-				render '/message', locals: { message: "Error: lecturer does not have access to course" }
-			end
-    else
-      render '/message', locals: { message: "Error: not logged in" }
-    end
+		render 'professor_course_page'
 	end
 
 	def delete
@@ -90,6 +67,6 @@ class CoursesController < ActionController::Base
 	end
 
 	def poll
-		render 'poll_class', locals:{ course: @course }
+		render 'poll_class'
 	end
 end

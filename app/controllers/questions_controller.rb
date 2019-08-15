@@ -1,12 +1,7 @@
 class QuestionsController < ActionController::Base
-	before_action :set_cookie
+	include AuthenticationHelper
 
-	def set_cookie
-		if cookies[:student].blank? 
-			student = Student.create
-			cookies[:student] = { value: student.id, expires: 3.hours.from_now }
-		end
-	end
+	before_action :set_student
 
 	def delete
 		question = Question.find(params[:id])

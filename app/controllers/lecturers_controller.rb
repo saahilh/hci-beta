@@ -1,24 +1,23 @@
 class LecturersController < ActionController::Base
+  include AuthenticationHelper
+
+  before_action :set_lecturer, only: [:show]
 
   def login
-    lecturer = Lecturer.where(email: params[:email])
+    @lecturer = Lecturer.find_by(email: params[:email])
 
     sha1_password = Digest::SHA1.hexdigest("#{params[:pw]}")
 
-    if(lecturer.count != 0 && BCrypt::Password.new(lecturer.first.password_digest) == sha1_password)
-      cookies[:logged_in] = { value: lecturer.first.id, expires: 3.hours.from_now }
-      render json: { data: { redirect: "/lecturers/#{lecturer.first.id}" } }
+    if(!@lecturer.nil? && BCrypt::Password.new(@lecturer.password_digest) == sha1_password)
+      cookies[:logged_in] = { value: @lecturer.id, expires: 3.hours.from_now }
+      render json: { data: { redirect: "/lecturers/#{@lecturer.id}" } }
     else
       render json: { data: { msg: "Invalid credentials entered" } }
     end
   end
 
   def show
-    if(cookies[:logged_in].to_s==params[:id].to_s)
-  	  render 'prof-ile', locals:{ lecturer: Lecturer.find(params[:id]) }
-    else
-      render '/message', locals: { message: "Error: not logged in" }
-    end
+  	render 'prof-ile', locals:{ lecturer: @lecturer }
   end
 
   def logout
@@ -28,6 +27,7 @@ class LecturersController < ActionController::Base
 
   def create
     success = false
+
     if(!(params[:pw].blank? || params[:cpw].blank?))
       params[:pw] = Digest::SHA1.hexdigest("#{params[:pw]}")
       params[:cpw] = Digest::SHA1.hexdigest("#{params[:cpw]}")
@@ -46,6 +46,7 @@ class LecturersController < ActionController::Base
     else
       msg = "Password or password confirmation is blank"
     end
+
     render json: { data:{ msg: msg, success: success } }
   end
 end

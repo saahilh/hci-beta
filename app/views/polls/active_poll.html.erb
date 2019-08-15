@@ -1,7 +1,7 @@
 <%= render '/partials/nav_bar' %>
-<%= render '/partials/heading2', course: course.name %>
+<%= render '/partials/heading2' %>
 
-<%= javascript_tag "room_name = \"#{course.name}\"" %>
+<%= javascript_tag "room_name = \"#{@course.name}\"" %>
 
 <script>
   App.room = App.cable.subscriptions.create({

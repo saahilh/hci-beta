@@ -6,7 +6,7 @@
           <div class="col-md-10">
             <div class="separator-md"></div>
             <div id="poll-body">
-              <% if Poll.where(course: course.id, active: true).count > 0 %>
+              <% if Poll.where(course: @course.id, active: true).count > 0 %>
               <%= render( '/polls/student_poll', poll: Poll.where(course: course.id, active: true).last ) %>
               <% end %>
             </div>

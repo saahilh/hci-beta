@@ -1,7 +1,7 @@
 <nav class="navbar navbar-fixed-top" style="background-color: none !important; padding-bottom: 15px">
   <div class="container-fluid row">
     <div class="col-md-3">
-      <a href="/courses/<%=course.id%>/professor_course_page">
+      <a href="#{url_for @course}/professor_course_page">
         <div class="btn btn-inverse fit" style="font-size: 30px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; opacity: 0.5">
           <i class="icon-arrow-left"></i> Back
         </div>
@@ -22,7 +22,7 @@
   </div>
 </nav>
 
-<%= render '/partials/heading2', course: course.name %>
+<%= render '/partials/heading2' %>
 
 <script>
   var optionCount = 2;
