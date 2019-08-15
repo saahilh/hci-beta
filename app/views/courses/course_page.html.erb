@@ -3,24 +3,18 @@
 
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
-<div id="questions-container" class="row custom-bar">
-  <div class="col-md-1"></div>
-
-  <div id="questions" class="col-md-10">
-    <h1 id="no-questions"> No questions available </h1>
+<div class="course-page-container">
+  <div id="questions-container" class="row custom-bar questions-container">
+    <div class="question-item no-questions"> No questions available </div>
 
     <% course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").each do |question| %>
-    <%= render 'prof_questions', question: question %>
+    <%= render 'prof_question', question: question %>
     <% end %>
   </div>
 
-  <div class="col-md-1"></div>
-</div>
-
-<div class="separator-md"></div>
-
-<div id="poll-button" class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4 big-line"><a href="poll_class.html"><div class="btn btn-default fit big-btn">Poll Class</div></a></div>
-  <div class="col-md-4"></div>
+  <div class="poll-class">
+    <form action="poll_class.html" method="get">
+      <button class="btn btn-default fit big-btn">Poll Class</button>
+    </form>
+  </div>
 </div>

@@ -1,14 +1,14 @@
 <nav class="navbar navbar-fixed-top container-fluid">
   <% if defined?(leave_class_href) %>
-  <form id="leave-class" method="get" action="<%= leave_class_href %>">
+  <form class="leave-class" method="get" action="<%= leave_class_href %>">
     <button href="<%= leave_class_href %>" class="btn btn-default fa fa-arrow-left"> Leave Class</button>
   </form>
   <% end %>
 
-  <a id="home" class="navbar-brand" href="/index.html"><h4 style="font-size:50px; padding-top:10px;"> Classroom Friend </h4></a>
+  <a class="navbar-brand" href="/index.html"><h4 style="font-size:50px; padding-top:10px;"> Classroom Friend </h4></a>
 
   <% if defined?(logout_href) %>
-  <form id="logout" method="post" action="<%= logout_href %>">
+  <form class="logout" method="post" action="<%= logout_href %>">
     <button type="submit" class="btn btn-default fa fa-power-off"> Logout</button>
   </form>
   <% end %>

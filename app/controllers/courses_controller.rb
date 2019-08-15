@@ -56,8 +56,8 @@ class CoursesController < ActionController::Base
 			question = Question.create(question: params[:question], course_id: course.id, student: Student.find(cookies[:student]))
 			CourseChannel.broadcast_to(
 				course, 
-				question: render_to_string('_student_questions', layout:false, locals: {question: question, vote: ""}),
-				prof_question: render_to_string('_prof_questions', layout:false, locals: {question: question}),
+				question: render_to_string('_student_question', layout:false, locals: {question: question, vote: ""}),
+				prof_question: render_to_string('_prof_question', layout:false, locals: {question: question}),
 				question_id: question.id
 			)
 		end

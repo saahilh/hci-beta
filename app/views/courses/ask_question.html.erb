@@ -3,31 +3,24 @@
 
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
-<div id="questions-container" class="row custom-bar">
-  <div class="col-md-1"></div>
-
-  <div id="questions" class="col-md-10">
-    <h1 id="no-questions"> No questions available </h1>
+<div class="course-page-container">
+  <div id="questions-container" class="row custom-bar questions-container">
+    <div class="question-item no-questions"> No questions available </div>
 
     <% course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").all.each do |question| %>
     <% if !flagged[question.id.to_s] %>
-    <%= render 'student_questions', question: question, vote: data[question.id.to_s] %>
+    <%= render 'student_question', question: question, vote: data[question.id.to_s] %>
     <% end %>
     <% end %>
   </div>
-  
-  <div class="col-md-1"></div>
-</div>
+ 
+  <div class="ask-question">
+    <form action="/courses/<%=course.id%>/ask_question" method="post" data-remote="true">
+      <input name="question" type="textarea" placeholder="Enter question here" maxlength="105"/>
+    </form>
 
-<div class="separator-md"></div>
-
-<div class="row">
-  <div class="col-md-1"></div>
-  <form class="col-md-7 big-line" id="ask-form" action="/courses/<%=course.id%>/ask_question" method="post" data-remote="true">
-    <input name="question" type="textarea" placeholder="Enter question here" maxlength="105"/>
-  </form>
-  <div class="col-md-2 big-line center" style="padding-right:5px"><button id="ask-button" type="submit" class="btn btn-inverse fit big-btn">Ask</button></div>
-  <div class="col-md-2"></div>
+    <button type="submit" class="btn btn-inverse fit big-btn">Ask</button>
+  </div>
 </div>
 
 <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>

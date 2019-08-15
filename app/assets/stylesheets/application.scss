@@ -20,19 +20,19 @@
 @import "awesomplete";
 @import "mCustomScrollbar";
 
-.awesomplete{
+.awesomplete {
   width:100%; 
   height: 100%;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-.center{
+.center {
   text-align:center;
 }
-.page-container{
+.page-container {
   padding-top: 70px;
 }
 .bs-callout {
@@ -92,33 +92,33 @@
     color: #5bc0de;
 }
 
-.arrow{
+.arrow {
   cursor: default;
 }
 
-img{
+img {
   max-width: 100%; 
   max-height: 100%;
 }
 
-.separator-lg{
+.separator-lg {
   margin-top: 50px;
 }
 
-.separator-md{
+.separator-md {
   margin-top: 25px;
 }
 
-.separator-sm{
+.separator-sm {
   margin-top: 10px;
 }
 
-.fit{
+.fit {
   height:100%;
   width:100%;
 }
 
-.modal{
+.modal {
   background: none !important;
   border:none !important;
   box-shadow:none !important;
@@ -142,58 +142,58 @@ i {
     margin-top:-70px;
 }
 
-.big-text{
+.big-text {
   font-size: 20px;
 }
 
-.white{
+.white {
   color:white;
 }
 
-.red{
+.red {
   color:red;
 }
 
-.green{
+.green {
   color:green;
 }
 
-.section-padding .panel-body{
+.section-padding .panel-body {
   padding-top: 50px;
   padding-bottom: 50px;
 }
 
-body{
+body {
   position: relative;
   background-image: url("bg.png");
   background-attachment: fixed;
   background-size: 100%;
 }
 
-span, h1, h2, h3, h4, h5{
+span, h1, h2, h3, h4, h5 {
   color: white !important;
 }
 
-.btn{
+.btn {
   top: "50%";
   left: "50%";
 }
 
-.big-btn{
+.big-btn {
   font-size: 36px !important; 
   line-height: 50px !important;
   height: 70px;
 }
 
-.big-line{
+.big-line {
   height: 70px;
 }
 
-.med-line{
+.med-line {
   height: 50px;
 }
 
-input, textarea, password{
+input, textarea, password {
   background-color:black !important;
   color: white !important;
   opacity: 0.6;
@@ -206,7 +206,7 @@ input, textarea, password{
   height:100% !important;
 }
 
-.modal-body label{
+.modal-body label {
   color: white;
 }
 
@@ -215,18 +215,18 @@ input, textarea, password{
   opacity: 0.6 !important;
 }
 
-.question-item:last-of-type{
+.question-item:last-of-type {
 	margin-bottom: none;
 }
 
-.my-question{
+.my-question {
   box-shadow: 3px 3px 3px grey; 
   border-radius: 5px; 
   padding-bottom: 10px !important;
   padding-top: 10px !important;
 }
 
-.page-header, .page-header:hover{   
+.page-header, .page-header:hover {   
   text-decoration: none;
   cursor: pointer;
   color: white;
@@ -236,41 +236,41 @@ input, textarea, password{
   background-color: danger; 
 }
 
-.modal-body h4{
+.modal-body h4 {
   font-size: 30px;
 }
 
-.modal-body p{
+.modal-body p {
   font-size: 20px;
 }
 
-.modal-dialog.modal-sm{
+.modal-dialog.modal-sm {
   margin-top: 50px;
   margin-bottom: 90px;
 }
 
-#create-account-modal{
-  padding-right:800px;
+.create-account-modal {
+  padding-right: 800px;
 }
 
-.navbar.container-fluid{
+.navbar.container-fluid {
   padding-bottom: 15px;
 
   display: grid;
   grid-template-columns: 3fr 6fr 3fr;
   text-align: center;
 
-  #leave-class{
+  .leave-class{
     grid-row: 1;
     grid-column: 1;
   }
 
-  #home{
+  a.navbar-brand{
     grid-row: 1;
     grid-column: 2;
   }
 
-  #logout{
+  .logout{
     grid-row: 1;
     grid-column: 3;
   }

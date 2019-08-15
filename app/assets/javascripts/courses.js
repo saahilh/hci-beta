@@ -37,27 +37,27 @@ $(document).ready(function(){
     disconnected: function() { App.room.unsubscribe(); },
     received: function(data) {
       if(data["question"]){
-        $("#questions").append(data["question"]);
+        $("#questions-container").append(data["question"]);
         $("#no-quest").hide();
         sort_question(data["question_id"], "0", "0");
       }
       else if(data["delete_question"]){
-        $("#questions #q" + data["delete_question"]).remove();
+        $("#questions-container #q" + data["delete_question"]).remove();
         if($(".question").length==0){
           $("#no-quest").show();
         }
       }
       else if(data["in_class"]){
         if(data["pending"])
-          $("#questions #q" + data["in_class"] + " .status").text("Status: pending")
+          $("#questions-container #q" + data["in_class"] + " .status").text("Status: pending")
         else
-          $("#questions #q" + data["in_class"] + " .status").text("Status: answered in class")
+          $("#questions-container #q" + data["in_class"] + " .status").text("Status: answered in class")
       }
       else if(data["after_class"]){
         if(data["pending"])
-          $("#questions #q" + data["after_class"] + " .status").text("Status: pending")
+          $("#questions-container #q" + data["after_class"] + " .status").text("Status: pending")
         else
-          $("#questions #q" + data["after_class"] + " .status").text("Status: will answer after class")
+          $("#questions-container #q" + data["after_class"] + " .status").text("Status: will answer after class")
       }
       else if(data["thumbsup"]){
         $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
@@ -97,11 +97,11 @@ $(document).ready(function(){
     disconnected: function() { App.room.unsubscribe(); },
     received: function(data) {
       if(data["prof_question"]){
-        $("#questions").append(data["prof_question"])
+        $("#questions-container").append(data["prof_question"])
         sort_question(data["question_id"]);
       }
       else if(data["delete_question"]){
-        $("#questions #q" + data["delete_question"]).remove();
+        $("#questions-container #q" + data["delete_question"]).remove();
       }
       else if(data["vote"]){
         let question = $("#q"+ data["vote"]);
@@ -134,23 +134,23 @@ $(document).ready(function(){
     App.room.unsubscribe();
   })
 
-  $("#ask-form input").unbind();
+  $(".ask-question form input").unbind();
 
-  $(document).on('keypress', '#ask-form input', function(e){
-    if (e.keyCode == 13 && $('#ask-form input').val()!=""){
-      $("#ask-button").click();
-      $('#ask-form input').val('');
+  $(document).on('keypress', '.ask-question form input', function(e){
+    if (e.keyCode == 13 && $('.ask-question form input').val()!=""){
+      $(".ask-question button").click();
+      $('.ask-question form input').val('');
     }
   })
 
-  $(document).on('click', "#ask-button", function(){
-    form = $("#ask-form");
+  $(document).on('click', ".ask-question button", function(){
+    form = $(".ask-question form");
     $.ajax({
       type: form.attr("method"),
       url: form.attr("action"),
       data: form.serialize(),
       success: function(response){ 
-        $("#ask-form input").val("");
+        $(".ask-question form input").val("");
       },
       dataType: "json"
     });

@@ -39,7 +39,3 @@ $(window).on("load", function(){
     mouseWheelPixels: 170
   });
 });
-
-$(document).on('page:change', function(){
-  $("#questions-container").attr("style", $("#questions-container").attr("style") + ";height:" + ($(document).height() - 400) + "px");
-});
