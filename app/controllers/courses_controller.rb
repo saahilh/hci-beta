@@ -21,26 +21,13 @@ class CoursesController < ActionController::Base
 	end
 
 	def create
-		new_course_name = params[:new_course].upcase.gsub(" ", "")
-		success = 0
+		course = Course.create(name: params[:new_course].upcase.gsub(" ", ""), lecturer: Lecturer.find(params[:lecturer_id]))
 
-		if(new_course_name.blank?)
-			msg = "No name entered"
-		elsif(Course.where(name: new_course_name).count != 0)
-			msg = "Course already exists"
-		elsif(new_course_name.length > 7)
-			msg = "Course code too long"
-		elsif !/[A-z]{4}[0-9]{3}/.match(new_course_name)
-			msg = "Invalid course code"
+		if(course.persisted?)
+			render json: { data: { course_id: course.id, course_name: course.name }}
 		else
-			course = Course.create(name: new_course_name, lecturer: Lecturer.find(params[:lecturer_id]))
-			success = "<a class=\"btn btn-default big-btn fit course-button\" data-method=\"get\" href=\"/courses/#{course.id}/course_page\">#{course.name}</a>"
-			success += "<a class=\"btn btn-danger big-btn delete-button fa fa-arrow-left\" data-method=\"delete\" rel=\"no-follow\" href=\"/courses/#{course.id}\">Delete</a>"
-			puts success
-			msg = "Successfully created course #{course.name}"
+			render json: { data: { errors: course.errors.full_messages }}
 		end
-
-		render json: { data: { msg: msg, success: success }}
 	end
 
 	def ask_question
