@@ -6,9 +6,7 @@ class LecturersController < ActionController::Base
   def login
     @lecturer = Lecturer.find_by(email: params[:email])
 
-    sha1_password = Digest::SHA1.hexdigest("#{params[:pw]}")
-
-    if(!@lecturer.nil? && BCrypt::Password.new(@lecturer.password_digest) == sha1_password)
+    if(!@lecturer.nil? && @lecturer.authenticate(Digest::SHA1.hexdigest(params[:pw])))
       cookies[:logged_in] = { value: @lecturer.id, expires: 3.hours.from_now }
       render json: { data: { redirect: "/lecturers/#{@lecturer.id}" } }
     else
@@ -26,11 +24,11 @@ class LecturersController < ActionController::Base
   end
 
   def create
-    lecturer = Lecturer.create(lecturer_params)
+    lecturer = Lecturer.create(lecturer_creation_params)
     render json: { data:{ errors: lecturer.persisted? ? nil : lecturer.errors.full_messages } }
   end
 
-  def lecturer_params
+  def lecturer_creation_params
     params.require(:lecturer).permit(:name, :email, :password, :password_confirmation)
   end
 end

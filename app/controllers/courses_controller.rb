@@ -1,7 +1,7 @@
 class CoursesController < ActionController::Base
 	include AuthenticationHelper
 
-	before_action :set_course, only: [:show, :ask_question, :lecturer_course_page, :destroy, :poll]
+	before_action :set_course, except: [:select_course, :create]
 	before_action :set_student, only: [:show, :ask_question]
 	before_action :set_lecturer, only: [:lecturer_course_page, :destroy]
 	before_action :authenticate_lecturer_for_course, only: [:lecturer_course_page]

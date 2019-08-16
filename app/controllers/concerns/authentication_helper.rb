@@ -12,6 +12,10 @@ module AuthenticationHelper
 		end
 	end
 
+	def set_question
+		@question = Question.find(params[:id])
+	end
+
 	def set_lecturer
 		@lecturer = Lecturer.find_by(id: cookies[:logged_in])
 	end
