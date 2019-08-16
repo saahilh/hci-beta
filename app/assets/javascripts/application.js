@@ -39,3 +39,33 @@ $(window).on("load", function(){
     mouseWheelPixels: 170
   });
 });
+
+$(document).on('click', "#back", function(){ 
+  $(".confirmation").hide(); 
+  $("#submission").show(); 
+});
+
+$(document).on('click', "#create-account-button", function(e){
+  e.preventDefault();
+  form = $("#create-account-modal form");
+  console.log("hi")
+  $.ajax({
+    type: form.attr("method"),
+    url: form.attr("action"),
+    data: form.serialize(),
+    success: function(response){ 
+      if(response.data.success){
+        $("#back").attr("data-dismiss", "modal");
+        $(".modal-body.confirmation h4").text("Success!");
+      }
+      else{
+        $("#back").removeAttr("data-dismiss");
+        $(".modal-body.confirmation h4").text("Error");
+      }
+      $("#create-modal-message").text(response.data.msg);
+      $("#submission").hide(); 
+      $(".confirmation").show();
+    },
+    dataType: "json"
+  });
+});

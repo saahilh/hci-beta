@@ -20,6 +20,14 @@
 @import "awesomplete";
 @import "mCustomScrollbar";
 
+.main-header, .main-header:hover {   
+  text-decoration: none;
+
+  h1 {
+    font-size: 100px;
+  }
+}
+
 .awesomplete {
   width: 100%; 
   height: 100%;
@@ -61,21 +69,6 @@ img {
 .fit {
   height: 100%;
   width: 100%;
-}
-
-.modal {
-  background: none !important;
-  border:none !important;
-  box-shadow:none !important;
-  overflow-y: auto;
-}
-
-.modal-open {
-    overflow: auto;
-}
-
-.modal-open[style] {
-    padding-right: 0px !important;
 }
 
 i {
@@ -151,17 +144,9 @@ input, textarea, password {
   height:100%;
 }
 
-.modal-body label {
-  color: white;
-}
-
 .close {
   color: white !important; 
   opacity: 0.6 !important;
-}
-
-.question-item:last-of-type {
-	margin-bottom: none;
 }
 
 .my-question {
@@ -171,57 +156,67 @@ input, textarea, password {
   padding-top: 10px !important;
 }
 
-.page-header, .page-header:hover {   
-  text-decoration: none;
-  cursor: pointer;
-  color: white;
-}
-
-.dropdown-menu { 
-  background-color: danger; 
-}
-
-.modal-body h4 {
-  font-size: 30px;
-}
-
-.modal-body p {
-  font-size: 20px;
-}
-
-.modal-dialog.modal-sm {
-  margin-top: 50px;
-  margin-bottom: 90px;
-}
-
-.create-account-modal {
-  padding-right: 800px;
-}
-
-.navbar.container-fluid {
-  padding-bottom: 15px;
-
+.lecturer-login-form{
   display: grid;
-  grid-template-columns: 3fr 6fr 3fr;
-  text-align: center;
 
-  .leave-class{
+  grid-template-rows: 3;
+  grid-template-columns: 5fr 4fr 3fr;
+  grid-gap: 2% 2%;
+
+  h4 {
     grid-row: 1;
     grid-column: 1;
   }
 
-  a.navbar-brand{
-    grid-row: 1;
-    grid-column: 2;
+  div {
+    grid-row: 2;
   }
 
-  .logout{
-    grid-row: 1;
-    grid-column: 3;
+  input {
+    height: 70px;
   }
 
-  form button{
-    height: 100%;
-    width: 100%;
+  button{
+    margin-top: 24px;
+  }
+
+  .account-creation {
+    grid-row: 3;
+    grid-column: 1 / 4;
+
+    span {
+      float: right;
+    }
+  }
+}
+
+.form-group label {
+  color: white;
+}
+
+.course-selection-form {
+  display: grid;
+  grid-template-rows: 2;
+
+  h4 {
+    grid-row: 1;
+  }
+
+  form {
+    height: 70px;
+    grid-row: 2;
+
+    grid-gap: 2% 2%;
+
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+
+    input {
+      grid-column: 1;
+    }
+
+    button{
+      grid-column: 2;
+    }
   }
 }

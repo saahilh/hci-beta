@@ -1,41 +1,8 @@
-<script>
-  $(document).on('click', ".back.row button", function(){ 
-    $(".confirmation").hide(); 
-    $("#submission").show(); 
-  });
-
-  $(document).on('click', "#create-account-button", function(e){
-    e.preventDefault();
-    form = $("#create-account-modal form");
-    $.ajax({
-      type: form.attr("method"),
-      url: form.attr("action"),
-      data: form.serialize(),
-      success: function(response){ 
-        if(response.data.success){
-          $("#error-back").hide();
-          $("#success-back").show();
-          $(".modal-body.confirmation h4").text("Success!");
-        }
-        else{
-          $("#success-back").hide();
-          $("#error-back").show();
-          $(".modal-body.confirmation h4").text("Error");
-        }
-        $("#create-modal-message").text(response.data.msg);
-        $("#submission").hide(); 
-        $(".confirmation").show();
-      },
-      dataType: "json"
-    });
-  });
-</script>
-
-<div class="create-account-modal modal fade" role="dialog" modal-backdrop="dynamic" style="overflow:hidden; width:100%;">
-  <div class="modal-dialog modal-sm" style="width:100%">
-    <div class="modal-content" style="background-color:#4d4c4c; opacity:0.8;">
-      <div id="submission" class="modal-body" style="height: 500px; max-height: 500px !important; padding-top: 80px">
-        <form action="/lecturers/create" method="post">
+<div id="create-account-modal" class="create-account-modal modal fade" role="dialog" modal-backdrop="dynamic" style="overflow: hidden; ">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div id="submission" class="modal-body">
+        <form action="/lecturers"+ method="post">
           <div class="form-group">
             <label for="name">Preferred Name</label>
             <input type="textarea" class="form-control" name="name">
@@ -53,44 +20,14 @@
             <input type="password" class="form-control" name="cpw">
           </div>
         </form>
-        <div class="row">
-          <div class="col-md-12 center big-line">
-            <button id="create-account-button" type="submit" data-remote="true" class="btn btn-inverse big-btn">
-              Continue
-            </button>
-          </div>
-        </div>
+        <button id="create-account-button" type="submit" data-remote="true" class="btn btn-inverse big-btn">
+          Continue
+        </button>
       </div>
-      <div class="modal-body confirmation" style="height: 300px !important; padding-top: 40px; display:none">
-        <h4 class="center" ></h4>
-
-        <div class="separator-sm">
-
-        <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-10">
-            <p id="create-modal-message" class="white center"></p>
-          </div>
-          <div class="col-md-1"></div>
-        </div>
-
-        <div class="separator-md"></div>
-
-        <div class="back row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-            <button id="error-back" type="button" class="btn btn-inverse big-btn fit">
-              Okay
-            </button>
-            <button id="success-back" type="button" class="btn btn-inverse big-btn fit" data-dismiss="modal">
-              Okay
-            </button>
-          </div>
-          <div class="col-md-3"></div>
-        </div>
-
-        <div class="separator-md"></div>
-
+      <div class="modal-body confirmation">
+        <h4 class="center"></h4>
+        <p id="create-modal-message" class="white center"></p>
+        <button id="back" type="button" class="btn btn-inverse big-btn fit">Okay</button>
       </div>
     </div>
   </div>
