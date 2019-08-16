@@ -22,12 +22,7 @@ class CoursesController < ActionController::Base
 
 	def create
 		course = Course.create(name: params[:new_course].upcase.gsub(" ", ""), lecturer: Lecturer.find(params[:lecturer_id]))
-
-		if(course.persisted?)
-			render json: { data: { course_id: course.id, course_name: course.name }}
-		else
-			render json: { data: { errors: course.errors.full_messages }}
-		end
+		render json: { data: { course_id: course.id, course_name: course.name, errors: course.persisted? ? nil : course.errors.full_messages }}
 	end
 
 	def ask_question

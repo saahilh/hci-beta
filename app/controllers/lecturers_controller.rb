@@ -26,27 +26,11 @@ class LecturersController < ActionController::Base
   end
 
   def create
-    success = false
+    lecturer = Lecturer.create(lecturer_params)
+    render json: { data:{ errors: lecturer.persisted? ? nil : lecturer.errors.full_messages } }
+  end
 
-    if(!(params[:pw].blank? || params[:cpw].blank?))
-      params[:pw] = Digest::SHA1.hexdigest("#{params[:pw]}")
-      params[:cpw] = Digest::SHA1.hexdigest("#{params[:cpw]}")
-
-      if(params[:pw]!=params[:cpw])
-        msg = "Passwords do not match"
-      elsif params[:pw].blank?||params[:name].blank?||params[:email].blank?
-        msg = "Left a field blank"
-      elsif Lecturer.where(email: params[:email]).count!=0
-        msg = "Account with that mail already exists"
-      else
-        msg = "Successfully created account"
-        Lecturer.create(name: params[:name], password_digest: BCrypt::Password.create(params[:pw]).to_s, email: params[:email])
-        success = true
-      end
-    else
-      msg = "Password or password confirmation is blank"
-    end
-
-    render json: { data:{ msg: msg, success: success } }
+  def lecturer_params
+    params.require(:lecturer).permit(:name, :email, :password, :password_confirmation)
   end
 end

@@ -54,15 +54,17 @@ $(document).on('click', "#create-account-button", function(e){
     url: form.attr("action"),
     data: form.serialize(),
     success: function(response){ 
-      if(response.data.success){
-        $("#back").attr("data-dismiss", "modal");
-        $(".modal-body.confirmation h4").text("Success!");
+      if(response.data.errors){
+        $(".modal-body.confirmation h4").text("Error");
+        $("#back").removeAttr("data-dismiss");
+        $("#create-modal-message").text(response.data.errors.join("\n"));
       }
       else{
-        $("#back").removeAttr("data-dismiss");
-        $(".modal-body.confirmation h4").text("Error");
+        $(".modal-body.confirmation h4").text("Success!");
+        $("#back").attr("data-dismiss", "modal");
+        $("#create-modal-message").text("Successfully created account");
       }
-      $("#create-modal-message").text(response.data.msg);
+      
       $("#submission").hide(); 
       $(".confirmation").show();
     },
