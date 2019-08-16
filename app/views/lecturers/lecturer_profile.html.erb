@@ -1,0 +1,45 @@
+<%= render '/partials/nav_bar' %>
+
+<div class="lecturer-profile-container">
+  <div class="lecturer-classes custom-bar">
+    <span>Classes</span>
+
+    <div class="class-list">
+      <div class="no-courses"> (you have no courses) </div>
+      
+      <% lecturer.courses.each do |course| %>
+        <%= link_to course.name, course_path(course) + "/course_page", method: :get, class: "btn btn-default big-btn fit course-button" %>
+        <%= link_to "Delete", course, method: :delete, class: "btn btn-danger big-btn delete-button fa fa-arrow-left" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="create-class">
+    <span>Add class</span>
+
+    <form id="new-class-form" action="/courses" method="post">
+      <input name="new_course" type="text" placeholder="Enter course code (e.g., ECSE 424)"/>
+      <div class="hidden"><input name="lecturer_id" value=<%=lecturer.id if !lecturer.blank? %>></div>
+    </form>
+
+    <button id="new-class-button" type="submit" class="btn btn-inverse fit big-btn">Create new class</button>
+  </div>
+
+  <div id="new-class-modal" class="modal fade" role="dialog" style="overflow:hidden; display: none">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body confirmation">
+          <h4 class="center"></h4>
+
+          <p id="modal-message" class="white center"></p>
+
+          <button type="button" class="btn btn-inverse big-btn fit" data-dismiss="modal">
+            Okay
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a id="open-confirmation-modal" class="hidden" data-toggle="modal" data-target="#new-class-modal"></a>

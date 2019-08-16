@@ -1,0 +1,20 @@
+<%= render '/partials/nav_bar' %>
+<%= render '/partials/heading2' %>
+
+<%= javascript_tag "room_name = \"#{@course.name}\"" %>
+
+<div class="course-page-container">
+  <div id="questions-container" class="row custom-bar questions-container lecturer-questions">
+    <div class="question-item no-questions"> No questions available </div>
+
+    <% @course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").each do |question| %>
+    <%= render 'lecturer_question', question: question %>
+    <% end %>
+  </div>
+
+  <div class="poll-class">
+    <form action="poll_class.html" method="get">
+      <button class="btn btn-default fit big-btn">Poll Class</button>
+    </form>
+  </div>
+</div>

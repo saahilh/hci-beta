@@ -1,0 +1,32 @@
+.navbar.container-fluid {
+  padding-bottom: 15px;
+
+  display: grid;
+  grid-template-columns: 3fr 6fr 3fr;
+  text-align: center;
+
+  .leave-class{
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .navbar-brand h4{
+    font-size: 50px; 
+    padding-top: 10px;
+  }
+
+  a.navbar-brand{
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .logout{
+    grid-row: 1;
+    grid-column: 3;
+  }
+
+  form button{
+    height: 100%;
+    width: 100%;
+  }
+}

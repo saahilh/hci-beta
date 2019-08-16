@@ -1,0 +1,44 @@
+.modal {
+  background: none !important;
+  border:none !important;
+  box-shadow:none !important;
+  overflow-y: auto;
+}
+
+.modal-open {
+    overflow: auto;
+}
+
+.modal-open[style] {
+    padding-right: 0px !important;
+}
+
+.modal-body{
+  height: 300px; 
+  padding-top: 80px;
+
+  h4 {
+    font-size: 30px;
+  }
+
+  p {
+    font-size: 20px;
+  }
+}
+
+.form-group label {
+  color: white;
+}
+
+.modal-dialog.modal-sm {
+  margin-top: 50px;
+  margin-bottom: 90px;
+}
+
+.create-account-modal {
+  padding-right: 800px;
+}
+
+.modal-body{
+  background-color: #4d4c4c; 
+}
