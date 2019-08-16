@@ -22,7 +22,7 @@ class CoursesController < ActionController::Base
 
 	def create
 		course = Course.create(name: params[:new_course].upcase.gsub(" ", ""), lecturer: Lecturer.find(params[:lecturer_id]))
-		render json: { data: { course_id: course.id, course_name: course.name, errors: course.persisted? ? nil : course.errors.full_messages }}
+		render json: { data: { course_id: course.id, course_name: course.name, errors: course.errors.full_messages }}
 	end
 
 	def ask_question
@@ -32,8 +32,8 @@ class CoursesController < ActionController::Base
 			CourseChannel.broadcast_to(
 				@course,
 				question: true,
-				student_question: render_to_string('_student_question', layout:false, locals: {question: question, vote: ""}),
-				lecturer_question: render_to_string('_lecturer_question', layout:false, locals: {question: question}),
+				student_question: render_to_string('_student_question', layout: false, locals: {question: question, vote: ""}),
+				lecturer_question: render_to_string('_lecturer_question', layout: false, locals: {question: question}),
 				question_id: question.id
 			)
 		end

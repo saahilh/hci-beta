@@ -25,7 +25,7 @@ class LecturersController < ActionController::Base
 
   def create
     lecturer = Lecturer.create(lecturer_creation_params)
-    render json: { data:{ errors: lecturer.persisted? ? nil : lecturer.errors.full_messages } }
+    render json: { data:{ errors: lecturer.errors.full_messages } }
   end
 
   def lecturer_creation_params

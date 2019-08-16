@@ -43,9 +43,9 @@ class PollsController < ActionController::Base
 
 		changed = false
 
-		if(data["#{poll.id}"])
+		if(data[poll.id.to_s])
 			changed = true
-			option = Option.find(data["#{poll.id}"])
+			option = Option.find(data[poll.id.to_s])
 			option.update_column(:selected, option.selected - 1)
 		end
 

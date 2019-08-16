@@ -54,7 +54,7 @@ $(document).on('click', "#create-account-button", function(e){
     url: form.attr("action"),
     data: form.serialize(),
     success: function(response){ 
-      if(response.data.errors){
+      if(response.data.errors.length > 0){
         $(".modal-body.confirmation h4").text("Error");
         $("#back").removeAttr("data-dismiss");
         $("#create-modal-message").text(response.data.errors.join("\n"));

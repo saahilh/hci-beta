@@ -8,7 +8,7 @@ $(document).on('click', "#new-class-button", function(e){
     url: form.attr("action"),
     data: form.serialize(),
     success: function(response){
-      if(response.data.errors){
+      if(response.data.errors.length > 0){
         $(".modal-body.confirmation h4").text("Error")
         $("#modal-message").text(response.data.errors.join("\n"));
       }
