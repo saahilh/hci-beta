@@ -1,58 +1,43 @@
-<script>
-  $(document).on('click', "#join-class, #lecturer-login", function(e){
-    e.preventDefault();
-    var form = $(this).closest('form');
-    if(!form.find("input").val()==""){
-      $.ajax({
-        type: form.attr("method"),
-        url: form.attr("action"),
-        data: form.serialize(),
-        success: function(response){
-          if(response.data.msg){
-            $(".modal-body.confirmation h4").text("Error")
-            $("#modal-message").text(response.data.msg);
-            $("#show-modal").click();
-          }
-          else{
-            window.location.href = response.data.redirect;
-          }
-        },
-        dataType: "json"
-      });
-    }
-  })
-</script>
+<div class="custom-container">
+  <div class="custom-panel course-selection">
+    <div class="header">
+      <h4>If you're a student, enter a class code</h4>
+    </div>
 
-<div class="course-selection-form">
-  <h4>If you're a student, enter a class code</h4>
+    <div class="contents">
+      <form class="one-item" action="select_course" method="post">
+        <input class="awesomplete" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list="<%=Course.all.pluck(:name).join(",")%>">
+        <button id="join-class" class="btn btn-inverse fit big-btn">Join Class</button>
+      </form>
+    </div>
+  </div>
 
-  <form action="select_course" method="post">
-    <input class="awesomplete" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list="<%=Course.all.pluck(:name).join(",")%>">
-    <button id="join-class" class="btn btn-inverse fit big-btn">Join Class</button>
-  </form>
+  <div class="custom-panel lecturer-login">
+    <div class="header">
+      <h4>Are you a lecturer?</h4>
+    </div>
+
+    <div class="contents">
+      <form class="lecturer-login-form two-item" action="login" method="post">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="pw">
+        </div>
+        <div class="form-group">
+          <button id="lecturer-login" class="btn btn-inverse login-button fit big-btn">Login</button>
+        </div>
+      </form>
+
+      <div class="account-creation">
+        <span class="big-text">or <b data-toggle="modal" data-target="#create-account-modal" style="cursor:pointer; ">click here to create an account</b></span>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="separator-md"></div>
-
-<form class="lecturer-login-form" action="login" method="post">
-  <h4>Are you a lecturer?</h4>
-
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" class="form-control" name="email">
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" class="form-control" name="pw">
-  </div>
-  <div class="form-group">
-    <button id="lecturer-login" class="btn btn-inverse login-button fit big-btn">Login</button>
-  </div>
-
-  <div class="account-creation">
-    <span class="big-text">or <b data-toggle="modal" data-target="#create-account-modal" style="cursor:pointer; ">click here to create an account</b></span>
-  </div>
-</form>
 
 <%= render '/partials/message_modal', header: "Error" %>
 <%= render 'create_account_modal' %>

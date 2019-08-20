@@ -71,3 +71,26 @@ $(document).on('click', "#create-account-button", function(e){
     dataType: "json"
   });
 });
+
+$(document).on('click', "#join-class, #lecturer-login", function(e){
+  e.preventDefault();
+  var form = $(this).closest('form');
+  if(!form.find("input").val()==""){
+    $.ajax({
+      type: form.attr("method"),
+      url: form.attr("action"),
+      data: form.serialize(),
+      success: function(response){
+        if(response.data.msg){
+          $(".modal-body.confirmation h4").text("Error")
+          $("#modal-message").text(response.data.msg);
+          $("#show-modal").click();
+        }
+        else{
+          window.location.href = response.data.redirect;
+        }
+      },
+      dataType: "json"
+    });
+  }
+});
