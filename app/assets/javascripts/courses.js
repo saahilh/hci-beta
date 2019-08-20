@@ -77,50 +77,52 @@ $(document).ready(function(){
   });
   */
 
-  App.room = App.cable.subscriptions.create({
-    channel: "CourseChannel",
-    room: room_name
-  }, {
-    connected: function() {},
-    disconnected: function() { 
-      App.room.unsubscribe(); 
-    },
-    received: function(data) {
-      if(data["question"]){
-        $("#questions-container.student-questions .mCSB_container").append(data["student_question"]);
-        $("#questions-container.lecturer-questions .mCSB_container").append(data["lecturer_question"]);
-        sort_question($("#q"+ data["question_id"]));
-      }
-      else if(data["pending"]){
-        $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: pending");
-        $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
-        $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
-      }
-      else if(data["in_class_enabled"]){
-        $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: answered in class");
-        $("#questions-container #q" + data["question_id"] + " .in-class button").addClass("btn-success").removeClass("text-success");
-        $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
-      }
-      else if(data["after_class_enabled"]){
-        $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: will answer after class");
-        $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
-        $("#questions-container #q" + data["question_id"] + " .after-class button").addClass("btn-primary").removeClass("text-primary");
-      }
-      else if(data["delete_question"]){
-        $("#questions-container #q" + data["delete_question"]).remove();
-      }
-      else if(data["vote"]){
-        let question = $("#q"+ data["vote"]);
-        question.find(upvote_identifier).text(" " + data["upvote_count"]);
-        question.find(downvote_identifier).text(" " + data["downvote_count"]);
-        sort_question(question);
-      }
-      else if(data["flag_thresh_alert"]){
-        $("#q" + data["flag_thresh_alert"]).remove();
-      }
-    },
-    speak: function(){}
-  });
+  if(room_name === undefined){
+    App.room = App.cable.subscriptions.create({
+      channel: "CourseChannel",
+      room: room_name
+    }, {
+      connected: function() {},
+      disconnected: function() { 
+        App.room.unsubscribe(); 
+      },
+      received: function(data) {
+        if(data["question"]){
+          $("#questions-container.student-questions .mCSB_container").append(data["student_question"]);
+          $("#questions-container.lecturer-questions .mCSB_container").append(data["lecturer_question"]);
+          sort_question($("#q"+ data["question_id"]));
+        }
+        else if(data["pending"]){
+          $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: pending");
+          $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
+          $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
+        }
+        else if(data["in_class_enabled"]){
+          $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: answered in class");
+          $("#questions-container #q" + data["question_id"] + " .in-class button").addClass("btn-success").removeClass("text-success");
+          $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
+        }
+        else if(data["after_class_enabled"]){
+          $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: will answer after class");
+          $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
+          $("#questions-container #q" + data["question_id"] + " .after-class button").addClass("btn-primary").removeClass("text-primary");
+        }
+        else if(data["delete_question"]){
+          $("#questions-container #q" + data["delete_question"]).remove();
+        }
+        else if(data["vote"]){
+          let question = $("#q"+ data["vote"]);
+          question.find(upvote_identifier).text(" " + data["upvote_count"]);
+          question.find(downvote_identifier).text(" " + data["downvote_count"]);
+          sort_question(question);
+        }
+        else if(data["flag_thresh_alert"]){
+          $("#q" + data["flag_thresh_alert"]).remove();
+        }
+      },
+      speak: function(){}
+    });
+  }
 
   $(document).on('click', '.btn-danger, .text-danger', function(){
     $(this).toggleClass("text-danger").toggleClass("btn-danger");

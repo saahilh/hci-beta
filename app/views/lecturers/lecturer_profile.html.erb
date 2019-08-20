@@ -1,28 +1,36 @@
 <%= render '/partials/nav_bar' %>
 
-<div class="lecturer-profile-container">
-  <div class="lecturer-classes custom-bar">
-    <span>Classes</span>
+<div class="custom-container lecturer-profile">
+  <div class="custom-panel lecturer-classes">
+    <div class="header">
+      <span>Classes</span>
+    </div>
 
-    <div class="class-list">
-      <div class="no-courses"> (you have no courses) </div>
-      
-      <% lecturer.courses.each do |course| %>
-        <%= link_to course.name, course_path(course) + "/course_page", method: :get, class: "btn btn-default big-btn fit course-button" %>
-        <%= link_to "Delete", course, method: :delete, class: "btn btn-danger big-btn delete-button fa fa-arrow-left" %>
-      <% end %>
+    <div class="contents">
+      <div class="list class-list">
+        <div class="grid-item empty-grid"> (you have no courses) </div>
+        
+        <% lecturer.courses.each do |course| %>
+          <div class="grid-item">
+            <%= link_to course.name, course_path(course) + "/course_page", method: :get, class: "btn btn-default big-btn fit course-button" %>
+            <%= link_to "", course, method: :delete, class: "btn btn-danger big-btn delete-button fa fa-trash" %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="create-class">
-    <span>Add class</span>
+  <div class="custom-panel create-class">
+    <div class="header">
+      <span>Add class</span>
+    </div>
 
-    <form id="new-class-form" action="/courses" method="post">
-      <input name="new_course" type="text" placeholder="Enter course code (e.g., ECSE 424)"/>
-      <div class="hidden"><input name="lecturer_id" value=<%=lecturer.id if !lecturer.blank? %>></div>
-    </form>
-
-    <button id="new-class-button" type="submit" class="btn btn-inverse fit big-btn">Create new class</button>
+    <div class="contents">
+      <form id="new-class-form" action="/courses" method="post">
+        <input name="new_course" type="text" placeholder="Enter course code (e.g., ECSE 424)"/>
+        <button id="new-class-button" type="submit" class="btn btn-inverse fit big-btn">Create new class</button>
+      </form>
+    </div>
   </div>
 
   <div id="new-class-modal" class="modal fade" role="dialog" style="overflow:hidden; display: none">

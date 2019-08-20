@@ -3,8 +3,8 @@ class CoursesController < ActionController::Base
 
 	before_action :set_course, except: [:select_course, :create]
 	before_action :set_student, only: [:show, :ask_question]
-	before_action :set_lecturer, only: [:lecturer_course_page, :destroy]
-	before_action :authenticate_lecturer_for_course, only: [:lecturer_course_page]
+	before_action :set_lecturer, only: :create, :lecturer_course_page, :destroy]
+	before_action :authenticate_lecturer_for_course, only: [:lecturer_course_page, :destroy]
 
 	def select_course
 		@course = Course.find_by(name: params[:course_code].gsub(" ", ""))
@@ -17,11 +17,11 @@ class CoursesController < ActionController::Base
 	end
 
 	def show
-		render 'student_course_page', locals: { flagged: JSON.parse(@student.flagged), data: JSON.parse(@student.question_data) }
+		render 'student_course_page', locals: { flagged: @student.get_flagged_questions, data: @student.get_question_data }
 	end
 
 	def create
-		course = Course.create(name: params[:new_course].upcase.gsub(" ", ""), lecturer: Lecturer.find(params[:lecturer_id]))
+		course = Course.create(name: params[:new_course].upcase.gsub(" ", ""), lecturer: @lecturer)
 		render json: { data: { course_id: course.id, course_name: course.name, errors: course.errors.full_messages }}
 	end
 

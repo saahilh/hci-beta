@@ -2,27 +2,24 @@
   padding-bottom: 15px;
 
   display: grid;
-  grid-template-columns: 3fr 6fr 3fr;
+  grid-template-columns: [leave-class] 3fr [website-header] 6fr [logout] 3fr;
   text-align: center;
 
   .leave-class{
-    grid-row: 1;
-    grid-column: 1;
+    grid-column: leave-class;
   }
 
-  .navbar-brand h4{
-    font-size: 50px; 
-    padding-top: 10px;
-  }
+  .navbar-brand{
+    grid-column: website-header;
 
-  a.navbar-brand{
-    grid-row: 1;
-    grid-column: 2;
+    h4{
+      font-size: 50px; 
+      padding-top: 10px;
+    }
   }
 
   .logout{
-    grid-row: 1;
-    grid-column: 3;
+    grid-column: logout;
   }
 
   form button{

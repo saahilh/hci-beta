@@ -35,7 +35,7 @@ function create_course_index_item(course_id, course_name){
 
 $(document).on('keydown', "#new-class-form input[name=\"new_course\"]", function (event) {
   var keypressed = event.keyCode || event.which;
-  if (keypressed == 13 && $(this).val()!=""){
+  if (keypressed == 13 && $(this).val()!="" && $(".modal-open").length==0){
     $("#new-class-button").click();
   }
 });

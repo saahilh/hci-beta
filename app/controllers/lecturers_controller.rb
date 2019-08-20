@@ -7,7 +7,7 @@ class LecturersController < ActionController::Base
     @lecturer = Lecturer.find_by(email: params[:email])
 
     if(!@lecturer.nil? && @lecturer.authenticate(Digest::SHA1.hexdigest(params[:pw])))
-      cookies[:logged_in] = { value: @lecturer.id, expires: 3.hours.from_now }
+      session[:lecturer_id] = @lecturer.id
       render json: { data: { redirect: "/lecturers/#{@lecturer.id}" } }
     else
       render json: { data: { msg: "Invalid credentials entered" } }
@@ -19,7 +19,7 @@ class LecturersController < ActionController::Base
   end
 
   def logout
-    cookies.delete :logged_in
+    session[:lecturer_id] = nil
     redirect_to "/index"
   end
 

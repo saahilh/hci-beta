@@ -4,11 +4,11 @@ module AuthenticationHelper
 	end
 
 	def set_student
-		@student = Student.find_by(id: cookies[:student])
+		@student = Student.find_by(id: session[:student_id])
 
-		if @student.nil? # set cookie
+		if @student.nil?
 			@student = Student.create
-			cookies[:student] = { value: cookies[:student], expires: 3.hours.from_now }
+			session[:student_id] = @student.id
 		end
 	end
 
@@ -17,7 +17,11 @@ module AuthenticationHelper
 	end
 
 	def set_lecturer
-		@lecturer = Lecturer.find_by(id: cookies[:logged_in])
+		@lecturer = Lecturer.find_by(id: session[:lecturer_id])
+
+		if @lecturer.nil?
+			render '/message', locals: { message: "Error: not logged in" }
+		end
 	end
 
 	def authenticate_lecturer_for_course
