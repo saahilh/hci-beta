@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190821181946) do
+ActiveRecord::Schema.define(version: 20190821183133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,9 +95,25 @@ ActiveRecord::Schema.define(version: 20190821181946) do
     t.text "poll_data", default: "{}"
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "question_id"
+    t.bigint "student_id"
+    t.boolean "is_upvote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "question_id", "student_id"], name: "index_votes_on_course_id_and_question_id_and_student_id", unique: true
+    t.index ["course_id"], name: "index_votes_on_course_id"
+    t.index ["question_id"], name: "index_votes_on_question_id"
+    t.index ["student_id"], name: "index_votes_on_student_id"
+  end
+
   add_foreign_key "flag_lists", "courses"
   add_foreign_key "flag_lists", "students"
   add_foreign_key "flags", "courses"
   add_foreign_key "flags", "questions"
   add_foreign_key "flags", "students"
+  add_foreign_key "votes", "courses"
+  add_foreign_key "votes", "questions"
+  add_foreign_key "votes", "students"
 end

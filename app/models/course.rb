@@ -2,6 +2,7 @@ class Course < ApplicationRecord
 	has_many :questions, dependent: :delete_all
 	has_many :polls, dependent: :delete_all
 	has_many :flags, dependent: :delete_all
+	has_many :votes, dependent: :delete_all
 	belongs_to :lecturer
 
 	validates :name, presence: true

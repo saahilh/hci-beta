@@ -9,7 +9,7 @@
     <div class="question-item no-questions"> No questions available </div>
 
     <% @course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").all.each do |question| %>
-      <% if !@student || Flag.where(course: @course, questions: question, student: @student).count==0 %>
+      <% if !@student || Flag.where(course: @course, question: question, student: @student).count==0 %>
         <%= render 'question', question: question, vote: data[question.id.to_s] %>
       <% end %>
     <% end %>

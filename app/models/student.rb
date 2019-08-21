@@ -1,5 +1,6 @@
 class Student < ApplicationRecord
 	has_many :flags
+	has_many :votes
 	has_many :questions
 
 	def get_flagged_questions
