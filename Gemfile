@@ -29,10 +29,10 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'sass-rails', '~> 5.0'
 
-gem 'chartkick'
-gem 'font-awesome-rails'
-gem 'bootstrap-sass'
-gem 'jquery-rails'
+gem 'chartkick', '~> 3.2'
+gem 'font-awesome-rails', '~> 4.7'
+gem 'bootstrap-sass', '~> 3.4'
+gem 'jquery-rails', '~> 4.3'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
