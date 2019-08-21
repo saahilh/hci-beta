@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190821180207) do
+ActiveRecord::Schema.define(version: 20190821181946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,28 @@ ActiveRecord::Schema.define(version: 20190821180207) do
     t.datetime "updated_at", null: false
     t.bigint "lecturer_id"
     t.index ["lecturer_id"], name: "index_courses_on_lecturer_id"
+  end
+
+  create_table "flag_lists", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "student_id"
+    t.text "question_list", default: "[]"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_flag_lists_on_course_id"
+    t.index ["student_id"], name: "index_flag_lists_on_student_id"
+  end
+
+  create_table "flags", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "question_id"
+    t.bigint "student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "question_id", "student_id"], name: "index_flags_on_course_id_and_question_id_and_student_id", unique: true
+    t.index ["course_id"], name: "index_flags_on_course_id"
+    t.index ["question_id"], name: "index_flags_on_question_id"
+    t.index ["student_id"], name: "index_flags_on_student_id"
   end
 
   create_table "lecturers", force: :cascade do |t|
@@ -69,8 +91,13 @@ ActiveRecord::Schema.define(version: 20190821180207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "question_data", default: "{}"
-    t.text "flagged", default: "[]"
+    t.text "flagged", default: "{}"
     t.text "poll_data", default: "{}"
   end
 
+  add_foreign_key "flag_lists", "courses"
+  add_foreign_key "flag_lists", "students"
+  add_foreign_key "flags", "courses"
+  add_foreign_key "flags", "questions"
+  add_foreign_key "flags", "students"
 end

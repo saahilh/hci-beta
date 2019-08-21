@@ -107,20 +107,13 @@ class QuestionsController < ActionController::Base
 	end
 
 	def flag
-		@question.update_column(:flagged, @question.flagged + 1)
-		flagged = student.get_flagged_questions
+		flag = Flag.create(course: @question.course, question: @question, student: @student)
 
-		if(!flagged[@question.id.to_s])
-			flagged[@question.id.to_s] = true
-
-			@student.update_column(:flagged, flagged.to_json)
-
-			if(@question.flagged >= Question::FLAG_THRESHOLD)
-				CourseChannel.broadcast_to(
-					Course.find(@question.course.id), 
-					flag_thresh_alert: @question.id
-				)
-			end
+		if(Flag.where(course: @question.course, question: question).count >= Question::FLAG_THRESHOLD)
+			CourseChannel.broadcast_to(
+				Course.find(@question.course.id), 
+				flag_thresh_alert: @question.id
+			)
 		end
 	end
 end
