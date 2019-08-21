@@ -3,16 +3,16 @@ class CoursesController < ActionController::Base
 
 	before_action :set_course, except: [:select_course, :create]
 	before_action :set_student, only: [:show, :ask_question]
-	before_action :set_lecturer, only: :create, :lecturer_course_page, :destroy]
+	before_action :set_lecturer, only: [:create, :lecturer_course_page, :destroy]
 	before_action :authenticate_lecturer_for_course, only: [:lecturer_course_page, :destroy]
 
 	def select_course
 		@course = Course.find_by(name: params[:course_code].gsub(" ", ""))
 
 		if @course
-			render json: { data: { redirect: "/courses/#{@course.id}" } }
+			render json: { data: { redirect: "/courses/#{@course.id}" }}
 		else
-			render json: { data: { msg: "Course not found: #{params[:course_code]}" } }
+			render json: { data: { msg: "Course not found: #{params[:course_code]}" }}
 		end
 	end
 
