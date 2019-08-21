@@ -11,7 +11,7 @@ class Course < ApplicationRecord
 
 
 	def generate_index_buttons_html
-		html = "<a class=\"btn btn-default big-btn fit course-button\" data-method=\"get\" href=\"/courses/#{self.id}/course_page\">#{self.name}</a>"
+		html = "<a class=\"btn btn-default big-btn fit course-button\" data-method=\"get\" href=\"/courses/#{self.id}\">#{self.name}</a>"
 		html += "<a class=\"btn btn-danger big-btn delete-button fa fa-arrow-left\" data-method=\"delete\" rel=\"no-follow\" href=\"/courses/#{self.id}\">Delete</a>"
 	end
 end

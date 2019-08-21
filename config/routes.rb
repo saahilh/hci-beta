@@ -13,21 +13,21 @@ Rails.application.routes.draw do
   get "login" => "applcation#index"
   get 'select_course' => "application#index"
 
-  get "courses/*id/course_page" => "courses#lecturer_course_page"
   get 'courses/*id/poll_class' => 'polls#new'
 
   get "courses/*id/end_poll" => "polls#new"
   get "courses/*id/begin_poll" => "polls#new"
 
+  post "courses/*id/questions" => "questions#create"
+
   post "/questions/*id/in_class" => "questions#in_class"
   post "/questions/*id/after_class" => "questions#after_class"
-  post "/questions/*id/thumbsup" => "questions#thumbsup"
-  post "/questions/*id/thumbsdown" => "questions#thumbsdown"
+  post "/questions/*id/upvote" => "questions#upvote"
+  post "/questions/*id/downvote" => "questions#downvote"
   post "/questions/*id/flag" => "questions#flag"
   
   post "/lecturers/logout" => "lecturers#logout"
 
-  post 'courses/*id/ask_question' => "courses#ask_question"
   post "courses/*id/begin_poll" => "polls#create"
   post "courses/*id/end_poll" => "polls#end"
 

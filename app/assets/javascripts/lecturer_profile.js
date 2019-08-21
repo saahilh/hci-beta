@@ -28,7 +28,7 @@ $(document).on('click', "#new-class-button", function(e){
 
 function create_course_index_item(course_id, course_name){
   let button = "";
-  course_select_button = '<a class="btn btn-default big-btn fit course-button" data-method="get" href="/courses/' + course_id + '/course_page">' + course_name + '</a>';
+  course_select_button = '<a class="btn btn-default big-btn fit course-button" data-method="get" href="/courses/' + course_id + '">' + course_name + '</a>';
   course_delete_button = '<a class="btn btn-danger big-btn delete-button fa fa-arrow-left" data-method="delete" rel="no-follow" href="/courses/' + course_id + '"">Delete</a>';
   return course_select_button + course_delete_button;
 }

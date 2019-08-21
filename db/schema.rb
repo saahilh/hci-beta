@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190821183133) do
+ActiveRecord::Schema.define(version: 20190821204709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20190821183133) do
     t.bigint "student_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id", "question_id", "student_id"], name: "index_flags_on_course_id_and_question_id_and_student_id", unique: true
     t.index ["course_id"], name: "index_flags_on_course_id"
     t.index ["question_id"], name: "index_flags_on_question_id"
     t.index ["student_id"], name: "index_flags_on_student_id"
@@ -102,7 +101,6 @@ ActiveRecord::Schema.define(version: 20190821183133) do
     t.boolean "is_upvote"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id", "question_id", "student_id"], name: "index_votes_on_course_id_and_question_id_and_student_id", unique: true
     t.index ["course_id"], name: "index_votes_on_course_id"
     t.index ["question_id"], name: "index_votes_on_question_id"
     t.index ["student_id"], name: "index_votes_on_student_id"

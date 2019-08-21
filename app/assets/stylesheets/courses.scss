@@ -134,15 +134,11 @@
 
 	.ask-question {
 		display: grid;
-		grid-template-columns: 1fr 6fr 2fr 1fr;
+		grid-template-columns: 1fr 8fr 1fr;
 		grid-gap: 5% 1%;
 
 		form {
 			grid-column: 2;
-		}
-
-		button {
-			grid-column: 3;
 		}
 	}
 }

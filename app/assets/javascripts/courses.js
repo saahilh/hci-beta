@@ -3,81 +3,54 @@ $(document).ready(function(){
   //  $("#modal-button").click();
   //}
 
-  let upvote_identifier = ".fa-thumbs-up";
-  let downvote_identifier = ".fa-thumbs-down";
-  let delete_identifier = ".fa-trash";
+  // When on a class page
+  //if(!(room_name === undefined)){
+    let upvote_identifier = ".fa-thumbs-up";
+    let downvote_identifier = ".fa-thumbs-down";
+    let delete_identifier = ".fa-trash";
 
-  function sort_question(question){
-    let num_upvotes = parseInt(question.find(upvote_identifier).text());
-    let num_downvotes = parseInt(question.find(downvote_identifier).text());
+    function sort_question(question_item){
+      let num_upvotes = parseInt(question_item.find(upvote_identifier).text());
+      let num_downvotes = parseInt(question_item.find(downvote_identifier).text());
 
-    while(num_upvotes > parseInt(question.prev().find(upvote_identifier).text())){
-      $(question).insertBefore($(question).prev());
+      while(num_upvotes > parseInt(question_item.prev().find(upvote_identifier).text())){
+        $(question_item).insertBefore($(question_item).prev());
+      }
+
+      while(num_upvotes < parseInt(question_item.next().find(upvote_identifier).text())){
+        $(question_item).insertAfter($(question_item).next());
+      }
+
+      while((num_upvotes==parseInt(question_item.prev().find(upvote_identifier).text())) && num_downvotes < parseInt(question_item.prev().find(downvote_identifier).text())){
+        $(question_item).insertBefore($(question_item).prev());
+      }
+
+      while((num_upvotes==parseInt(question_item.next().find(upvote_identifier).text())) && num_downvotes > parseInt(question_item.next().find(downvote_identifier).text())){
+        $(question_item).insertAfter($(question_item).next());
+      }
     }
 
-    while(num_upvotes < parseInt(question.next().find(upvote_identifier).text())){
-      $(question).insertAfter($(question).next());
+    let in_class_active = "btn-success";
+    let in_class_inactive = "text-success btn-default";
+    let after_class_active = "btn-primary";
+    let after_class_inactive = "text-primary btn-default";
+
+    function activate_in_class_button(question_item){
+      question_item.find(".in-class").addClass(in_class_active).removeClass(in_class_inactive);
     }
 
-    while((num_upvotes==parseInt(question.prev().find(upvote_identifier).text())) && num_downvotes < parseInt(question.prev().find(downvote_identifier).text())){
-      $(question).insertBefore($(question).prev());
+    function activate_after_class_button(question_item){
+      question_item.find(".after-class").addClass(after_class_active).removeClass(after_class_inactive);
     }
 
-    while((num_upvotes==parseInt(question.next().find(upvote_identifier).text())) && num_downvotes > parseInt(question.next().find(downvote_identifier).text())){
-      $(question).insertAfter($(question).next());
+    function deactivate_in_class_button(question_item){
+     question_item.find(".in-class").removeClass(in_class_active).addClass(in_class_inactive);
     }
-  }
 
-  /* STUDENTS
-  App.room = App.cable.subscriptions.create({
-    channel: "CourseChannel",
-    room: room_name
-  }, {
-    connected: function() {},
-    disconnected: function() { App.room.unsubscribe(); },
-    received: function(data) {
-      if(data["question"]){
-        $("#questions-container").append(data["question"]);
-        $("#no-quest").hide();
-        sort_question(data["question_id"], "0", "0");
-      }
-      else if(data["delete_question"]){
-        $("#questions-container #q" + data["delete_question"]).remove();
-        if($(".question").length==0){
-          $("#no-quest").show();
-        }
-      }
-      else if(data["thumbsup"]){
-        $("#q"+ data["thumbsup"] + " .upvotes").text(" " + data["upvote_count"]);
-        $("#q"+ data["thumbsup"] + " .downvotes").text(" " + data["downvote_count"]);
-        sort_question(data["thumbsup"], data["upvote_count"], data["downvote_count"])
-      }
-      else if(data["thumbsdown"]){
-        $("#q"+ data["thumbsdown"] + " .upvotes").text(" " + data["upvote_count"]);
-        $("#q"+ data["thumbsdown"] + " .downvotes").text(" " + data["downvote_count"]);
-        sort_question(data["thumbsdown"], data["upvote_count"], data["downvote_count"])
-      }
-      else if(data["poll"]){
-        $("#poll-body").html(data["poll"])
-        if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
-          $("#modal-button").click()
-      }
-      else if(data["poll_end"]){
-        $("#poll-body").html(data["chart"])
-        if($("#poll-modal")[0].style.display=="none"||$("#poll-modal")[0].style.display=="")
-          $("#modal-button").click()
-      }
-      else if(data["flag_thresh_alert"]){
-        $("#q" + data["flag_thresh_alert"]).remove();
-        if($(".question:visible").length==0)
-          $("#no-quest").show();
-      }
-    },
-    speak: function(){}
-  });
-  */
+    function deactivate_after_class_button(question_item){
+      question_item.find(".after-class").removeClass(after_class_active).addClass(after_class_inactive);
+    }
 
-  if(room_name === undefined){
     App.room = App.cable.subscriptions.create({
       channel: "CourseChannel",
       room: room_name
@@ -87,85 +60,80 @@ $(document).ready(function(){
         App.room.unsubscribe(); 
       },
       received: function(data) {
-        if(data["question"]){
+        let question_id = data["question_id"];
+
+        if(data["action"] == "new_question"){
+          console.log(data["student_question"]);
+          let questions_container = $("#questions-container .mCSB_container");
           $("#questions-container.student-questions .mCSB_container").append(data["student_question"]);
           $("#questions-container.lecturer-questions .mCSB_container").append(data["lecturer_question"]);
-          sort_question($("#q"+ data["question_id"]));
+          sort_question($("#q"+ question_id));
         }
-        else if(data["pending"]){
-          $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: pending");
-          $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
-          $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
-        }
-        else if(data["in_class_enabled"]){
-          $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: answered in class");
-          $("#questions-container #q" + data["question_id"] + " .in-class button").addClass("btn-success").removeClass("text-success");
-          $("#questions-container #q" + data["question_id"] + " .after-class button").removeClass("btn-primary").addClass("text-primary");
-        }
-        else if(data["after_class_enabled"]){
-          $("#questions-container #q" + data["question_id"] + " .question-status").text("Status: will answer after class");
-          $("#questions-container #q" + data["question_id"] + " .in-class button").removeClass("btn-success").addClass("text-success");
-          $("#questions-container #q" + data["question_id"] + " .after-class button").addClass("btn-primary").removeClass("text-primary");
-        }
-        else if(data["delete_question"]){
-          $("#questions-container #q" + data["delete_question"]).remove();
-        }
-        else if(data["vote"]){
-          let question = $("#q"+ data["vote"]);
-          question.find(upvote_identifier).text(" " + data["upvote_count"]);
-          question.find(downvote_identifier).text(" " + data["downvote_count"]);
-          sort_question(question);
-        }
-        else if(data["flag_thresh_alert"]){
-          $("#q" + data["flag_thresh_alert"]).remove();
+        else{
+          let question_item = $("#q"+ question_id);
+
+          if(data["action"] == "new_status"){
+            let new_status = data["new_status"];
+
+            question_item.find(".question-status").text("Status: " + new_status);
+
+            if(new_status=="pending"){
+              deactivate_in_class_button(question_id);
+              deactivate_after_class_button(question_id);
+            }
+            else if(new_status=="answered in class"){
+              deactivate_after_class_button(question_id);
+              activate_in_class_button(question_id);
+            }
+            else if(new_status=="will answer after class"){
+              deactivate_in_class_button(question_id);
+              activate_after_class_button(question_id);
+            }
+          }
+          else if(data["action"] == "delete_question" || data["action"] == "flag_threshold_exceeded"){
+            question_item.remove();
+          }
+          else if(data["action"] == "vote"){
+            question_item.find(upvote_identifier).text(" " + data["upvote_count"]);
+            question_item.find(downvote_identifier).text(" " + data["downvote_count"]);
+            sort_question(question);
+          }
         }
       },
       speak: function(){}
     });
-  }
 
-  $(document).on('click', '.btn-danger, .text-danger', function(){
-    $(this).toggleClass("text-danger").toggleClass("btn-danger");
-    $(this).closest(".question-item").find(upvote_identifier).removeClass("btn-primary").addClass("text-primary");
-  });
-
-  $(document).on('click', '.btn-primary, .text-primary', function(){
-    $(this).toggleClass("text-primary").toggleClass("btn-primary");
-    $(this).closest(".question-item").find(downvote_identifier).removeClass("btn-danger").addClass("text-danger");
-  });
-
-  $(document).on('click', '.fa-flag', function(){
-    $(this).closest(".question-item").remove();
-  })
-
-  $(document).on('click', "#leave-class, #home", function(){
-    App.room.unsubscribe();
-  })
-
-  $(".ask-question form input").unbind();
-
-  $(document).on('keypress', '.ask-question form input', function(e){
-    if (e.keyCode == 13 && $('.ask-question form input').val()!=""){
-      $(".ask-question button").click();
-      $('.ask-question form input').val('');
-    }
-  })
-
-  $(document).on('click', ".ask-question button", function(){
-    form = $(".ask-question form");
-    $.ajax({
-      type: form.attr("method"),
-      url: form.attr("action"),
-      data: form.serialize(),
-      success: function(response){ 
-        $(".ask-question form input").val('');
-      },
-      dataType: "json"
+    $(document).on('click', '.btn-danger, .text-danger', function(){
+      $(this).toggleClass("text-danger").toggleClass("btn-danger");
+      $(this).closest(".question-item").find(upvote_identifier).removeClass("btn-primary").addClass("text-primary");
     });
-  });
 
+    $(document).on('click', '.btn-primary, .text-primary', function(){
+      $(this).toggleClass("text-primary").toggleClass("btn-primary");
+      $(this).closest(".question-item").find(downvote_identifier).removeClass("btn-danger").addClass("text-danger");
+    });
 
-  $(document).on('click', delete_identifier, function(){
-    $(this).closest(".question-item").hide();
-  });
+    $(document).on('click', '.fa-flag', function(){
+      $(this).closest(".question-item").remove();
+    });
+
+    $(document).on('click', ".leave-class, #home", function(){
+      App.room.unsubscribe();
+    });
+
+    $(document).on('click', ".ask-question button", function(e){
+      e.preventDefault();
+
+      form = $(".ask-question form");
+      $.ajax({
+        type: form.attr("method"),
+        url: form.attr("action"),
+        data: form.serialize(),
+        success: function(response){ 
+          $(".ask-question form input").val('');
+        },
+        dataType: "json"
+      });
+    });
+  //}
 })

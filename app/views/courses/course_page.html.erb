@@ -1,22 +1,22 @@
 <%= render '/partials/nav_bar' %>
 
-<%= javascript_tag "room_name = \"#{@course.name}\"" %>
+<%= javascript_tag "room_name = \"#{course.name}\"" %>
 
 <div class="course-page-container">
-  <h1 class="course-name">Course: <%= @course.name %></h1>
+  <h1 class="course-name">Course: <%= course.name %></h1>
 
-  <div id="questions-container" class="row custom-bar questions-container lecturer-questions">
+  <div id="questions-container" class="row custom-bar questions-container <%= lecturer.present? ? "lecturer-questions" : "student-questions" %>">
     <div class="question-item no-questions"> No questions available </div>
 
-    <% @course.questions.order("upvotes DESC, downvotes ASC").where("flagged < #{Question::FLAG_THRESHOLD}").all.each do |question| %>
-      <% if !@student || Flag.where(course: @course, question: question, student: @student).count==0 %>
-        <%= render 'question', question: question, vote: data[question.id.to_s] %>
+    <% course.questions.sort_by{|question| [-question.upvote_count, question.downvote_count, question.created_at]}.each do |question| %>
+      <% if lecturer.present? || student.has_flagged?(question) %>
+        <%= render 'question', question: question, lecturer: lecturer, student: student, course: course %>
       <% end %>
     <% end %>
   </div>
 
   <div class="questions-form">
-    <% if @lecturer && @lecturer.id == @course.lecturer.id %>
+    <% if lecturer.present? && lecturer.is_lecturer_for(course) %>
       <div class="poll-class">
         <form action="poll_class.html" method="get">
           <button class="btn btn-default fit big-btn">Poll Class</button>
@@ -24,17 +24,16 @@
       </div>
     <% else %>
       <div class="ask-question">
-        <form action="/courses/<%=@course.id%>/ask_question" method="post" data-remote="true">
+        <form class="one-item" action="<%= course_path(course) %>/questions" method="post" data-remote="true">
           <input name="question" type="textarea" placeholder="Enter question here" maxlength="105"/>
+          <button type="submit" class="btn btn-inverse fit big-btn" data-remote="true">Ask</button>
         </form>
-
-        <button type="submit" class="btn btn-inverse fit big-btn">Ask</button>
       </div>
     <% end %>
   </div>
 </div>
 
-<% if !@lecturer || @lecturer.id != @course.lecturer.id %>
+<% if !lecturer.present? || !lecturer.is_lecturer_for(course) %>
   <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
   <%= render '/polls/student_poll_container_modal' %>
 <% end %>

@@ -1,109 +1,57 @@
 class QuestionsController < ActionController::Base
 	include AuthenticationHelper
 
-	before_action :set_student, except: [:delete, :in_class, :after_class]
-	# before_action :set_question, except: [:create]
-	# before_action :set_course, only: [:create]
+	before_action :set_student, only: [:upvote, :downvote, :flag]
+	before_action :set_course, only: [:create]
+	before_action :set_question, except: [:create]
 
-	# def create
-	# 	question = Question.create(question: params[:question], course: @course, student: @student)
+	def create
+		question = Question.create(question: params[:question], course: @course, student: @student)
 
-	# 	if question.persisted? 
-	# 		CourseChannel.broadcast_to(
-	# 			@course,
-	# 			question: true,
-	# 			student_question: render_to_string('_student_question', layout: false, locals: {question: question, vote: ""}),
-	# 			lecturer_question: render_to_string('_lecturer_question', layout: false, locals: {question: question}),
-	# 			question_id: question.id
-	# 		)
-	# 	else
-	# 		render json: { data: { errors: question.errors.full_messages } }
-	# 	end
-	# end
+		if question.errors.full_messages.empty?
+			CourseChannel.broadcast_to(
+				@course,
+				question_id: question.id,
+				action: "new_question",
+				student_question: render_to_string('courses/_question', layout: false, locals: {question: question, course: course}),
+				lecturer_question: render_to_string('courses/_question', layout: false, locals: {question: question, lecturer: @course.lecturer, course: course})
+			)
+		end
+		
+		p question.errors.full_messages
 
-	def delete
+		render json: { data: { errors: question.errors.full_messages }}
+	end
+
+	def destroy
 		course = Course.find(@question.course.id)
-		@question.delete
+		@question.destroy
 		
 		CourseChannel.broadcast_to(
-			course, 
-			delete_question: params[:id]
+			course,
+			question_id: params[:id],
+			action: "delete_question"
 		)
 	end
 
 	def in_class
-		new_status = "answered in class"
-		new_status = "pending" if(@question.status==new_status)
-		is_pending = new_status=="pending"
-
-		@question.update_column(:status, new_status)
-		
-		CourseChannel.broadcast_to(
-			Course.find(@question.course.id),
-			question_id: @question.id,
-			in_class_enabled: !is_pending, 
-			pending: is_pending
-		)
+		new_status = @question.toggle_answer_in_class
+		@question.broadcast_status(new_status)
 	end
 
 	def after_class
-		new_status = "will answer after class"
-		new_status = "pending" if(@question.status==new_status)
-		is_pending = new_status=="pending"
-
-		@question.update_column(:status, new_status)
-		
-		CourseChannel.broadcast_to(
-			Course.find(@question.course.id),
-			question_id: @question.id,
-			after_class_enabled: !is_pending, 
-			pending: is_pending
-		)
+		new_status = @question.toggle_answer_after_class
+		@question.broadcast_status(new_status)
 	end
 
-	def thumbsup
-		data = @student.get_question_data
-
-		if(data[@question.id.to_s]=="up")
-			@question.update_column(:upvotes, @question.upvotes - 1)
-			data[@question.id.to_s] = ""
-		else
-			@question.update_column(:downvotes, @question.downvotes - 1) if(data[@question.id.to_s]=="down")
-			@question.update_column(:upvotes, @question.upvotes + 1)
-			data[@question.id.to_s] = "up"
-		end
-
-		@student.update_column(:question_data, data.to_json)
-		
-		
-		CourseChannel.broadcast_to(
-			Course.find(@question.course.id), 
-			vote: @question.id,
-			upvote_count: @question.upvotes,
-			downvote_count: @question.downvotes
-		)
+	def upvote
+		@student.toggle_upvote_for(@question)
+		@question.broadcast_vote_data
 	end
 
-	def thumbsdown
-		data = @student.get_question_data
-
-		if(data[@question.id.to_s]=="down")
-			@question.update_column(:downvotes, @question.downvotes - 1)
-			data[@question.id.to_s] = ""
-		else
-			@question.update_column(:upvotes, @question.upvotes - 1) if(data[@question.id.to_s]=="up")
-			@question.update_column(:downvotes, @question.downvotes + 1)
-			data[@question.id.to_s] = "down"
-		end
-
-		@student.update_column(:question_data, data.to_json)
-		
-		CourseChannel.broadcast_to(
-			Course.find(@question.course.id), 
-			vote: @question.id,
-			upvote_count: @question.upvotes,
-			downvote_count: @question.downvotes
-		)
+	def downvote
+		@student.toggle_downvote_for(@question)
+		@question.broadcast_vote_data
 	end
 
 	def flag
@@ -111,9 +59,12 @@ class QuestionsController < ActionController::Base
 
 		if(Flag.where(course: @question.course, question: question).count >= Question::FLAG_THRESHOLD)
 			CourseChannel.broadcast_to(
-				Course.find(@question.course.id), 
-				flag_thresh_alert: @question.id
+				Course.find(@question.course.id),
+				question_id: @question.id,
+				action: "flag_threshold_exceeded"
 			)
 		end
+
+		render json: { data: { errors: flag.errors.full_messages }}
 	end
 end

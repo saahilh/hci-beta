@@ -12,7 +12,7 @@
         
         <% lecturer.courses.each do |course| %>
           <div class="grid-item">
-            <%= link_to course.name, course_path(course) + "/course_page", method: :get, class: "btn btn-default big-btn fit course-button" %>
+            <%= link_to course.name, course_path(course), method: :get, class: "btn btn-default big-btn fit course-button" %>
             <%= link_to "", course, method: :delete, class: "btn btn-danger big-btn delete-button fa fa-trash" %>
           </div>
         <% end %>
