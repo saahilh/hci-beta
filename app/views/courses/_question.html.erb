@@ -1,0 +1,40 @@
+<% if @lecturer && @lecturer.id == @course.lecturer.id %> 
+  <div id="q<%=question.id%>" class="question-item lecturer">
+    <div class="question-data">
+      <span class="fa fa-thumbs-up"> <%= question.upvotes %></span>
+      <span class="fa fa-thumbs-down"> <%= question.downvotes %></span>
+      <span class="question-text"><%= question.question %></span>
+    </div>
+
+    <form class="in-class" data-remote="true" method="post" action="/questions/<%=question.id%>/in_class">
+      <button class="btn <%= question.status=="answered in class" ? "btn-success" : "text-success" %>">in class</button>
+    </form>
+
+    <form class="after-class" data-remote="true" method="post" action="/questions/<%=question.id%>/after_class">
+      <button class="btn <%= question.status=="will answer after class" ? "btn-primary" :  "text-primary" %>">after class</button>
+    </form>
+
+    <form class="delete" data-remote="true" method="post" action="/questions/<%=question.id%>/delete">
+      <button type="submit" class="btn fa fa-trash icon-2x btn-dark"></button>
+    </form>
+  </div>
+<% else %>
+  <div id="q<%=question.id%>" class="question-item student">
+    <div class="question-data">
+      <span class="question-text" maxlength="105"><%= question.question %></span>
+      <span class="question-status">Status: <%= question.status %></span>
+    </div>
+    
+    <form class="upvotes" data-remote="true" action="/questions/<%=question.id%>/thumbsup" method="post">
+      <button type="submit" class="btn fa fa-thumbs-up<%= vote=="up" ? " btn-primary" : " text-primary" %>"> <%= question.upvotes %></button>
+    </form>
+
+    <form class="downvotes" data-remote="true" action="/questions/<%=question.id%>/thumbsdown" method="post">
+      <button type="submit" class="btn fa fa-thumbs-down<%= vote=="down" ? " btn-danger" : " text-danger" %>"> <%= question.downvotes %></button>
+    </form>
+
+    <form class="flag" data-remote="true" action="/questions/<%=question.id%>/flag" method="post">
+      <button type="submit" class="btn fa fa-flag btn-warning"></button>
+    </form>
+  </div>
+<% end %>

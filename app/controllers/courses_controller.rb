@@ -3,7 +3,7 @@ class CoursesController < ActionController::Base
 
 	before_action :set_course, except: [:select_course, :create]
 	before_action :set_student, only: [:show, :ask_question]
-	before_action :set_lecturer, only: [:create, :lecturer_course_page, :destroy]
+	before_action :set_lecturer, only: [:create, :ask_question, :lecturer_course_page, :destroy]
 	before_action :authenticate_lecturer_for_course, only: [:lecturer_course_page, :destroy]
 
 	def select_course
@@ -17,7 +17,7 @@ class CoursesController < ActionController::Base
 	end
 
 	def show
-		render 'student_course_page', locals: { flagged: @student.get_flagged_questions, data: @student.get_question_data }
+		render 'course_page', locals: { flagged: @student.get_flagged_questions, data: @student.get_question_data }
 	end
 
 	def create
@@ -32,8 +32,8 @@ class CoursesController < ActionController::Base
 			CourseChannel.broadcast_to(
 				@course,
 				question: true,
-				student_question: render_to_string('_student_question', layout: false, locals: {question: question, vote: ""}),
-				lecturer_question: render_to_string('_lecturer_question', layout: false, locals: {question: question}),
+				student_question: render_to_string('_question', layout: false, locals: {question: question, vote: ""}),
+				lecturer_question: render_to_string('_question', layout: false, locals: {question: question}),
 				question_id: question.id
 			)
 		end
@@ -42,7 +42,7 @@ class CoursesController < ActionController::Base
 	end
 
 	def lecturer_course_page
-		render 'lecturer_course_page'
+		render 'course_page', locals: { flagged: {}, data: {}}
 	end
 
 	def destroy
