@@ -4,29 +4,30 @@ $(document).ready(function(){
   //}
 
   // When on a class page
-  //if(!(room_name === undefined)){
+  if(!(room_name === undefined)){
     let upvote_identifier = ".fa-thumbs-up";
     let downvote_identifier = ".fa-thumbs-down";
     let delete_identifier = ".fa-trash";
+    let flag_identifier = ".fa-flag"
 
     function sort_question(question_item){
       let num_upvotes = parseInt(question_item.find(upvote_identifier).text());
       let num_downvotes = parseInt(question_item.find(downvote_identifier).text());
 
       while(num_upvotes > parseInt(question_item.prev().find(upvote_identifier).text())){
-        $(question_item).insertBefore($(question_item).prev());
+        question_item.insertBefore(question_item.prev());
       }
 
       while(num_upvotes < parseInt(question_item.next().find(upvote_identifier).text())){
-        $(question_item).insertAfter($(question_item).next());
+        question_item.insertAfter(question_item.next());
       }
 
       while((num_upvotes==parseInt(question_item.prev().find(upvote_identifier).text())) && num_downvotes < parseInt(question_item.prev().find(downvote_identifier).text())){
-        $(question_item).insertBefore($(question_item).prev());
+        question_item.insertBefore(question_item.prev());
       }
 
       while((num_upvotes==parseInt(question_item.next().find(upvote_identifier).text())) && num_downvotes > parseInt(question_item.next().find(downvote_identifier).text())){
-        $(question_item).insertAfter($(question_item).next());
+        question_item.insertAfter(question_item.next());
       }
     }
 
@@ -44,7 +45,7 @@ $(document).ready(function(){
     }
 
     function deactivate_in_class_button(question_item){
-     question_item.find(".in-class").removeClass(in_class_active).addClass(in_class_inactive);
+      question_item.find(".in-class").removeClass(in_class_active).addClass(in_class_inactive);
     }
 
     function deactivate_after_class_button(question_item){
@@ -78,16 +79,16 @@ $(document).ready(function(){
             question_item.find(".question-status").text("Status: " + new_status);
 
             if(new_status=="pending"){
-              deactivate_in_class_button(question_id);
-              deactivate_after_class_button(question_id);
+              deactivate_in_class_button(question_item);
+              deactivate_after_class_button(question_item);
             }
             else if(new_status=="answered in class"){
-              deactivate_after_class_button(question_id);
-              activate_in_class_button(question_id);
+              deactivate_after_class_button(question_item);
+              activate_in_class_button(question_item);
             }
             else if(new_status=="will answer after class"){
-              deactivate_in_class_button(question_id);
-              activate_after_class_button(question_id);
+              deactivate_in_class_button(question_item);
+              activate_after_class_button(question_item);
             }
           }
           else if(data["action"] == "delete_question" || data["action"] == "flag_threshold_exceeded"){
@@ -96,26 +97,23 @@ $(document).ready(function(){
           else if(data["action"] == "vote"){
             question_item.find(upvote_identifier).text(" " + data["upvote_count"]);
             question_item.find(downvote_identifier).text(" " + data["downvote_count"]);
-            sort_question(question);
+            sort_question(question_item);
           }
         }
       },
       speak: function(){}
     });
 
-    $(document).on('click', '.btn-danger, .text-danger', function(){
+    $(document).on('click', downvote_identifier, function(){
       $(this).toggleClass("text-danger").toggleClass("btn-danger");
       $(this).closest(".question-item").find(upvote_identifier).removeClass("btn-primary").addClass("text-primary");
     });
 
-    $(document).on('click', '.btn-primary, .text-primary', function(){
+    $(document).on('click', upvote_identifier, function(){
       $(this).toggleClass("text-primary").toggleClass("btn-primary");
       $(this).closest(".question-item").find(downvote_identifier).removeClass("btn-danger").addClass("text-danger");
     });
 
-    $(document).on('click', '.fa-flag', function(){
-      $(this).closest(".question-item").remove();
-    });
 
     $(document).on('click', ".leave-class, #home", function(){
       App.room.unsubscribe();
@@ -135,5 +133,5 @@ $(document).ready(function(){
         dataType: "json"
       });
     });
-  //}
+  }
 })

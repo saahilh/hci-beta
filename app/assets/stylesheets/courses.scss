@@ -42,6 +42,11 @@
 		grid-template-columns: 9fr 1fr 1fr 1fr;
 		grid-gap: 0 1%;
 		
+		a {
+			font-size: 20px;
+			margin: 5px;
+		}
+
 		span {
 			word-wrap: break-word;
 		}

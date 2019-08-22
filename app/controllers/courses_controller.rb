@@ -13,7 +13,7 @@ class CoursesController < ActionController::Base
 
 	def show
 		@lecturer = Lecturer.find_by(id: session[:lecturer_id])
-		render 'course_page', locals: { lecturer: @lecturer, student: @student, course: @course }
+		render 'course_page', locals: { course: @course, lecturer: @lecturer, student: @student }
 	end
 
 	def destroy

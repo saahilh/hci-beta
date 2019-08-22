@@ -1,26 +1,24 @@
 class QuestionsController < ActionController::Base
 	include AuthenticationHelper
 
-	before_action :set_student, only: [:upvote, :downvote, :flag]
+	before_action :set_student, only: [:create, :upvote, :downvote, :flag]
 	before_action :set_course, only: [:create]
 	before_action :set_question, except: [:create]
 
 	def create
-		question = Question.create(question: params[:question], course: @course, student: @student)
+		@question = Question.create(question: params[:question], course: @course, student: @student)
 
-		if question.errors.full_messages.empty?
+		if @question.errors.full_messages.empty?
 			CourseChannel.broadcast_to(
 				@course,
-				question_id: question.id,
+				question_id: @question.id,
 				action: "new_question",
-				student_question: render_to_string('courses/_question', layout: false, locals: {question: question, course: course}),
-				lecturer_question: render_to_string('courses/_question', layout: false, locals: {question: question, lecturer: @course.lecturer, course: course})
+				student_question: render_to_string('courses/_question', layout: false, locals: {question: @question, lecturer: nil, student: nil, course: @course}),
+				lecturer_question: render_to_string('courses/_question', layout: false, locals: {question: @question, lecturer: @course.lecturer, student: nil, course: @course})
 			)
 		end
-		
-		p question.errors.full_messages
 
-		render json: { data: { errors: question.errors.full_messages }}
+		render json: { data: { errors: @question.errors.full_messages }}
 	end
 
 	def destroy
@@ -57,7 +55,7 @@ class QuestionsController < ActionController::Base
 	def flag
 		flag = Flag.create(course: @question.course, question: @question, student: @student)
 
-		if(Flag.where(course: @question.course, question: question).count >= Question::FLAG_THRESHOLD)
+		if(Flag.where(course: @question.course, question: @question).count >= Question::FLAG_THRESHOLD)
 			CourseChannel.broadcast_to(
 				Course.find(@question.course.id),
 				question_id: @question.id,

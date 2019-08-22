@@ -1,4 +1,4 @@
-<% if lecturer && lecturer.id == course.lecturer.id %> 
+<% if !lecturer.nil? && lecturer.id == course.lecturer.id %> 
   <div id="q<%=question.id%>" class="question-item lecturer">
     <div class="question-data">
       <span class="fa fa-thumbs-up"> <%= question.upvote_count %></span>
@@ -6,9 +6,9 @@
       <span class="question-text"><%= question.question %></span>
     </div>
 
-    <%= link_to "in class", "#{question_path(question)}/in_class", method: :post, class: "in-class btn #{question.status=="answered in class" ? "btn-success" :  "btn-default text-success"}", remote: true %>
+    <%= link_to "in class", "#{question_path(question)}/in_class", method: :post, remote: true, class: "in-class btn #{question.status=="answered in class" ? "btn-success" :  "btn-default text-success"}" %>
 
-    <%= link_to "after class", "#{question_path(question)}/after_class", method: :post, class: "after-class btn #{question.status=="will answer after class" ? "btn-primary" :  "btn-default text-primary"}", remote: true %>
+    <%= link_to "after class", "#{question_path(question)}/after_class", method: :post, remote: true, class: "after-class btn #{question.status=="will answer after class" ? "btn-primary" :  "btn-default text-primary"}" %>
 
     <%= link_to "", question, method: :delete, class: "btn fa fa-trash icon-2x btn-danger", remote: true %>
   </div>
@@ -19,16 +19,16 @@
       <span class="question-status">Status: <%= question.status %></span>
     </div>
     
-    <form class="upvotes" data-remote="true" action="/questions/<%=question.id%>/upvote" method="post">
-      <button type="submit" class="btn fa fa-thumbs-up<%= student.present? && student.has_voted_for?(question) && student.get_vote_for(question).is_upvote? ? " btn-primary" : " text-primary" %>"> <%= question.upvote_count %></button>
+    <form class="upvotes" data-remote="true" action="<%=question_path(question)%>/upvote" method="post">
+      <button type="submit" class="btn fa fa-thumbs-up<%= !student.nil? && student.has_upvoted?(question) ? " btn-primary" : " text-primary" %>"> <%= question.upvote_count %></button>
     </form>
 
-    <form class="downvotes" data-remote="true" action="/questions/<%=question.id%>/downvote" method="post">
-      <button type="submit" class="btn fa fa-thumbs-down<%= student.present? && student.has_voted_for?(question) && student.get_vote_for(question).is_downvote? ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
+    <form class="downvotes" data-remote="true" action="<%=question_path(question)%>/downvote" method="post">
+      <button type="submit" class="btn fa fa-thumbs-down<%= !student.nil? && student.has_downvoted?(question) ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
     </form>
 
-    <form class="flag" data-remote="true" action="/questions/<%=question.id%>/flag" method="post">
-      <button type="submit" class="btn fa fa-flag btn-warning"></button>
+    <form class="flag" data-remote="true" action="<%=question_path(question)%>/flag" method="post">
+      <button type="submit" class="btn fa fa-flag btn-warning" data-remote="true"></button>
     </form>
   </div>
 <% end %>

@@ -12,6 +12,14 @@ class Student < ApplicationRecord
 		!vote.empty?
 	end
 
+	def has_upvoted?(question)
+		self.has_voted_for?(question) && self.get_vote_for(question).is_upvote?
+	end
+
+	def has_downvoted?(question)
+		self.has_voted_for?(question) && self.get_vote_for(question).is_downvote?
+	end
+
 	def get_vote_for(question)
 		vote = Vote.where(course: question.course, question: question, student: self)
 

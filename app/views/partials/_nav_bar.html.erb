@@ -1,6 +1,6 @@
 <nav class="navbar navbar-fixed-top container-fluid">
-  <% if @lecturer.present? %>
-    <% if @course.present? %>
+  <% if !@lecturer.nil? %>
+    <% if !@course.nil? %>
       <form class="leave-class" method="get" action="<%= url_for(@lecturer) %>">
         <button action="submit" class="btn btn-default fa fa-user"> Back to Profile</button>
       </form>
@@ -12,7 +12,7 @@
       <button type="submit" class="btn btn-default fa fa-power-off"> Logout</button>
     </form>
   <% else %>
-    <% if @course.present? %>
+    <% if !@course.nil? %>
       <form class="leave-class" method="get" action="/">
         <button action="submit" class="btn btn-default fa fa-arrow-left"> Leave Class</button>
       </form>

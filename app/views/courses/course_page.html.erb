@@ -5,18 +5,18 @@
 <div class="course-page-container">
   <h1 class="course-name">Course: <%= course.name %></h1>
 
-  <div id="questions-container" class="row custom-bar questions-container <%= lecturer.present? ? "lecturer-questions" : "student-questions" %>">
+  <div id="questions-container" class="row custom-bar questions-container <%= !lecturer.nil? ? "lecturer-questions" : "student-questions" %>">
     <div class="question-item no-questions"> No questions available </div>
 
     <% course.questions.sort_by{|question| [-question.upvote_count, question.downvote_count, question.created_at]}.each do |question| %>
-      <% if lecturer.present? || student.has_flagged?(question) %>
+      <% if !lecturer.nil? || student.has_flagged?(question) %>
         <%= render 'question', question: question, lecturer: lecturer, student: student, course: course %>
       <% end %>
     <% end %>
   </div>
 
   <div class="questions-form">
-    <% if lecturer.present? && lecturer.is_lecturer_for(course) %>
+    <% if !lecturer.nil? && lecturer.is_lecturer_for(course) %>
       <div class="poll-class">
         <form action="poll_class.html" method="get">
           <button class="btn btn-default fit big-btn">Poll Class</button>
@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<% if !lecturer.present? || !lecturer.is_lecturer_for(course) %>
+<% if lecturer.nil? || !lecturer.is_lecturer_for(course) %>
   <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
   <%= render '/polls/student_poll_container_modal' %>
 <% end %>
