@@ -16,7 +16,7 @@ $(document).on('click', "#new-class-button", function(e){
         $(".modal-body.confirmation h4").text("Success!")
 
         $("#modal-message").text("Successfully created course " + response.data.course_name);
-        $(".class-list").append(create_course_index_item(response.data.course_id, response.data.course_name));
+        $(".class-list").append(createCourseIndexItem(response.data.course_id, response.data.course_name));
         $('#new-class-form input[name=\"new_course\"]').val('');
       }
 
@@ -26,23 +26,23 @@ $(document).on('click', "#new-class-button", function(e){
   });
 });
 
-function create_course_index_item(course_id, course_name){
+function createCourseIndexItem(courseId, courseName){
   let button = "";
-  course_select_button = '<a class="btn btn-default big-btn fit course-button" data-method="get" href="/courses/' + course_id + '">' + course_name + '</a>';
-  course_delete_button = '<a class="btn btn-danger big-btn delete-button fa fa-trash" rel="nofollow" data-method="delete" href="/courses/' + course_id + '"></a>';
-  return '<div class="grid-item">' + course_select_button + course_delete_button +'</div>';
+  courseSelectButton = '<a class="btn btn-default big-btn fit course-button" data-method="get" href="/courses/' + courseId + '">' + courseName + '</a>';
+  courseDeleteButton = '<a class="btn btn-danger big-btn delete-button fa fa-trash" rel="nofollow" data-method="delete" href="/courses/' + courseId + '"></a>';
+  return '<div class="grid-item">' + courseSelectButton + courseDeleteButton +'</div>';
 }
 
-$(document).on('keydown', "#new-class-form input[name=\"new_course\"]", function (event) {
+$(document).on('keydown', "#new-class-form input[name=\"new_course\"]", function(e) {
   var keypressed = event.keyCode || event.which;
   if (keypressed == 13 && $(".modal-open").length==1){
-    event.preventDefault();
+    e.preventDefault();
   }
 });
 
-$(document).on('keydown', function (event) {
-  var keypressed = event.keyCode || event.which;
-  if (keypressed == 13 && $(".modal-open").length){
+$(document).on('keydown', function(e) {
+  var keyPressed = e.keyCode || e.which;
+  if (keyPressed == 13 && $(".modal-open").length){
     $("#open-confirmation-modal").click();
   }
 });

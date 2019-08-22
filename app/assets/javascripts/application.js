@@ -30,15 +30,15 @@ $(document).on('click', "#change-response-button", function(){
   $("#change-response").hide();
 })
 
-$(window).on("load", function(){
-  $(".custom-bar").mCustomScrollbar({
-    axis: "y",
-    alwaysShowScrollBar: 2,
-    theme: "3d-thick",
-    scrollInertia: 0,
-    mouseWheelPixels: 170
-  });
-});
+// $(window).on("load", function(){
+//   $(".custom-bar").mCustomScrollbar({
+//     axis: "y",
+//     alwaysShowScrollBar: 2,
+//     theme: "3d-thick",
+//     scrollInertia: 0,
+//     mouseWheelPixels: 170
+//   });
+// });
 
 $(document).on('click', "#back", function(){ 
   $(".confirmation").hide(); 
@@ -48,7 +48,6 @@ $(document).on('click', "#back", function(){
 $(document).on('click', "#create-account-button", function(e){
   e.preventDefault();
   form = $("#create-account-modal form");
-  console.log("hi")
   $.ajax({
     type: form.attr("method"),
     url: form.attr("action"),
@@ -74,7 +73,7 @@ $(document).on('click', "#create-account-button", function(e){
 
 $(document).on('click', "#join-class, #lecturer-login", function(e){
   e.preventDefault();
-  var form = $(this).closest('form');
+  const form = $(this).closest('form');
   if(!form.find("input").val()==""){
     $.ajax({
       type: form.attr("method"),

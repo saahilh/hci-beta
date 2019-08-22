@@ -3,99 +3,97 @@ $(document).ready(function(){
   //  $("#modal-button").click();
   //}
 
-  let upvote_identifier = ".fa-thumbs-up";
-  let downvote_identifier = ".fa-thumbs-down";
-  let delete_identifier = ".fa-trash";
-  let flag_identifier = ".fa-flag"
+  const upvoteIdentifier = ".fa-thumbs-up";
+  const downvoteIdentifier = ".fa-thumbs-down";
+  const deleteIdentifier = ".fa-trash";
+  const flagIdentifier = ".fa-flag"
 
-  function sort_question(question_item){
-    let num_upvotes = parseInt(question_item.find(upvote_identifier).text());
-    let num_downvotes = parseInt(question_item.find(downvote_identifier).text());
+  function sortQuestion(questionItem){
+    const upvoteCount = parseInt(questionItem.find(upvoteIdentifier).text());
+    const downvoteCount = parseInt(questionItem.find(downvoteIdentifier).text());
 
-    while(num_upvotes > parseInt(question_item.prev().find(upvote_identifier).text())){
-      question_item.insertBefore(question_item.prev());
+    while(upvoteCount > parseInt(questionItem.prev().find(upvoteIdentifier).text())){
+      questionItem.insertBefore(questionItem.prev());
     }
 
-    while(num_upvotes < parseInt(question_item.next().find(upvote_identifier).text())){
-      question_item.insertAfter(question_item.next());
+    while(upvoteCount < parseInt(questionItem.next().find(upvoteIdentifier).text())){
+      questionItem.insertAfter(questionItem.next());
     }
 
-    while((num_upvotes==parseInt(question_item.prev().find(upvote_identifier).text())) && num_downvotes < parseInt(question_item.prev().find(downvote_identifier).text())){
-      question_item.insertBefore(question_item.prev());
+    while((upvoteCount==parseInt(questionItem.prev().find(upvoteIdentifier).text())) && downvoteCount < parseInt(questionItem.prev().find(downvoteIdentifier).text())){
+      questionItem.insertBefore(questionItem.prev());
     }
 
-    while((num_upvotes==parseInt(question_item.next().find(upvote_identifier).text())) && num_downvotes > parseInt(question_item.next().find(downvote_identifier).text())){
-      question_item.insertAfter(question_item.next());
+    while((upvoteCount==parseInt(questionItem.next().find(upvoteIdentifier).text())) && downvoteCount > parseInt(questionItem.next().find(downvoteIdentifier).text())){
+      questionItem.insertAfter(questionItem.next());
     }
   }
 
-  let in_class_active = "btn-success";
-  let in_class_inactive = "text-success btn-default";
-  let after_class_active = "btn-primary";
-  let after_class_inactive = "text-primary btn-default";
+  const inClassActiveIdentifier = "btn-success";
+  const inClassInactiveIdentifier = "text-success btn-default";
+  const afterClassActiveIdentifier = "btn-primary";
+  const afterClassInactiveIdentifier = "text-primary btn-default";
 
-  function activate_in_class_button(question_item){
-    question_item.find(".in-class").addClass(in_class_active).removeClass(in_class_inactive);
+  function activateInClassButton(questionItem){
+    questionItem.find(".in-class").addClass(inClassActiveIdentifier).removeClass(inClassInactiveIdentifier);
   }
 
-  function activate_after_class_button(question_item){
-    question_item.find(".after-class").addClass(after_class_active).removeClass(after_class_inactive);
+  function activateAfterClassButton(questionItem){
+    questionItem.find(".after-class").addClass(afterClassActiveIdentifier).removeClass(afterClassInactiveIdentifier);
   }
 
-  function deactivate_in_class_button(question_item){
-    question_item.find(".in-class").removeClass(in_class_active).addClass(in_class_inactive);
+  function deactivateInClassButton(questionItem){
+    questionItem.find(".in-class").removeClass(inClassActiveIdentifier).addClass(inClassInactiveIdentifier);
   }
 
-  function deactivate_after_class_button(question_item){
-    question_item.find(".after-class").removeClass(after_class_active).addClass(after_class_inactive);
+  function deactivateAfterClassButton(questionItem){
+    questionItem.find(".after-class").removeClass(afterClassActiveIdentifier).addClass(afterClassInactiveIdentifier);
   }
 
   App.room = App.cable.subscriptions.create({
     channel: "CourseChannel",
-    room: room_name
+    room: roomName
   }, {
     connected: function() {},
     disconnected: function() { 
       App.room.unsubscribe(); 
     },
     received: function(data) {
-      let question_id = data["question_id"];
+      const questionId = data["question_id"];
 
       if(data["action"] == "new_question"){
-        console.log(data["student_question"]);
-        let questions_container = $("#questions-container");
         $("#questions-container.student-questions").append(data["student_question"]);
         $("#questions-container.lecturer-questions").append(data["lecturer_question"]);
-        sort_question($("#q"+ question_id));
+        sortQuestion($("#q"+ questionId));
       }
       else{
-        let question_item = $("#q"+ question_id);
+        const questionItem = $("#q"+ questionId);
 
-        if(data["action"] == "new_status"){
-          let new_status = data["new_status"];
+        if(data["action"] == "newStatus"){
+          const newStatus = data["new_status"];
 
-          question_item.find(".question-status").text("Status: " + new_status);
+          questionItem.find(".question-status").text("Status: " + newStatus);
 
-          if(new_status=="pending"){
-            deactivate_in_class_button(question_item);
-            deactivate_after_class_button(question_item);
+          if(newStatus=="pending"){
+            deactivateInClassButton(questionItem);
+            deactivateAfterClassButton(questionItem);
           }
-          else if(new_status=="answered in class"){
-            deactivate_after_class_button(question_item);
-            activate_in_class_button(question_item);
+          else if(newStatus=="answered in class"){
+            deactivateAfterClassButton(questionItem);
+            activateInClassButton(questionItem);
           }
-          else if(new_status=="will answer after class"){
-            deactivate_in_class_button(question_item);
-            activate_after_class_button(question_item);
+          else if(newStatus=="will answer after class"){
+            deactivateInClassButton(questionItem);
+            activateAfterClassButton(questionItem);
           }
         }
         else if(data["action"] == "delete_question" || data["action"] == "flag_threshold_exceeded"){
-          question_item.remove();
+          questionItem.remove();
         }
         else if(data["action"] == "vote"){
-          question_item.find(upvote_identifier).text(" " + data["upvote_count"]);
-          question_item.find(downvote_identifier).text(" " + data["downvote_count"]);
-          sort_question(question_item);
+          questionItem.find(upvoteIdentifier).text(" " + data["upvote_count"]);
+          questionItem.find(downvoteIdentifier).text(" " + data["downvote_count"]);
+          sortQuestion(questionItem);
         }
         //POLLS
         else if(data["answered"]&&!data["changed"]){
@@ -112,14 +110,14 @@ $(document).ready(function(){
     speak: function(){}
   });
 
-  $(document).on('click', downvote_identifier, function(){
+  $(document).on('click', downvoteIdentifier, function(){
     $(this).toggleClass("text-danger").toggleClass("btn-danger");
-    $(this).closest(".question-item").find(upvote_identifier).removeClass("btn-primary").addClass("text-primary");
+    $(this).closest(".question-item").find(upvoteIdentifier).removeClass("btn-primary").addClass("text-primary");
   });
 
-  $(document).on('click', upvote_identifier, function(){
+  $(document).on('click', upvoteIdentifier, function(){
     $(this).toggleClass("text-primary").toggleClass("btn-primary");
-    $(this).closest(".question-item").find(downvote_identifier).removeClass("btn-danger").addClass("text-danger");
+    $(this).closest(".question-item").find(downvoteIdentifier).removeClass("btn-danger").addClass("text-danger");
   });
 
 
