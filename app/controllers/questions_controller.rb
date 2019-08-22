@@ -54,9 +54,8 @@ class QuestionsController < ActionController::Base
 
 	def flag
 		flag = Flag.create(course: @question.course, question: @question, student: @student)
-		
-		render json: { data: { errors: flag.errors.full_messages }}
 
+		render json: { data: { errors: flag.errors.full_messages }}
 		return unless @question.has_passed_flag_threshold
 
 		CourseChannel.broadcast_to(
