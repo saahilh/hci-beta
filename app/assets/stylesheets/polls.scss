@@ -1,0 +1,43 @@
+.poll-form {
+  display: grid;
+  grid-template-rows: [poll-question] 1fr [poll-options] 10fr [poll-buttons] 1fr;
+  grid-gap: 3% 3%;
+
+  .poll-question {
+    grid-row: poll-question;
+    height: 70px;
+  }
+
+  .poll-options {
+    grid-row: poll-options;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    .poll-option {
+      display: grid;
+      grid-template-columns: [poll-option-label] 1fr [poll-option-input] 11fr;
+      height: 50px;
+
+      span {
+        grid-column: poll-option-label;
+      }
+
+      input {
+        grid-column: poll-option-input;
+      }
+    }
+  }
+}
+
+.poll-buttons {
+  grid-row: poll-buttons;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 3% 3%;
+
+  .div {
+    grid-column: span 1;
+  }
+}
