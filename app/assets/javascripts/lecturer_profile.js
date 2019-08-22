@@ -29,14 +29,14 @@ $(document).on('click', "#new-class-button", function(e){
 function create_course_index_item(course_id, course_name){
   let button = "";
   course_select_button = '<a class="btn btn-default big-btn fit course-button" data-method="get" href="/courses/' + course_id + '">' + course_name + '</a>';
-  course_delete_button = '<a class="btn btn-danger big-btn delete-button fa fa-arrow-left" data-method="delete" rel="no-follow" href="/courses/' + course_id + '"">Delete</a>';
-  return course_select_button + course_delete_button;
+  course_delete_button = '<a class="btn btn-danger big-btn delete-button fa fa-trash" rel="nofollow" data-method="delete" href="/courses/' + course_id + '"></a>';
+  return '<div class="grid-item">' + course_select_button + course_delete_button +'</div>';
 }
 
 $(document).on('keydown', "#new-class-form input[name=\"new_course\"]", function (event) {
   var keypressed = event.keyCode || event.which;
-  if (keypressed == 13 && $(this).val()!="" && $(".modal-open").length==0){
-    $("#new-class-button").click();
+  if (keypressed == 13 && $(".modal-open").length==1){
+    event.preventDefault();
   }
 });
 

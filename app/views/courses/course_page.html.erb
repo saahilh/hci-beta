@@ -1,11 +1,11 @@
-<%= render '/partials/nav_bar' %>
+<%= render partial: '/partials/nav_bar' %>
 
 <%= javascript_tag "room_name = \"#{course.name}\"" %>
 
 <div class="course-page-container">
   <h1 class="course-name">Course: <%= course.name %></h1>
 
-  <div id="questions-container" class="row custom-bar questions-container <%= !lecturer.nil? ? "lecturer-questions" : "student-questions" %>">
+  <div id="questions-container" class="row questions-container <%= !lecturer.nil? ? "lecturer-questions" : "student-questions" %>">
     <div class="question-item no-questions"> No questions available </div>
 
     <% course.questions.sort_by{|question| [-question.upvote_count, question.downvote_count, question.created_at]}.each do |question| %>
@@ -18,7 +18,7 @@
   <div class="questions-form">
     <% if !lecturer.nil? && lecturer.is_lecturer_for(course) %>
       <div class="poll-class">
-        <form action="poll_class.html" method="get">
+        <form action="<%=course_path(course)%>/poll_class.html" method="get">
           <button class="btn btn-default fit big-btn">Poll Class</button>
         </form>
       </div>

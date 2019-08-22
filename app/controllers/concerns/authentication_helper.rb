@@ -20,6 +20,7 @@ module AuthenticationHelper
 		@lecturer = Lecturer.find_by(id: session[:lecturer_id])
 
 		if @lecturer.nil?
+			@message = "Error: not logged in"
 			render '/message', locals: { message: "Error: not logged in" }
 		end
 	end

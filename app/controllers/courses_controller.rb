@@ -30,8 +30,4 @@ class CoursesController < ActionController::Base
 			render json: { data: { msg: "Course not found: #{params[:course_code]}" }}
 		end
 	end
-
-	def poll
-		render 'poll_class'
-	end
 end

@@ -20,7 +20,7 @@ class PollsController < ActionController::Base
 			end
 		end
 
-		CourseChannel.broadcast_to(course, poll: render_to_string('student_poll', layout: false, locals:{poll: poll}))
+		CourseChannel.broadcast_to(@course, poll: render_to_string('student_poll', layout: false, locals:{poll: poll}))
 
 		render "active_poll", locals: { poll: poll }
 	end

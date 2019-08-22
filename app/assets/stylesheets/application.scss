@@ -118,8 +118,8 @@ span, h1, h2, h3, h4, h5 {
 }
 
 .big-btn {
-  font-size: 36px !important; 
-  line-height: 50px !important;
+  font-size: 36px; 
+  line-height: 50px;
   height: 70px;
 }
 
@@ -159,7 +159,7 @@ input, textarea, password {
 .custom-container {
   display: grid;
   grid-gap: 10% 5%;
-  grid-template-rows: repeat(auto-fill, 10vh);
+  grid-template-rows: repeat(auto-fill, 30vh);
 }
 
 form {
@@ -211,11 +211,9 @@ form {
 }
 
 .list {
-  height: 40vh;
-
   display: grid;
   grid-template-columns: repeat(auto-fill, 20vh);
-  grid-gap: 0 5%;
+  grid-gap: 3% 3%;
   justify-content: center;
 
   .grid-item{

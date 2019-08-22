@@ -1,34 +1,12 @@
-<%= render '/partials/nav_bar' %>
-<%= render '/partials/heading2' %>
+<%= render partial: '/partials/nav_bar' %>
+<h1 class="course-name">Course: <%= @course.name %></h1>
 
 <%= javascript_tag "room_name = \"#{@course.name}\"" %>
-
-<script>
-  App.room = App.cable.subscriptions.create({
-    channel: "CourseChannel",
-    room: room_name
-  }, {
-    connected: function() {},
-    disconnected: function() { App.room.unsubscribe(); },
-    received: function(data) {
-      if(data["answered"]&&!data["changed"]){
-          $("#counter").text(parseInt($("#counter").text()) + 1);
-        }
-      else if(data["connected"]){
-        $("#active-connections").text(parseInt($("#active-connections").text())+1)
-      }
-      else if(data["disconnected"]){
-        $("#active-connections").text(parseInt($("#active-connections").text())-1)
-      }
-    },
-    speak: function(){}
-  });
-</script>
 
 <div class="row"><div class="col-md-12"><span>Question</span></div></div>
 <div class="separator-sm"></div>
 
-<div id="poll-form" class="form-group custom-bar" style="overflow-y: auto; overflow-x: hidden; height: 280px; padding-left: 15px">
+<div id="poll-form" class="form-group" style="overflow-y: auto; overflow-x: hidden; height: 280px; padding-left: 15px">
 
   <div class="row">
     <div class="col-md-12 big-line">
