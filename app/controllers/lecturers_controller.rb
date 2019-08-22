@@ -8,6 +8,7 @@ class LecturersController < ActionController::Base
 
     if(!@lecturer.nil? && @lecturer.authenticate(Digest::SHA1.hexdigest(params[:pw])))
       session[:lecturer_id] = @lecturer.id
+
       render json: { data: { redirect: "/lecturers/#{@lecturer.id}" } }
     else
       render json: { data: { msg: "Invalid credentials entered" } }
@@ -20,11 +21,13 @@ class LecturersController < ActionController::Base
 
   def logout
     session[:lecturer_id] = nil
+
     redirect_to "/index"
   end
 
   def create
     lecturer = Lecturer.create(lecturer_creation_params)
+
     render json: { data:{ errors: lecturer.errors.full_messages } }
   end
 

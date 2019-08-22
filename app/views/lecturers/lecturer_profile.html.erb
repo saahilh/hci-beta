@@ -1,4 +1,4 @@
-<%= render partial: '/partials/nav_bar' %>
+<%= render(partial: '/partials/nav_bar') %>
 
 <div class="custom-container lecturer-profile">
   <div class="custom-panel lecturer-classes custom">
@@ -12,8 +12,8 @@
         
         <% lecturer.courses.each do |course| %>
           <div class="grid-item">
-            <%= link_to course.name, course_path(course), method: :get, class: "btn btn-default big-btn fit course-button" %>
-            <%= link_to "", course, method: :delete, class: "btn btn-danger big-btn delete-button fa fa-trash" %>
+            <%= link_to(course.name, course_path(course), method: :get, class: "btn btn-default big-btn fit course-button") %>
+            <%= link_to("", course, method: :delete, class: "btn btn-danger big-btn delete-button fa fa-trash") %>
           </div>
         <% end %>
       </div>

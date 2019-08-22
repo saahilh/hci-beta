@@ -15,9 +15,8 @@ class PollsController < ActionController::Base
 		poll = Poll.create(question: params[:question], course: @course, active: true)
 
 		params.each do |param, value|
-			if param.starts_with?("opt")
-				Option.create(number: param.gsub("opt", "").to_i, value: value, selected: 0, poll: poll)
-			end
+			next unless param.starts_with?("opt")
+			Option.create(number: param.gsub("opt", "").to_i, value: value, selected: 0, poll: poll)
 		end
 
 		CourseChannel.broadcast_to(@course, poll: render_to_string('student_poll', layout: false, locals:{poll: poll}))
@@ -52,10 +51,10 @@ class PollsController < ActionController::Base
 		option = ""
 
 		params.each do |param|
-			if param.starts_with?("opt")
-				option = param.gsub("opt", "")
-				break
-			end
+			next unless param.starts_with?("opt")
+
+			option = param.gsub("opt", "")
+			break
 		end
 
 		CourseChannel.broadcast_to(poll.course, answered: true, changed: changed)
@@ -63,7 +62,7 @@ class PollsController < ActionController::Base
 		option = Option.find(option)
 		option.update_column(:selected, option.selected + 1)
 
-		data["#{poll.id}"] = option.id
+		data[poll.id.to_s] = option.id
 		@student.update_column(:poll_data, data.to_json)
 	end
 end

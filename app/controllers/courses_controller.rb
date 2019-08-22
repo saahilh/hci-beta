@@ -8,16 +8,19 @@ class CoursesController < ActionController::Base
 
 	def create
 		course = Course.create(name: params[:new_course].upcase.gsub(" ", ""), lecturer: @lecturer)
+
 		render json: { data: { course_id: course.id, course_name: course.name, errors: course.errors.full_messages }}
 	end
 
 	def show
 		@lecturer = Lecturer.find_by(id: session[:lecturer_id])
+
 		render 'course_page', locals: { course: @course, lecturer: @lecturer, student: @student }
 	end
 
 	def destroy
 		@course.delete
+
 		redirect_to @lecturer
 	end
 

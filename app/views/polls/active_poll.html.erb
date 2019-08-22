@@ -1,4 +1,4 @@
-<%= render partial: '/partials/nav_bar' %>
+<%= render(partial: '/partials/nav_bar') %>
 <h1 class="course-name">Course: <%= @course.name %></h1>
 
 <%= javascript_tag "roomName = \"#{@course.name}\"" %>

@@ -35,14 +35,14 @@ function createCourseIndexItem(courseId, courseName){
 
 $(document).on('keydown', "#new-class-form input[name=\"new_course\"]", function(e) {
   var keypressed = event.keyCode || event.which;
-  if (keypressed == 13 && $(".modal-open").length==1){
+  if(keypressed == 13 && $(".modal-open").length==1){
     e.preventDefault();
   }
 });
 
 $(document).on('keydown', function(e) {
   var keyPressed = e.keyCode || e.which;
-  if (keyPressed == 13 && $(".modal-open").length){
+  if(keyPressed == 13 && $(".modal-open").length){
     $("#open-confirmation-modal").click();
   }
 });

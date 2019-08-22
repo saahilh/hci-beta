@@ -1,4 +1,4 @@
-<%= render partial: '/partials/nav_bar', locals: { is_poll: true } %>
+<%= render(partial: '/partials/nav_bar', locals: { is_poll: true }) %>
 <h1 class="course-name">Course: <%= @course.name %></h1>
 
 <%= javascript_tag "roomName = \"#{@course.name}\"" %>
@@ -17,4 +17,4 @@
   <div id="start-polling-button" class="btn btn-default big-btn">Initiate Polling</div>
 </div>
 
-<%= render partial: '/partials/message_modal', locals: {header: "Error"} %>
+<%= render(partial: '/partials/message_modal', locals: {header: "Error"}) %>

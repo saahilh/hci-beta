@@ -1,4 +1,4 @@
-<%= render partial: '/partials/nav_bar' %>
+<%= render(partial: '/partials/nav_bar') %>
 
 <%= javascript_tag "roomName = \"#{course.name}\"" %>
 
@@ -9,9 +9,9 @@
     <div class="question-item no-questions"> No questions available </div>
 
     <% course.questions.sort_by{|question| [-question.upvote_count, question.downvote_count, question.created_at]}.each do |question| %>
-      <% if !lecturer.nil? || student.has_flagged?(question) %>
-        <%= render 'question', question: question, lecturer: lecturer, student: student, course: course %>
-      <% end %>
+      <% next if !lecturer.nil? || student.has_flagged?(question) %>
+      
+      <%= render(partial: 'question', locals: {question: question, lecturer: lecturer, student: student, course: course}) %>
     <% end %>
   </div>
 
@@ -35,5 +35,5 @@
 
 <% if lecturer.nil? || !lecturer.is_lecturer_for(course) %>
   <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
-  <%= render partial: '/polls/student_poll_container_modal' %>
+  <%= render(partial: '/polls/student_poll_container_modal') %>
 <% end %>

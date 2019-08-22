@@ -41,6 +41,7 @@
 		display: grid;
 		grid-template-columns: 9fr 1fr 1fr 1fr;
 		grid-gap: 0 1%;
+		height: 15vh;
 		
 		a {
 			font-size: 20px;
@@ -60,18 +61,15 @@
 
 		&.student {
 			.question-data {
-				grid-template-rows: 2;
-				grid-template-columns: 1fr;
+				grid-template-rows: [question-text] 1fr [question-status] 1fr;
 
 				.question-text {
-					grid-row: 1;
-					grid-column: 1;
+					grid-row: question-text;
 					font-size: 18px;
 				}
 
 				.question-status {
-					grid-row: 2;
-					grid-column: 1;
+					grid-row: question-status;
 					margin-left: 20px;
 				}
 			}
@@ -80,21 +78,21 @@
 		&.lecturer {
 			.question-data {
 				grid-template-rows: questions;
-				grid-template-columns: 1fr 11fr;
+				grid-template-columns: [thumbs] 1fr [question-text] 11fr;
 
 				.fa-thumbs-up{
 					grid-row: 1;
-					grid-column: 1;
+					grid-column: thumbs;
 				}
 
 				.fa-thumbs-down {
 					grid-row: 2;
-					grid-column: 1;
+					grid-column: thumbs;
 				}
 
 				.question-text {
 					grid-row: 1 / 2;
-					grid-column: 2;
+					grid-column: question-text;
 					font-size: 20px;
 				}
 			}

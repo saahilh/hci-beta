@@ -5,7 +5,10 @@ class Question < ApplicationRecord
 	has_many :flags, dependent: :delete_all
 	validates :question, presence: true
 
-	FLAG_THRESHOLD = 5;
+	FLAG_THRESHOLD = 5.freeze
+	ANSWER_IN_CLASS_STATUS_MESSAGE = "answered in class".freeze
+	PENDING_STATUS_MESSAGE = "pending".freeze
+	ANSWER_AFTER_CLASS_STATUS_MESSAGE = "will answer after class".freeze
 
 	def upvote_count
 		Vote.where(course: self.course, question: self, is_upvote: true).count
@@ -31,7 +34,7 @@ class Question < ApplicationRecord
 		end
 
 		self.update_column(:status, new_status)
-		
+
 		new_status
 	end
 
@@ -54,7 +57,7 @@ class Question < ApplicationRecord
 		)
 	end
 
-	ANSWER_IN_CLASS_STATUS_MESSAGE = "answered in class"
-	PENDING_STATUS_MESSAGE = "pending"
-	ANSWER_AFTER_CLASS_STATUS_MESSAGE = "will answer after class"
+	def has_passed_flag_threshold
+		Flag.where(course: self.course, question: self).count >= FLAG_THRESHOLD
+	end
 end
