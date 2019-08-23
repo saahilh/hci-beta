@@ -3,9 +3,9 @@
 
 <%= javascript_tag "roomName = \"#{@course.name}\"" %>
 
-<div class="row"><div class="col-md-12"><span>Question</span></div></div>
+<span>Question</span>
 
-<form id="poll-form" class="poll-form" action="begin_poll" method="post">
+<form id="poll-form" class="poll-form" action="<%= "#{course_path(@course)}/polls" %>" method="post">
   <input id="question" class="poll-question" name="question" type="textarea" class="form-control" placeholder="Type your question for the poll here"/>
   
   <div id="poll-options" class="poll-options"></div>
@@ -14,7 +14,7 @@
 <div class="poll-buttons">
   <div id="add-option" class="btn btn-primary">Add Option</div>
   <div id="remove-option" class="btn btn-danger disabled">Remove Option</div>
-  <div id="start-polling-button" class="btn btn-default">Initiate Polling</div>
+  <div id="start-polling-button" class="btn btn-default">Start Polling</div>
 </div>
 
 <%= render(partial: '/partials/message_modal', locals: {header: "Error"}) %>

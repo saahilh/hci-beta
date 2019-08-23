@@ -1,32 +1,19 @@
 <%= render(partial: '/partials/nav_bar') %>
+<h1 class="course-name">Course: <%= @course.name %></h1>
 
-<div class="row" style="padding-left:10px">
-  <div class="col-md-1"></div>
-  <div class="col-md-10">
-    <div class="separator-sm"></div>
-    <div id="poll-question">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 center" style="font-size: 20px"><span><%= poll.question %></span></div>
-        <div class="col-md-1"></div>
-      </div>
-      <div class="separator-md"></div>
-      
-      <div class="row" style="padding-left:10px">
-        <div class="col-md-12">
-          <%= column_chart data %>
-        </div>
-      </div>
+<%= javascript_tag "roomName = \"#{@course.name}\"" %>
 
-      <div class="separator-md"></div>
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-4 big-line"><a href="poll_class.html"><div class="btn btn-inverse fit">New poll</div></a></div>
-        <div class="col-md-6 big-line"><a href="/"><div class="btn btn-inverse fit">Return to questions</div></a></div>
-        <div class="col-md-1"></div>
-      </div>
-      <div class="separator-md"></div>
+<div class="custom-panel">
+  <h2 class="header"><%= poll.question %> </h2>
+
+  <div class="content">
+    <div class="chart">
+      <%= column_chart data %>
     </div>
-    <div class="col-md-1"></div>
+
+    <div class="poll-results-buttons">
+      <%= link_to("New Poll", "#{course_path(poll.course)}/polls/new" , method: :get, class: "btn big-btn btn-default new-poll-button") %>
+      <%= link_to("Return to Questions", course_path(poll.course) , method: :get, class: "btn big-btn btn-default return-button") %>
+    </div>
   </div>
 </div>

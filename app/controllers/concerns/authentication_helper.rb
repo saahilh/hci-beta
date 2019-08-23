@@ -1,6 +1,8 @@
 module AuthenticationHelper
 	def set_course
-		@course = Course.find(params[:id].gsub(" ", ""))
+		id = params[:course_id]
+		id ||= params[:id]
+		@course = Course.find(id)
 	end
 
 	def set_student

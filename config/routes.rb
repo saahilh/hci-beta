@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  resources :courses do
+    resources :polls
+    resources :questions
+  end
+
   resources :lecturers
-  resources :courses
-  resources :questions
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get '/' => "application#index"
@@ -15,10 +18,8 @@ Rails.application.routes.draw do
 
   get 'courses/*id/poll_class' => 'polls#new'
 
-  get "courses/*id/end_poll" => "polls#new"
-  get "courses/*id/begin_poll" => "polls#new"
-
-  post "courses/*id/questions" => "questions#create"
+  post "courses/*course_id/polls/*id/end" => "polls#end"
+  get "courses/*course_id/polls/*id/end" => "polls#show"
 
   post "/questions/*id/in_class" => "questions#in_class"
   post "/questions/*id/after_class" => "questions#after_class"
@@ -28,9 +29,7 @@ Rails.application.routes.draw do
   
   post "/lecturers/logout" => "lecturers#logout"
 
-  post "courses/*id/begin_poll" => "polls#create"
-  post "courses/*id/end_poll" => "polls#end"
-
+  post "polls/*id/end" => "polls#end"
   post "polls/*id/options/*option_id" => "polls#answer"
 
   post "login" => "lecturers#login"

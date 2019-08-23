@@ -1,7 +1,7 @@
 class PollsController < ActionController::Base
 	include AuthenticationHelper
 
-	before_action :set_course, only: [:new, :create, :end]
+	before_action :set_course, only: [:new, :show, :create, :end]
 	before_action :set_lecturer, only: [:new]
 	before_action :set_student, only: [:answer]
 	before_action :authenticate_lecturer_for_course, only: [:new]
@@ -21,14 +21,24 @@ class PollsController < ActionController::Base
 
 		CourseChannel.broadcast_to(
 			@course, 
-			poll: render_to_string('student_poll', layout: false, locals: { poll: poll })
+			poll: render_to_string('_student_poll', layout: false, locals: { poll: poll })
 		)
 
-		render "active_poll", locals: { poll: poll }
+		redirect_to course_poll_path(poll.course, poll)
+	end
+
+	def show
+		poll = Poll.find(params[:id])
+
+		if poll.active
+			render 'lecturer_poll_results', locals: { poll: poll, data: poll.options.pluck(:value, :selected) }
+		else
+			render "active_poll", locals: { poll: poll }
+		end
 	end
 
 	def end
-		poll = Poll.find(params[:poll_id])
+		poll = Poll.find(params[:id])
 		poll.update_column(:active, false)
 
 		data = poll.options.pluck(:value, :selected)

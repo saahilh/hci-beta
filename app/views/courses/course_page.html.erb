@@ -16,11 +16,11 @@
   </div>
 
   <% if !lecturer.nil? %>
-    <form class="course-page-form poll-class" action="<%=course_path(course)%>/poll_class.html" method="get">
+    <form class="course-page-form poll-class" action="<%="#{course_path}/polls/new"%>" method="get">
       <button class="btn big-btn btn-default fit">Poll Class</button>
     </form>
   <% else %>
-    <form class="course-page-form ask-question" action="<%= course_path(course) %>/questions" method="post" data-remote="true">
+    <form class="course-page-form ask-question" action="<%= "#{course_path(course)}/questions" %>" method="post" data-remote="true">
       <input name="question" type="textarea" placeholder="Enter question here" maxlength="105"/>
       <button type="submit" class="btn big-btn btn-default fit" data-remote="true">Ask</button>
     </form>

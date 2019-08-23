@@ -63,3 +63,44 @@
     }
   }
 }
+
+.end-poll-container {
+  display: grid;
+  grid-template-columns: [left-margin] 1fr [end-poll] 2fr [right-margin] 1fr;
+
+  .end-poll {
+    grid-column: end-poll;
+  }
+}
+
+.response-counter {
+  display: grid;
+  grid-template-columns: [left-margin] 1fr [responses] 1fr [right-margin] 1fr;
+
+  p {
+    grid-column: responses;
+  }
+}
+
+.poll-results-buttons {
+  display: grid;
+  grid-template-columns: [left-margin] 1fr [new-poll-button] 4fr [return-button] 6fr [right-margin] 1fr;
+  grid-gap: 0 2%;
+
+  .new-poll-button {
+    grid-column: new-poll-button;
+  }
+
+  .return-button {
+    grid-column: return-button;
+  }
+}
+
+.close-modal {
+  display: grid;
+  grid-template-columns: [left-margin] 1fr [button] 2fr [right-margin] 1fr;
+
+  button {
+    grid-column: button;
+  }
+}
