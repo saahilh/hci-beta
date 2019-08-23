@@ -1,8 +1,4 @@
 .lecturer-login .contents{
-  input {
-    height: 70px;
-  }
-
   button{
     margin-top: 24px;
   }
@@ -17,9 +13,5 @@
 .course-selection {
   div.awesomplete {
     grid-column: input;
-  }
-
-  form {
-    height: 70px;
   }
 }

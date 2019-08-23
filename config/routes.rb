@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   post "courses/*id/begin_poll" => "polls#create"
   post "courses/*id/end_poll" => "polls#end"
 
-  post "courses/*id/answer_poll" => "polls#answer"
+  post "polls/*id/options/*option_id" => "polls#answer"
 
   post "login" => "lecturers#login"
   post 'select_course' => "courses#select_course"

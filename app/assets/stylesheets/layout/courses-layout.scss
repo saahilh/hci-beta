@@ -1,0 +1,97 @@
+.course-page-container {
+	display: grid;
+	grid-template-rows: [course-name] 1fr [questions-container] 9fr [course-page-form] 2fr;
+	grid-gap: 5% 5%;
+
+	.course-name {
+		grid-row: course-name;
+	}
+
+	.questions-container {
+		grid-row: questions-container;
+	}
+
+	.course-page-form {
+		grid-row: course-page-form;
+	}
+}
+
+.questions-container {
+	display: grid;
+	grid-template-columns: [left-margin] 1fr [content] 10fr [right-margin] 1fr;
+
+	.question-item {
+		grid-column: content;
+	}
+}
+
+.question-item {
+	display: grid;
+	grid-template-columns: [question-data] 9fr [first-button] 1fr [second-button] 1fr [third-button] 1fr;
+
+	.question-data{
+		grid-column: question-data;
+	}
+
+	.upvotes, .in-class {
+		grid-column: first-button;
+	}
+
+	.downvotes, .after-class {
+		grid-column: second-button;
+	}
+
+	.flag, .delete {
+		grid-column: third-button;
+	}
+}
+
+.student-questions .question-item .question-data {
+	display: grid;
+	grid-template-rows: [question-text] 1fr [question-status] 1fr;
+
+	.question-text {
+		grid-row: question-text;
+	}
+
+	.question-status {
+		grid-row: question-status;
+	}
+}
+
+.lecturer-questions .question-item .question-data {
+	display: grid;
+	grid-template-columns: [thumbs] 1fr [question-text] 11fr;
+
+	.thumbs {
+		grid-column: thumbs;
+	}
+
+	.question-text {
+		grid-column: question-text;
+	}
+}
+
+.course-page-form {
+	&.poll-class {
+		display: grid;
+		grid-template-columns: [left-margin] 1fr [content] 1fr [right-margin] 1fr;
+
+		button {
+			grid-column: content;
+		}
+	}
+
+	&.ask-question {
+		display: grid;
+		grid-template-columns: [left-margin] 1fr [question] 6fr [ask-question-button] 2fr [right-margin] 1fr;
+
+		input {
+			grid-column: question;
+		}
+
+		button {
+			grid-column: ask-question-button;
+		}
+	}
+}

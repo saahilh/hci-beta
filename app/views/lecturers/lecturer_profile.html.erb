@@ -9,12 +9,12 @@
 
     <div class="contents">
       <div class="list class-list">
-        <div class="grid-item empty-grid"> (you have no courses) </div>
+        <div class="list-item empty-grid"> (you have no courses) </div>
         
-        <% lecturer.courses.each do |course| %>
-          <div class="grid-item">
-            <%= link_to(course.name, course_path(course), method: :get, class: "btn btn-default big-btn fit course-button") %>
-            <%= link_to("", course, method: :delete, class: "btn btn-danger big-btn delete-button fa fa-trash") %>
+        <% lecturer.courses.sort_by { |course| course.name }.each do |course| %>
+          <div class="list-item">
+            <%= link_to(course.name, course_path(course), method: :get, class: "btn big-btn btn-default fit course-button") %>
+            <%= link_to("", course, method: :delete, class: "btn big-btn btn-danger delete-button fa fa-trash") %>
           </div>
         <% end %>
       </div>
@@ -32,7 +32,7 @@
           <input name="new_course" type="text" placeholder="Enter course code (e.g., ECSE 424)"/>
         </div>
         <div class="form-group">
-          <button id="new-class-button" type="submit" class="btn btn-inverse fit big-btn">Create new class</button>
+          <button id="new-class-button" type="submit" class="btn big-btn btn-default fit">Create new class</button>
         </div>
       </form>
     </div>
@@ -46,7 +46,7 @@
 
           <p id="modal-message" class="white center"></p>
 
-          <button type="button" class="btn btn-inverse big-btn fit" data-dismiss="modal">
+          <button type="button" class="btn big-btn btn-default fit" data-dismiss="modal">
             Okay
           </button>
         </div>

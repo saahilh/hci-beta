@@ -1,7 +1,8 @@
 $(document).ready(function(){
-  //if($('#poll-body').html().replace(/\s/g,'')!=''){
-  //  $('#modal-button').click();
-  //}
+  if($('#poll-body').html().replace(/\s/g,'')!=''){
+   $('#modal-button').click();
+  }
+  
   class QuestionList {
     constructor() {
       this.inClassActiveIdentifier = 'btn-success';

@@ -1,8 +1,10 @@
-<% if !lecturer.nil? && lecturer.id == course.lecturer.id %> 
-  <div id="q<%=question.id%>" class="question-item lecturer">
+<div id="q<%=question.id%>" class="question-item">
+  <% if !lecturer.nil? && lecturer.id == course.lecturer.id %> 
     <div class="question-data">
-      <span class="fa fa-thumbs-up"> <%= question.upvote_count %></span>
-      <span class="fa fa-thumbs-down"> <%= question.downvote_count %></span>
+      <div class="thumbs">
+        <span class="fa fa-thumbs-up"> <%= question.upvote_count %></span>
+        <span class="fa fa-thumbs-down"> <%= question.downvote_count %></span>
+      </div>
       <span class="question-text"><%= question.question %></span>
     </div>
 
@@ -11,24 +13,22 @@
     <%= link_to("after class", "#{question_path(question)}/after_class", method: :post, remote: true, class: "after-class btn #{question.status=="will answer after class" ? "btn-primary" :  "btn-default text-primary"}") %>
 
     <%= link_to("", question, method: :delete, class: "btn fa fa-trash icon-2x btn-danger", remote: true) %>
-  </div>
-<% else %>
-  <div id="q<%=question.id%>" class="question-item student">
+  <% else %>
     <div class="question-data">
       <span class="question-text" maxlength="105"><%= question.question %></span>
       <span class="question-status">Status: <%= question.status %></span>
     </div>
     
     <form class="upvotes" data-remote="true" action="<%=question_path(question)%>/upvote" method="post">
-      <button type="submit" class="btn fa fa-thumbs-up<%= !student.nil? && student.has_upvoted?(question) ? " btn-primary" : " text-primary" %>"> <%= question.upvote_count %></button>
+      <button type="submit" class="btn fa fa-thumbs-up<%= student.has_upvoted?(question) ? " btn-primary" : " text-primary" %>"> <%= question.upvote_count %></button>
     </form>
 
     <form class="downvotes" data-remote="true" action="<%=question_path(question)%>/downvote" method="post">
-      <button type="submit" class="btn fa fa-thumbs-down<%= !student.nil? && student.has_downvoted?(question) ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
+      <button type="submit" class="btn fa fa-thumbs-down<%= student.has_downvoted?(question) ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
     </form>
 
     <form class="flag" data-remote="true" action="<%=question_path(question)%>/flag" method="post">
       <button type="submit" class="btn fa fa-flag btn-warning" data-remote="true"></button>
     </form>
-  </div>
-<% end %>
+  <% end %>
+</div>

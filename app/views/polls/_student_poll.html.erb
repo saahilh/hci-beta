@@ -1,46 +1,24 @@
-<div class="row" style="padding-left:10px">
-  <div class="col-md-1"></div>
-  <div class="col-md-10">
-    <div class="separator-lg"></div>
-    <div id="poll-question">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 big-text center"><span><%=poll.question%></span></div>
-        <div class="col-md-1"></div>
-      </div>
-      <div class="separator-lg"></div>
-      <div id="responses" class="row">
-        <div class="col-md-12">
-          <% poll.options.order(:number).each_with_index do |option, index| %>
-          <form action="<%=poll.course.id%>/answer_poll" method="post">
-            <div class="row center"><div class="col-md-12">
-              <button data-remote="true" type="submit" name="opt<%=option.id%>" class="btn btn-inverse fit response-button"><%= option.value %></button>
-            </div></div>
-          </form>
-          <% end %>
-        </div>
-      </div>
-      <div class="row" id="change-response" style="display:none">
-        <div class="col-md-12">
-          <div class="row"><div class="col-md-12"><h4 class="center">Your response has been submitted. Waiting for other students' votes</h4></div></div>
-          <div class="separator-lg"></div>
+<h2 class="header center"><%=poll.question%></h2>
 
-          <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6"><button id="change-response-button" class="btn btn-inverse fit">Change Response</button></div>
-            <div class="col-md-3"></div>
-          </div>
+<div id="responses" class="content">
+  <div class="custom-panel">
+    <span class="header center">Select a response:</span>
 
-          <div class="separator-sm"></div>
-
-          <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6"><button class="btn btn-inverse fit" data-dismiss="modal">Close</button></div>
-            <div class="col-md-3"></div>
-          </div>
-        </div>
-      </div>
+    <div class="content">
+      <% poll.options.order(:number).each_with_index do |option, index| %>
+        <%= link_to(option.value, "/polls/#{option.poll.id}/options/#{option.id}", method: :post, remote: true, class: "btn btn-default response-button") %>
+      <% end %>
     </div>
-    <div class="col-md-1"></div>
+  </div>
+</div>
+
+<div id="change-response" class="content change-response">
+  <div class="custom-panel">
+    <h4 class="header center">Your response has been submitted. Waiting for other students' votes</h4>
+    
+    <div class="content">
+      <button id="change-response-button" class="btn big-btn btn-default">Change Response</button>
+      <button class="btn big-btn btn-default" data-dismiss="modal">Close</button>
+    </div>
   </div>
 </div>

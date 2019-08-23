@@ -1,17 +1,11 @@
-.course-page-container {
-	display: grid;
-	grid-template-rows: [course-name] 1fr [questions] 9fr [questions-form] 2fr;
-	grid-gap: 5% 5%;
-
-	.course-name {
-		grid-row: course-name;
-	}
-}
-
 .course-name {
 	font-size: 30px;
 	cursor: default;
 	text-align: center;
+}
+
+.student-questions .question-status {
+	margin-left: 20px;
 }
 
 .questions-container {
@@ -19,30 +13,17 @@
 	overflow-y: auto;
 	height: 60vh;
 
-	grid-row: questions;
-
-	display: grid;
-	grid-template-columns: 1fr 10fr 1fr;
-
-	.question-item:last-of-type {
-		margin-bottom: none;
-	}
-
 	.question-item {
-	  background: #8c8c8c;
+		background: #8c8c8c;
 	  box-shadow: 3px 3px 3px grey; 
 	  border-radius: 5px;
 		cursor: default;
 		padding: 2%;
 		margin-bottom: 10px;
+		height: 90px;
 
-		grid-column: 2;
-
-		display: grid;
-		grid-template-columns: 9fr 1fr 1fr 1fr;
 		grid-gap: 0 1%;
-		height: 15vh;
-		
+
 		a {
 			font-size: 20px;
 			margin: 5px;
@@ -52,62 +33,8 @@
 			word-wrap: break-word;
 		}
 
-		.question-data{
-			grid-row: 1;
-			grid-column: 1;
-
-			display: grid;
-		}
-
-		&.student {
-			.question-data {
-				grid-template-rows: [question-text] 1fr [question-status] 1fr;
-
-				.question-text {
-					grid-row: question-text;
-					font-size: 18px;
-				}
-
-				.question-status {
-					grid-row: question-status;
-					margin-left: 20px;
-				}
-			}
-		}
-
-		&.lecturer {
-			.question-data {
-				grid-template-rows: questions;
-				grid-template-columns: [thumbs] 1fr [question-text] 11fr;
-
-				.fa-thumbs-up{
-					grid-row: 1;
-					grid-column: thumbs;
-				}
-
-				.fa-thumbs-down {
-					grid-row: 2;
-					grid-column: thumbs;
-				}
-
-				.question-text {
-					grid-row: 1 / 2;
-					grid-column: question-text;
-					font-size: 20px;
-				}
-			}
-		}
-
-		.upvotes, .in-class {
-			grid-column: 2;
-		}
-
-		.downvotes, .after-class {
-			grid-column: 3;
-		}
-
-		.flag, .delete {
-			grid-column: 4;
+		.question-text {
+			font-size: 20px;
 		}
 
 		&.no-questions {
@@ -118,30 +45,17 @@
 			display: block;
 			text-align: center;
 		}
+
+		&:last-of-type {
+			margin-bottom: none;
+		}
 	}
 }
 
-.questions-form {
-	grid-row: questions-form;
+.course-page-form {
+	grid-gap: 0 2%;
 
-	.poll-class {
-		form {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
-
-			button {
-				grid-column: 2;
-			}
-		}
-	}
-
-	.ask-question {
-		display: grid;
-		grid-template-columns: 1fr 8fr 1fr;
-		grid-gap: 5% 1%;
-
-		form {
-			grid-column: 2;
-		}
+	input {
+		height: 70px;
 	}
 }

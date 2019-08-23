@@ -19,7 +19,10 @@ class PollsController < ActionController::Base
 			Option.create(number: param.gsub("opt", "").to_i, value: value, selected: 0, poll: poll)
 		end
 
-		CourseChannel.broadcast_to(@course, poll: render_to_string('student_poll', layout: false, locals:{poll: poll}))
+		CourseChannel.broadcast_to(
+			@course, 
+			poll: render_to_string('student_poll', layout: false, locals: { poll: poll })
+		)
 
 		render "active_poll", locals: { poll: poll }
 	end
@@ -30,13 +33,17 @@ class PollsController < ActionController::Base
 
 		data = poll.options.pluck(:value, :selected)
 
-		CourseChannel.broadcast_to(@course, { poll_end: true, chart: render_to_string('student_poll_results', layout: false, locals: { data: data, question: poll.question }) } )
+		CourseChannel.broadcast_to(
+			@course, 
+			poll_end: true, 
+			chart: render_to_string('student_poll_results', layout: false, locals: { data: data, question: poll.question }) 
+		)
 
 		render 'lecturer_poll_results', locals: { poll: poll, data: data }
 	end
 
 	def answer
-		poll = Poll.where(course_id: params[:id], active: true).first
+		poll = Poll.find(id: params[:id])
 		
 		data = JSON.parse(@student.poll_data)
 
@@ -57,7 +64,11 @@ class PollsController < ActionController::Base
 			break
 		end
 
-		CourseChannel.broadcast_to(poll.course, answered: true, changed: changed)
+		CourseChannel.broadcast_to(
+			poll.course, 
+			answered: true, 
+			changed: changed
+		)
 
 		option = Option.find(option)
 		option.update_column(:selected, option.selected + 1)

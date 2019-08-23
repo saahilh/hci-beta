@@ -1,21 +1,21 @@
 <nav class="navbar navbar-fixed-top container-fluid">
   <% if defined?(is_message) %>
-    <%= link_to " Back to Home", "/", method: :get, class: "leave-class btn btn-default fa fa-arrow-left" %>
+    <%= link_to " Back to Home", "/", method: :get, class: "leave-class btn big-btn btn-default fa fa-arrow-left" %>
     <a class="navbar-brand" href="/"><h4> Classroom Friend </h4></a>
   <% elsif !defined?(is_poll).nil? %>
-    <%= link_to " Back to Course", url_for(@course), method: :get, class: "leave-class btn btn-default fa fa-arrow-left" %>
+    <%= link_to " Back to Course", url_for(@course), method: :get, class: "leave-class btn big-btn btn-default fa fa-arrow-left" %>
     <a class="navbar-brand" href="<%= url_for(@course) %>"><h4> Classroom Friend </h4></a>
   <% elsif !@lecturer.nil? %>
     <% if !@course.nil? %>
-      <%= link_to " Back to Profile", lecturer_path(@lecturer), method: :get, class: "leave-class btn btn-default fa fa-user" %>
+      <%= link_to " Back to Profile", lecturer_path(@lecturer), method: :get, class: "leave-class btn big-btn btn-default fa fa-user" %>
     <%end %>
 
     <a class="navbar-brand" href="<%= url_for(@lecturer) %>"><h4> Classroom Friend </h4></a>
 
-    <%= link_to " Logout", "/lecturers/logout", method: :post, class: "logout btn btn-default fa fa-power-off" %>
+    <%= link_to " Logout", "/lecturers/logout", method: :post, class: "logout btn big-btn btn-default fa fa-power-off" %>
   <% else %>
     <% if !@course.nil? %>
-      <%= link_to " Leave Class", "/", method: :get, class: "leave-class btn btn-default fa fa-arrow-left" %>
+      <%= link_to " Leave Class", "/", method: :get, class: "leave-class btn big-btn btn-default fa fa-arrow-left" %>
     <% end %>
 
     <a class="navbar-brand" href="/"><h4> Classroom Friend </h4></a>

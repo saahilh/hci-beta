@@ -41,3 +41,25 @@
     grid-column: span 1;
   }
 }
+
+.poll-modal {
+  display: grid;
+  grid-template-rows: [left-margin] 1fr [poll] 8fr [right-margin] 1fr;
+
+  .modal-body {
+    grid-row: poll;
+  }
+}
+
+.change-response {
+  display: none;
+
+  .content {
+    display: grid;
+    grid-template-columns: [left-margin] 1fr [button] 2fr [right-margin] 1fr;
+
+    button {
+      grid-column: button;
+    }
+  }
+}

@@ -1,5 +1,6 @@
-.navbar.container-fluid {
+.navbar {
   padding-bottom: 15px;
+  margin-bottom: 30px;
 
   display: grid;
   grid-template-columns: [leave-class] 3fr [website-header] 6fr [logout] 3fr;

@@ -9,31 +9,34 @@
     <div class="question-item no-questions"> No questions available </div>
 
     <% course.questions.sort_by{|question| [-question.upvote_count, question.downvote_count, question.created_at]}.each do |question| %>
-      <% next if !lecturer.nil? || student.has_flagged?(question) %>
-      
+      <% next if student.has_flagged?(question) %>
+
       <%= render(partial: 'question', locals: {question: question, lecturer: lecturer, student: student, course: course}) %>
     <% end %>
   </div>
 
-  <div class="questions-form">
-    <% if !lecturer.nil? && lecturer.is_lecturer_for(course) %>
-      <div class="poll-class">
-        <form action="<%=course_path(course)%>/poll_class.html" method="get">
-          <button class="btn btn-default fit big-btn">Poll Class</button>
-        </form>
-      </div>
-    <% else %>
-      <div class="ask-question">
-        <form class="one-item" action="<%= course_path(course) %>/questions" method="post" data-remote="true">
-          <input name="question" type="textarea" placeholder="Enter question here" maxlength="105"/>
-          <button type="submit" class="btn btn-inverse fit big-btn" data-remote="true">Ask</button>
-        </form>
-      </div>
-    <% end %>
-  </div>
+  <% if !lecturer.nil? %>
+    <form class="course-page-form poll-class" action="<%=course_path(course)%>/poll_class.html" method="get">
+      <button class="btn big-btn btn-default fit">Poll Class</button>
+    </form>
+  <% else %>
+    <form class="course-page-form ask-question" action="<%= course_path(course) %>/questions" method="post" data-remote="true">
+      <input name="question" type="textarea" placeholder="Enter question here" maxlength="105"/>
+      <button type="submit" class="btn big-btn btn-default fit" data-remote="true">Ask</button>
+    </form>
+  <% end %>
 </div>
 
-<% if lecturer.nil? || !lecturer.is_lecturer_for(course) %>
-  <a data-toggle="modal" data-target="#poll-modal" class="hidden" id="modal-button"></a>
-  <%= render(partial: '/polls/student_poll_container_modal') %>
+<% if lecturer.nil? %>
+  <a data-toggle="modal" data-target="#poll-modal" id="modal-button">Button</a>
+
+  <div id="poll-modal" modal-backdrop="static" class="poll-modal modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div id="poll-body" class="modal-body custom-panel">
+        <% if @course.has_active_poll? %>
+          <%= render(partial: '/polls/student_poll', locals: { poll: course.get_active_poll }) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 <% end %>

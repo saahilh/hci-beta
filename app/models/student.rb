@@ -4,7 +4,7 @@ class Student < ApplicationRecord
 	has_many :questions
 
 	def has_flagged?(question)
-		Flag.where(course: question.course, question: question, student: self).count==0
+		Flag.where(course: question.course, question: question, student: self).count==1
 	end
 
 	def has_voted_for?(question)

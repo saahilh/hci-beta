@@ -16,7 +16,7 @@ class LecturersController < ActionController::Base
   end
 
   def show
-  	render 'lecturer_profile', locals:{ lecturer: @lecturer }
+  	render 'lecturer_profile', locals: { lecturer: @lecturer }
   end
 
   def logout
