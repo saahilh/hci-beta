@@ -31,9 +31,9 @@ class PollsController < ActionController::Base
 		poll = Poll.find(params[:id])
 
 		if poll.active
-			render 'lecturer_poll_results', locals: { poll: poll, data: poll.options.pluck(:value, :selected) }
-		else
 			render "active_poll", locals: { poll: poll }
+		else
+			render 'lecturer_poll_results', locals: { poll: poll, data: poll.options.pluck(:value, :selected) }
 		end
 	end
 

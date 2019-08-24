@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require jsapi
 //= require_tree .
+//= require Chart.bundle
 //= require chartkick
 //= require bootstrap.min
 //= require awesomplete.min

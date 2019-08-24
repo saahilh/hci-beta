@@ -12,7 +12,7 @@
 
     <%= link_to("after class", "#{course_question_path(course, question)}/after_class", method: :post, remote: true, class: "after-class btn #{question.status=="will answer after class" ? "btn-primary" :  "btn-default text-primary"}") %>
 
-    <%= link_to("", question, method: :delete, class: "btn fa fa-trash icon-2x btn-danger", remote: true) %>
+    <%= link_to("", course_question_path(course, question), method: :delete, class: "btn fa fa-trash icon-2x btn-danger", remote: true) %>
   <% else %>
     <div class="question-data">
       <span class="question-text" maxlength="105"><%= question.question %></span>
@@ -20,11 +20,11 @@
     </div>
     
     <form class="upvotes" data-remote="true" action="<%=course_question_path(course, question)%>/upvote" method="post">
-      <button type="submit" class="btn fa fa-thumbs-up<%= student.has_upvoted?(question) ? " btn-primary" : " text-primary" %>"> <%= question.upvote_count %></button>
+      <button type="submit" class="btn fa fa-thumbs-up<%= !student.nil? && student.has_upvoted?(question) ? " btn-primary" : " text-primary" %>"> <%= question.upvote_count %></button>
     </form>
 
     <form class="downvotes" data-remote="true" action="<%=course_question_path(course, question)%>/downvote" method="post">
-      <button type="submit" class="btn fa fa-thumbs-down<%= student.has_downvoted?(question) ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
+      <button type="submit" class="btn fa fa-thumbs-down<%= !student.nil? && student.has_downvoted?(question) ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
     </form>
 
     <form class="flag" data-remote="true" action="<%=course_question_path(course, question)%>/flag" method="post">

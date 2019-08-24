@@ -16,8 +16,6 @@ Rails.application.routes.draw do
   get "login" => "applcation#index"
   get 'select_course' => "application#index"
 
-  get 'courses/*id/poll_class' => 'polls#new'
-
   post "courses/*course_id/polls/*id/end" => "polls#end"
   get "courses/*course_id/polls/*id/end" => "polls#show"
 

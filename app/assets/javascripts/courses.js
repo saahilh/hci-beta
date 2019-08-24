@@ -154,13 +154,13 @@ $(document).ready(function(){
   $(document).on('click', '.ask-question button', function(e){
     e.preventDefault();
 
-    form = $('.ask-question form');
+    form = $('form.ask-question');
     $.ajax({
       type: form.attr('method'),
       url: form.attr('action'),
       data: form.serialize(),
       success: function(response){ 
-        $('.ask-question form input').val('');
+        $('form.ask-question input').val('');
       },
       dataType: 'json'
     });

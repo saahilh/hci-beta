@@ -15,8 +15,8 @@ class QuestionsController < ActionController::Base
 			@course,
 			question_id: @question.id,
 			action: "new_question",
-			student_question: render_to_string('courses/_question', layout: false, locals: {question: @question, lecturer: nil, student: nil, course: @course}),
-			lecturer_question: render_to_string('courses/_question', layout: false, locals: {question: @question, lecturer: @course.lecturer, student: nil, course: @course})
+			student_question: render_to_string('courses/_question', layout: false, locals: { question: @question, lecturer: nil, student: nil, course: @course }),
+			lecturer_question: render_to_string('courses/_question', layout: false, locals: { question: @question, lecturer: @course.lecturer, student: nil, course: @course })
 		)
 	end
 
