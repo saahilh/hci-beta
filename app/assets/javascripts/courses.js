@@ -6,9 +6,9 @@ $(document).ready(function(){
   class QuestionList {
     constructor() {
       this.inClassActiveIdentifier = 'btn-success';
-      this.inClassInactiveIdentifier = 'text-success btn-default';
+      this.inClassInactiveIdentifier = 'text-success';
       this.afterClassActiveIdentifier = 'btn-primary';
-      this.afterClassInactiveIdentifier = 'text-primary btn-default';
+      this.afterClassInactiveIdentifier = 'text-primary';
 
       this.upvoteIdentifier = '.fa-thumbs-up';
       this.downvoteIdentifier = '.fa-thumbs-down';
@@ -108,28 +108,24 @@ $(document).ready(function(){
         if(data['action'] == 'new_question'){
           questionList.addQuestion(data);
         }
-        else{
-          const questionItem = $('#q'+ questionId);
-
-          if(data['action'] == 'newStatus'){
-            questionList.updateStatus(data);
-          }
-          else if(data['action'] == 'delete_question' || data['action'] == 'flag_threshold_exceeded'){
-            questionList.removeQuestion(data);
-          }
-          else if(data['action'] == 'vote'){
-            questionList.vote(data);
-          }
-          //POLLS
-          else if(data['answered']&&!data['changed']){
-            $('#counter').text(parseInt($('#counter').text()) + 1);
-          }
-          else if(data['connected']){
-            $('#active-connections').text(parseInt($('#active-connections').text())+1)
-          }
-          else if(data['disconnected']){
-            $('#active-connections').text(parseInt($('#active-connections').text())-1)
-          }
+        else if(data['action'] == 'new_status'){
+          questionList.updateStatus(data);
+        }
+        else if(data['action'] == 'delete_question' || data['action'] == 'flag_threshold_exceeded'){
+          questionList.removeQuestion(data);
+        }
+        else if(data['action'] == 'vote'){
+          questionList.vote(data);
+        }
+        //POLLS
+        else if(data['answered']&&!data['changed']){
+          $('#counter').text(parseInt($('#counter').text()) + 1);
+        }
+        else if(data['connected']){
+          $('#active-connections').text(parseInt($('#active-connections').text())+1)
+        }
+        else if(data['disconnected']){
+          $('#active-connections').text(parseInt($('#active-connections').text())-1)
         }
       },
       speak: function(){}
@@ -165,4 +161,14 @@ $(document).ready(function(){
       dataType: 'json'
     });
   });
-})
+
+  // $(document).on('click', '.in-class', function(){
+  //   $(this).toggleClass('btn-success').toggleClass('text-success');
+  //   $(this).closest('.after-class').addClass('text-primary').removeClass('btn-primary');
+  // });
+
+  // $(document).on('click', '.after-class', function(){
+  //   $(this).toggleClass('btn-success text-success');
+  //   $(this).closest('.after-class').addClass('text-primary').removeClass('btn-primary');
+  // });
+});

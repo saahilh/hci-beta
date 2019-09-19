@@ -60,4 +60,12 @@ class Question < ApplicationRecord
 	def has_passed_flag_threshold
 		Flag.where(course: self.course, question: self).count >= FLAG_THRESHOLD
 	end
+
+	def answer_in_class?
+		self.status == ANSWER_IN_CLASS_STATUS_MESSAGE
+	end
+
+	def answer_after_class?
+		self.status == ANSWER_AFTER_CLASS_STATUS_MESSAGE
+	end
 end
