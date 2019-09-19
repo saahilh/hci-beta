@@ -1,6 +1,7 @@
 # README
 
 ClassroomFriend is a Rails-based Websocket webtool to complement lectures by providing a convenient medium for question-asking.
+It is currently hosted on Heroku, and can be found at https://classroom-friend.herokuapp.com
 
 # TODO
 
