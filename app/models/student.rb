@@ -2,6 +2,7 @@ class Student < ApplicationRecord
 	has_many :flags
 	has_many :votes
 	has_many :questions
+	has_many :poll_responses, dependent: :delete_all
 
 	def has_flagged?(question)
 		Flag.where(course: question.course, question: question, student: self).count==1

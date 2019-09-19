@@ -21,11 +21,11 @@ Rails.application.routes.draw do
   post "courses/*course_id/polls/*id/end" => "polls#end"
   get "courses/*course_id/polls/*id/end" => "polls#show"
 
-  post "/questions/*id/in_class" => "questions#in_class"
-  post "/questions/*id/after_class" => "questions#after_class"
-  post "/questions/*id/upvote" => "questions#upvote"
-  post "/questions/*id/downvote" => "questions#downvote"
-  post "/questions/*id/flag" => "questions#flag"
+  post "courses/*course_id/questions/*id/in_class" => "questions#in_class"
+  post "courses/*course_id/questions/*id/after_class" => "questions#after_class"
+  post "courses/*course_id/questions/*id/upvote" => "questions#upvote"
+  post "courses/*course_id/questions/*id/downvote" => "questions#downvote"
+  post "courses/*course_id/questions/*id/flag" => "questions#flag"
   
   post "/lecturers/logout" => "lecturers#logout"
 

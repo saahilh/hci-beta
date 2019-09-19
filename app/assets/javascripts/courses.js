@@ -117,7 +117,10 @@ $(document).ready(function(){
         else if(data['action'] == 'vote'){
           questionList.vote(data);
         }
-        //POLLS
+        else if(data['action'] == 'new_poll'){
+          $("#poll-body").html(data['poll']);
+          $('#modal-button').click();
+        }
         else if(data['answered']&&!data['changed']){
           $('#counter').text(parseInt($('#counter').text()) + 1);
         }

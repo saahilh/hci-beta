@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190823211250) do
+ActiveRecord::Schema.define(version: 20190919182144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,8 +58,16 @@ ActiveRecord::Schema.define(version: 20190823211250) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "poll_id"
-    t.integer "selected"
     t.index ["poll_id"], name: "index_options_on_poll_id"
+  end
+
+  create_table "poll_responses", force: :cascade do |t|
+    t.bigint "student_id"
+    t.bigint "option_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_id"], name: "index_poll_responses_on_option_id"
+    t.index ["student_id"], name: "index_poll_responses_on_student_id"
   end
 
   create_table "polls", force: :cascade do |t|
@@ -89,7 +97,6 @@ ActiveRecord::Schema.define(version: 20190823211250) do
   create_table "students", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "poll_data", default: "{}"
   end
 
   create_table "votes", force: :cascade do |t|
@@ -109,6 +116,8 @@ ActiveRecord::Schema.define(version: 20190823211250) do
   add_foreign_key "flags", "courses"
   add_foreign_key "flags", "questions"
   add_foreign_key "flags", "students"
+  add_foreign_key "poll_responses", "options"
+  add_foreign_key "poll_responses", "students"
   add_foreign_key "votes", "courses"
   add_foreign_key "votes", "questions"
   add_foreign_key "votes", "students"

@@ -4,6 +4,7 @@ class PollsController < ActionController::Base
 	before_action :set_course, only: [:new, :show, :create, :end]
 	before_action :set_lecturer, only: [:new]
 	before_action :set_student, only: [:answer]
+	before_action :set_poll, only: [:show, :end, :answer]
 	before_action :authenticate_lecturer_for_course, only: [:new]
 
 	def new
@@ -14,13 +15,13 @@ class PollsController < ActionController::Base
 		Poll.where(course: @course.id, active: true).all.each {|poll| poll.update_column(:active, false)}
 		poll = Poll.create(question: params[:question], course: @course, active: true)
 
-		params.each do |param, value|
-			next unless param.starts_with?("opt")
-			Option.create(number: param.gsub("opt", "").to_i, value: value, selected: 0, poll: poll)
+		params[:option].each do |number, value|
+			Option.create(number: number.to_i, value: value, poll: poll)
 		end
 
 		CourseChannel.broadcast_to(
 			@course, 
+			action: 'new_poll',
 			poll: render_to_string('_student_poll', layout: false, locals: { poll: poll })
 		)
 
@@ -28,62 +29,55 @@ class PollsController < ActionController::Base
 	end
 
 	def show
-		poll = Poll.find(params[:id])
-
-		if poll.active
-			render "active_poll", locals: { poll: poll }
+		if @poll.active
+			render "active_poll", locals: { poll: @poll }
 		else
-			render 'lecturer_poll_results', locals: { poll: poll, data: poll.options.pluck(:value, :selected) }
+			render 'lecturer_poll_results', locals: { poll: @poll }
 		end
 	end
 
 	def end
-		poll = Poll.find(params[:id])
-		poll.update_column(:active, false)
-
-		data = poll.options.pluck(:value, :selected)
+		@poll.update_column(:active, false)
 
 		CourseChannel.broadcast_to(
 			@course, 
 			poll_end: true, 
-			chart: render_to_string('student_poll_results', layout: false, locals: { data: data, question: poll.question }) 
+			chart: render_to_string('student_poll_results', layout: false, locals: { poll: @poll }) 
 		)
 
-		render 'lecturer_poll_results', locals: { poll: poll, data: data }
+		render 'lecturer_poll_results', locals: { poll: @poll }
 	end
 
 	def answer
-		poll = Poll.find(id: params[:id])
-		
-		data = JSON.parse(@student.poll_data)
+		option = Option.find(params[:option_id])
 
+		existing_response = nil
 		changed = false
 
-		if(data[poll.id.to_s])
-			changed = true
-			option = Option.find(data[poll.id.to_s])
-			option.update_column(:selected, option.selected - 1)
+		@poll.options.each do |option|
+			if option.was_responded_to_by?(@student)
+				existing_response = option.get_response_by(@student)
+				break
+			end
 		end
 
-		option = ""
+		if existing_response
+			changed = existing_response.option != option
+		end
 
-		params.each do |param|
-			next unless param.starts_with?("opt")
+		if changed or existing_response.nil?
+			PollResponse.create(student_id: @student.id, option_id: option.id)
 
-			option = param.gsub("opt", "")
-			break
+			if changed
+				existing_response.delete
+			end
 		end
 
 		CourseChannel.broadcast_to(
-			poll.course, 
+			@poll.course,
+			action: 'poll_response',
 			answered: true, 
 			changed: changed
 		)
-
-		option = Option.find(option)
-		option.update_column(:selected, option.selected + 1)
-
-		data[poll.id.to_s] = option.id
-		@student.update_column(:poll_data, data.to_json)
 	end
 end

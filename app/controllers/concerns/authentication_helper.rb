@@ -18,6 +18,10 @@ module AuthenticationHelper
 		@question = Question.find(params[:id])
 	end
 
+	def set_poll
+		@poll = Poll.find(params[:id])
+	end
+
 	def set_lecturer
 		@lecturer = Lecturer.find_by(id: session[:lecturer_id])
 

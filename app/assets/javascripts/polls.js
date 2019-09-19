@@ -2,29 +2,30 @@ $(document).ready(function(){
   $(document).on('click', '#start-polling-button', function(e){
     e.preventDefault();
 
-    form = $('#poll-form');
+    let firstOption = $('#poll-options .poll-option input').eq(0);
+    let secondOption = $('#poll-options .poll-option input').eq(1);
 
-    if(form.find('#poll-question').val()=='' && (form.find('#opt1').val()==''||form.find('#opt2').val()=='')){
+    if($('#poll-question').val()=='' && (firstOption.val()==''||secondOption.val()=='')){
       $('#modal-message').text('Please enter a question and at least two options.')
       $('#show-modal').click();
     }
-    else if(form.find('#poll-question').val()==''){
+    else if($('#poll-question').val()==''){
       $('#modal-message').text('Please enter a question.')
       $('#show-modal').click();
     }
-    else if(form.find('#opt1').val()==''||form.find('#opt2').val()==''){
+    else if(firstOption.val()==''||secondOption.val()==''){
       $('#modal-message').text('Please enter at least two options.')
       $('#show-modal').click();
     }
     else{
-      form.submit();
+      $('#poll-form').submit();
     }
   });
 
   let optionCount = 0;
 
   function createPollOption(optionNumber) {
-    return `<div class="poll-option"><span>Option ${optionNumber}</span><input id="opt${optionNumber}" name="opt${optionNumber}" type="textarea" placeholder="Type an answer for the poll here" maxlength="30"/></div>`;
+    return `<div class="poll-option"><span>Option ${$('#poll-options .poll-option').length + 1}</span><input name="options[${optionNumber}]" type="textarea" placeholder="Type an answer for the poll here" maxlength="30"/></div>`;
   }
 
   addOption();

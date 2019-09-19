@@ -3,6 +3,7 @@ class Course < ApplicationRecord
 	has_many :polls, dependent: :delete_all
 	has_many :flags, dependent: :delete_all
 	has_many :votes, dependent: :delete_all
+
 	belongs_to :lecturer
 
 	validates :name, presence: true
@@ -10,10 +11,14 @@ class Course < ApplicationRecord
 	validates :name, uniqueness: { message: "for course already taken" }
 
 	def has_active_poll?
-		Poll.where(course: self.id, active: true).count > 0
+		self.polls.where(active: true).count > 0
 	end
 
 	def get_active_poll
-		Poll.where(course: self.id, active: true).last
+		self.polls.where(active: true).last
+	end
+
+	def deactivate_all_polls
+		self.polls.where(active: true).each {|poll| poll.update_column(:active, false)}
 	end
 end
