@@ -118,7 +118,7 @@ $(document).ready(function(){
           questionList.vote(data);
         }
         else if(data['action'] == 'new_poll'){
-          $("#poll-body").html(data['poll']);
+          $("#poll-modal .modal-body").html(data['poll']);
           $('#modal-button').click();
         }
         else if(data['answered']&&!data['changed']){
