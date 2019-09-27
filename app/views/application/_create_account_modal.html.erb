@@ -20,14 +20,18 @@
             <input type="password" class="form-control" name="cpw">
           </div>
         </form>
-        <button id="create-account-button" class="btn btn-inverse" type="submit" data-remote="true" >
-          Continue
-        </button>
+
+        <div class="create-account-button">
+          <button id="create-account-button" class="btn btn-default fit" data-dismiss="modal">Create Account</button>
+        </div>
       </div>
+      
       <div class="modal-body confirmation" style="display:none;">
         <h4 class="center"></h4>
         <p id="create-modal-message" class="white center"></p>
-        <button id="back" type="button" class="btn btn-inverse fit">Okay</button>
+        <div id="back" class="close-modal">
+          <button class="btn btn-default fit" data-dismiss="modal">Okay</button>
+        </div>
       </div>
     </div>
   </div>
