@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div id="submission" class="modal-body">
-        <form action="/lecturers"+ method="post">
+        <form action="/lecturers" method="post">
           <div class="form-group">
             <label for="name">Preferred Name</label>
             <input type="textarea" class="form-control" name="name">
@@ -20,11 +20,11 @@
             <input type="password" class="form-control" name="cpw">
           </div>
         </form>
-        <button id="create-account-button" type="submit" data-remote="true" class="btn btn-inverse">
+        <button id="create-account-button" class="btn btn-inverse" type="submit" data-remote="true" >
           Continue
         </button>
       </div>
-      <div class="modal-body confirmation">
+      <div class="modal-body confirmation" style="display:none;">
         <h4 class="center"></h4>
         <p id="create-modal-message" class="white center"></p>
         <button id="back" type="button" class="btn btn-inverse fit">Okay</button>
