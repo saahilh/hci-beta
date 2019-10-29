@@ -93,7 +93,7 @@ $(document).ready(function(){
 
   const questionList = new QuestionList();
 
-  if(roomName!=""){
+  if(typeof roomName !== 'undefined'){
     App.room = App.cable.subscriptions.create({
       channel: 'CourseChannel',
       room: roomName

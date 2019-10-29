@@ -1,12 +1,12 @@
-<a id="show-modal" class="hidden" data-toggle="modal" data-target="#message-modal"></a>
+<a id="show-modal" class="hidden" data-toggle="modal" data-target="#<%= id %>"></a>
 
-<div id="message-modal" class="modal fade" role="dialog" style="overflow:hidden; display:none">
+<div id="<%= id %>" class="modal fade" role="dialog" style="overflow:hidden; display:none">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-body confirmation">
         <h4 class="center"><%= header.html_safe %></h4>
 
-        <p id="modal-message" class="white center"></p>
+        <p class="modal-message"></p>
     
         <button type="button" class="btn big-btn btn-default fit" data-dismiss="modal">
           Okay

@@ -6,15 +6,15 @@ $(document).ready(function(){
     let secondOption = $('#poll-options .poll-option input').eq(1);
 
     if($('#poll-question').val()=='' && (firstOption.val()==''||secondOption.val()=='')){
-      $('#modal-message').text('Please enter a question and at least two options.')
+      $('#message-modal .modal-message').text('Please enter a question and at least two options.')
       $('#show-modal').click();
     }
     else if($('#poll-question').val()==''){
-      $('#modal-message').text('Please enter a question.')
+      $('#message-modal .modal-message').text('Please enter a question.')
       $('#show-modal').click();
     }
     else if(firstOption.val()==''||secondOption.val()==''){
-      $('#modal-message').text('Please enter at least two options.')
+      $('#message-modal .modal-message').text('Please enter at least two options.')
       $('#show-modal').click();
     }
     else{
@@ -38,6 +38,7 @@ $(document).ready(function(){
       $('#poll-options').append($(createPollOption(optionCount)));
 
       $('#remove-option').removeClass('disabled');
+      
       if(optionCount==5){
         $('#add-option').addClass('disabled');
       }

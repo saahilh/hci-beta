@@ -10,18 +10,18 @@ $(document).ready(function(){
       data: form.serialize(),
       success: function(response){
         if(response.data.errors.length > 0){
-          $('.modal-body.confirmation h4').text('Error')
-          $('#modal-message').text(response.data.errors.join('\n'));
+          $('#message-modal .modal-body.confirmation h4').text('Error')
+          $('#message-modal .modal-message').text(response.data.errors.join('\n'));
         }
         else{
-          $('.modal-body.confirmation h4').text('Success!')
+          $('#message-modal .modal-body.confirmation h4').text('Success!')
 
-          $('#modal-message').text('Successfully created course ' + response.data.course_name);
+          $('#message-modal .modal-message').text('Successfully created course ' + response.data.course_name);
           $('.class-list').append(createCourseIndexItem(response.data.course_id, response.data.course_name));
           $('#new-class-form input[name="new_course"]').val('');
         }
 
-        $('#open-confirmation-modal').click();
+        $('#show-modal').click();
       },
       dataType: 'json'
     });
@@ -44,7 +44,7 @@ $(document).ready(function(){
   $(document).on('keydown', function(e) {
     const keyPressed = e.keyCode || e.which;
     if(keyPressed == 13 && $('.modal-open').length){
-      $('#open-confirmation-modal').click();
+      $('#show-modal').click();
     }
   });
 });

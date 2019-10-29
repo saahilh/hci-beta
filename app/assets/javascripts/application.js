@@ -64,7 +64,9 @@ $(document).on('click', '#create-account-button', function(e){
 
 $(document).on('click', '#join-class, #lecturer-login', function(e){
   e.preventDefault();
+
   const form = $(this).closest('form');
+
   if(!form.find('input').val()==''){
     $.ajax({
       type: form.attr('method'),
@@ -72,8 +74,7 @@ $(document).on('click', '#join-class, #lecturer-login', function(e){
       data: form.serialize(),
       success: function(response){
         if(response.data.msg){
-          $('.modal-body.confirmation h4').text('Error')
-          $('#modal-message').text(response.data.msg);
+          $('#message-modal .modal-message').text(response.data.msg);
           $('#show-modal').click();
         }
         else{

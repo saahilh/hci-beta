@@ -38,21 +38,5 @@
     </div>
   </div>
 
-  <div id="new-class-modal" class="modal fade" role="dialog" style="overflow:hidden; display: none">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-body confirmation">
-          <h4 class="center"></h4>
-
-          <p id="modal-message" class="white center"></p>
-
-          <button type="button" class="btn big-btn btn-default fit" data-dismiss="modal">
-            Okay
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render(partial: '/partials/message_modal', locals: { id: 'message-modal', header: 'Error' }) %>
 </div>
-
-<a id="open-confirmation-modal" class="hidden" data-toggle="modal" data-target="#new-class-modal"></a>
