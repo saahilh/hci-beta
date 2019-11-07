@@ -165,6 +165,10 @@ $(document).ready(function(){
     });
   });
 
+  if($("#poll-body").text().replace(/\s/g, '').length!=0){
+    $("#modal-button").click();
+  };
+
   // $(document).on('click', '.in-class', function(){
   //   $(this).toggleClass('btn-success').toggleClass('text-success');
   //   $(this).closest('.after-class').addClass('text-primary').removeClass('btn-primary');

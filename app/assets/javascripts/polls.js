@@ -61,13 +61,27 @@ $(document).ready(function(){
   $(document).on('click', '#add-option', addOption);
   $(document).on('click', '#remove-option', removeOption);
 
-  $(document).on('click', '.response-button', function(){
-    $('#responses').hide(); 
-    $('#change-response').show();
+  $('.response-button').click(function(){
+    $('#responses').hide();
+
+    $('.response-button').each(function(){
+      $(this).removeClass('btn-success');
+      $(this).addClass('btn-default');;
+    });
+
+    $(this).removeClass('btn-default');
+    $(this).addClass('btn-success');
+
+    $('#change-response').show(); 
   });
 
   $(document).on('click', '#change-response-button', function(){
     $('#responses').show(); 
     $('#change-response').hide();
   });
+
+  if($('.response-button.btn-success').length > 0){
+    $('#responses').hide(); 
+    $('#change-response').show();
+  };
 });

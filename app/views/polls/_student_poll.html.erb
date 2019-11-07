@@ -6,7 +6,11 @@
 
     <div class="content">
       <% poll.options.order(:number).each_with_index do |option, index| %>
-        <%= link_to(option.value, "/polls/#{option.poll.id}/options/#{option.id}", method: :post, remote: true, class: "btn btn-default response-button") %>
+        <% if student.poll_responses.any?{|pr| pr.option==option } %>
+          <%= link_to(option.value, "/polls/#{option.poll.id}/options/#{option.id}", method: :post, remote: true, class: "btn btn-success response-button") %>
+        <% else %>
+          <%= link_to(option.value, "/polls/#{option.poll.id}/options/#{option.id}", method: :post, remote: true, class: "btn btn-default response-button") %>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -18,7 +22,6 @@
     
     <div class="content">
       <button id="change-response-button" class="btn big-btn btn-default">Change Response</button>
-      <button class="btn big-btn btn-default" data-dismiss="modal">Close</button>
     </div>
   </div>
 </div>

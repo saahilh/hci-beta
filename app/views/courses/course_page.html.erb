@@ -34,7 +34,7 @@
     <div class="modal-dialog">
       <div id="poll-body" class="modal-body custom-panel">
         <% if @course.has_active_poll? %>
-          <%= render(partial: '/polls/student_poll', locals: { poll: course.get_active_poll }) %>
+          <%= render(partial: '/polls/student_poll', locals: { student: student, poll: course.get_active_poll }) %>
         <% end %>
       </div>
     </div>
