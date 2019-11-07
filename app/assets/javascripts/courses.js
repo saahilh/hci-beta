@@ -121,7 +121,7 @@ $(document).ready(function(){
           $("#poll-modal .modal-body").html(data['poll']);
           $('#modal-button').click();
         }
-        else if(data['answered']&&!data['changed']){
+        else if(data['answered'] && !data['changed']){
           $('#counter').text(parseInt($('#counter').text()) + 1);
         }
         else if(data['connected']){

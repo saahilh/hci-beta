@@ -22,7 +22,7 @@ class PollsController < ActionController::Base
 		CourseChannel.broadcast_to(
 			@course, 
 			action: 'new_poll',
-			poll: render_to_string('_student_poll', layout: false, locals: { poll: poll })
+			poll: render_to_string('_student_poll', layout: false, locals: { poll: poll, student: nil })
 		)
 
 		redirect_to course_poll_path(poll.course, poll)
