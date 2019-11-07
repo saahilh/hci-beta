@@ -15,7 +15,7 @@ class PollsController < ActionController::Base
 		Poll.where(course: @course.id, active: true).all.each {|poll| poll.update_column(:active, false)}
 		poll = Poll.create(question: params[:question], course: @course, active: true)
 
-		params[:option].each do |number, value|
+		params[:options].each do |number, value|
 			Option.create(number: number.to_i, value: value, poll: poll)
 		end
 
