@@ -135,6 +135,10 @@ $(document).ready(function(){
     });
   }
 
+  $('.fa-flag').click(function(){
+    $(this).closest('.question-item').hide();
+  });
+
   $(document).on('click', questionList.downvoteIdentifier, function(){
     $(this).toggleClass('text-danger').toggleClass('btn-danger');
     $(this).closest('.question-item').find(questionList.upvoteIdentifier).removeClass('btn-primary').addClass('text-primary');
