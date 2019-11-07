@@ -59,8 +59,8 @@ $(document).ready(function(){
       this.sortQuestion($(`#q${data["question_id"]}`));
     }
 
-    hideQuestion(data) {
-      $(`#q${data["question_id"]}`).hide();
+    removeQuestion(data) {
+      $(`#q${data["question_id"]}`).remove();
     }
 
     updateStatus(data) {
@@ -112,7 +112,7 @@ $(document).ready(function(){
           questionList.updateStatus(data);
         }
         else if(data['action'] == 'delete_question' || data['action'] == 'flag_threshold_exceeded'){
-          questionList.hideQuestion(data);
+          questionList.removeQuestion(data);
         }
         else if(data['action'] == 'vote'){
           questionList.vote(data);
