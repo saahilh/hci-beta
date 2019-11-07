@@ -28,7 +28,7 @@
       <button type="submit" class="btn fa fa-thumbs-down<%= !student.nil? && student.has_downvoted?(question) ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
     </form>
 
-    <form class="flag" data-remote="true" action="<%=course_question_path(course, question)%>/flag" method="post">
+    <form class="flag" action="<%=course_question_path(course, question)%>/flag" method="post">
       <button type="submit" class="btn fa fa-flag btn-warning" data-remote="true"></button>
     </form>
   <% end %>

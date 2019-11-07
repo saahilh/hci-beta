@@ -59,8 +59,8 @@ $(document).ready(function(){
       this.sortQuestion($(`#q${data["question_id"]}`));
     }
 
-    removeQuestion(data) {
-      $(`#q${data["question_id"]}`).remove();
+    hideQuestion(data) {
+      $(`#q${data["question_id"]}`).hide();
     }
 
     updateStatus(data) {
@@ -112,7 +112,7 @@ $(document).ready(function(){
           questionList.updateStatus(data);
         }
         else if(data['action'] == 'delete_question' || data['action'] == 'flag_threshold_exceeded'){
-          questionList.removeQuestion(data);
+          questionList.hideQuestion(data);
         }
         else if(data['action'] == 'vote'){
           questionList.vote(data);
@@ -135,10 +135,6 @@ $(document).ready(function(){
     });
   }
 
-  $('.fa-flag').click(function(){
-    $(this).closest('.question-item').hide();
-  });
-
   $(document).on('click', questionList.downvoteIdentifier, function(){
     $(this).toggleClass('text-danger').toggleClass('btn-danger');
     $(this).closest('.question-item').find(questionList.upvoteIdentifier).removeClass('btn-primary').addClass('text-primary');
@@ -149,9 +145,23 @@ $(document).ready(function(){
     $(this).closest('.question-item').find(questionList.downvoteIdentifier).removeClass('btn-danger').addClass('text-danger');
   });
 
-
   $(document).on('click', '.leave-class, #home', function(){
     App.room.unsubscribe();
+  });
+
+  $(document).on('click', '.fa-flag', function(e){
+    e.preventDefault();
+
+    let form = $(this).closest('.flag')[0];
+
+    $.ajax({
+       url: form.action,
+       method: form.method,
+       data: $(form).serialize(),
+       success: function(data){
+          $(form).closest('.question-item').remove();
+       }
+    });
   });
 
   $(document).on('click', '.ask-question button', function(e){

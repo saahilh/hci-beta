@@ -6,7 +6,7 @@
 <span>Question</span>
 
 <div class="poll-form">
-  <input class="poll-question" type="textarea" value="<%=poll.question%>"/>
+  <input class="poll-question" type="textarea" value="<%= poll.question %>"/>
 
   <div class="poll-options">
     <% poll.options.order(:number).each do |option| %>
