@@ -1,13 +1,11 @@
-<div id="poll-question" class="custom-panel">
-  <h2 class="header center"><%= poll.question %> </h2>
+<h2 class="header center"><%= poll.question %> </h2>
 
-  <div class="content">
-    <div class="chart">
-      <%= column_chart poll.get_vote_data %>
-    </div>
+<div class="content">
+  <div class="chart">
+    <%= column_chart poll.get_vote_data %>
+  </div>
 
-    <div class="close-modal">
-      <button class="btn btn-default fit" data-dismiss="modal">Close</button>
-    </div>
+  <div class="close-modal">
+    <button class="btn btn-default fit" data-dismiss="modal">Close</button>
   </div>
 </div>

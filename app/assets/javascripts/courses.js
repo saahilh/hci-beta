@@ -130,6 +130,9 @@ $(document).ready(function(){
         else if(data['disconnected']){
           $('#active-connections').text(parseInt($('#active-connections').text())-1)
         }
+        else if(data['poll_end']){
+          $('#poll-body').html(data['chart']);
+        }
       },
       speak: function(){}
     });
