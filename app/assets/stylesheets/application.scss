@@ -21,10 +21,14 @@
 @import "mCustomScrollbar";
 
 .main-header, .main-header:hover {   
-  text-decoration: none;
+  padding-bottom: 50px;
 
-  h1 {
-    font-size: 100px;
+  a {
+    text-decoration: none;
+
+    h1 {
+      font-size: 100px;
+    }
   }
 }
 
