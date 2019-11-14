@@ -21,7 +21,6 @@
 @import "mCustomScrollbar";
 
 html {
-  overflow: hidden;
   font-size: 16px;
 }
 
@@ -43,10 +42,6 @@ html {
 }
 
 input {
-  height: 70px;
-}
-
-.form-group input {
   height: 70px;
 }
 
@@ -127,13 +122,24 @@ input, textarea, password {
   margin-top: 30px;
 }
 
+.form-group {
+  label {
+    color: white;
+  }
+
+  input {
+    height: 70px;
+  }
+}
+
 @media only screen and (max-width: 991px) {
   form {
     &.one-item, &.two-item{
-      display: flexbox;
+      display: block;
 
       > * {
         height: 100px;
+        width: 100%;
         margin: 5px;
       }
     }
@@ -141,6 +147,10 @@ input, textarea, password {
 }
 
 @media only screen and (min-width: 992px) {
+  html {
+    overflow: hidden;
+  }
+  
   form {
     grid-gap: 2% 2%;
 
@@ -188,8 +198,4 @@ input, textarea, password {
       display: block
     }
   }
-}
-
-.form-group label {
-  color: white;
 }
