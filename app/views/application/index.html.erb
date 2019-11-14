@@ -6,7 +6,7 @@
 
     <div class="contents">
       <form class="one-item" action="select_course" method="post">
-        <input class="awesomplete" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list="<%=Course.all.pluck(:name).join(",")%>">
+        <input class="awesomplete fit" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list="<%=Course.all.pluck(:name).join(",")%>">
         <button id="join-class" class="btn big-btn btn-inverse fit">Join Class</button>
       </form>
     </div>
@@ -32,7 +32,7 @@
           </div>
         </form>
         <div class="account-creation">
-          <span class="big-text">or <b class="link" data-toggle="modal" data-target="#create-account-modal">click here to create an account</b></span>
+          <span>or <b class="link" data-toggle="modal" data-target="#create-account-modal">click here to create an account</b></span>
         </div>
     </div>
   </div>

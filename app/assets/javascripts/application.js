@@ -47,7 +47,8 @@ $(document).on('click', '#create-account-button', function(e){
       if(response.data.errors.length > 0){
         $('.modal-body.confirmation h4').text('Error');
         $('#back').removeAttr('data-dismiss');
-        $('#create-modal-message').text(response.data.errors.join('\n'));
+        $('#create-modal-message').text('');
+        $('#create-modal-message').append($('<p>' + response.data.errors.join('</p></p>') + '</p>'));
       }
       else{
         $('.modal-body.confirmation h4').text('Success!');
