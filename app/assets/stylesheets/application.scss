@@ -20,6 +20,10 @@
 @import "awesomplete";
 @import "mCustomScrollbar";
 
+html {
+  overflow: hidden;
+}
+
 .main-header, .main-header:hover {   
   padding-bottom: 50px;
 
@@ -168,18 +172,6 @@ input, textarea, password {
       display: grid;
       grid-template-columns: [first-input] 4fr [second-input] 4fr [button] 4fr;
       grid-gap: 2% 2%;
-
-      .form-group:nth-child(1) {
-        grid-column: first-input;
-      }
-
-      .form-group:nth-child(2) {
-        grid-column: second-input;
-      }
-
-      .form-group:nth-child(3) {
-        grid-column: button;
-      }
     }
   }
 }
