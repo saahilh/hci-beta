@@ -26,7 +26,7 @@ class CoursesController < ActionController::Base
 
 	def select_course
 		@course = Course.find_by(name: params[:course_code].upcase.gsub(" ", ""))
-		puts params[:course_code]
+
 		if @course
 			render json: { data: { redirect: "/courses/#{@course.id}" }}
 		else
