@@ -7,7 +7,7 @@ class Lecturer < ApplicationRecord
 	validates :email, uniqueness: { message: "already in use" }
 	validates :password, presence: true
 
-	def is_lecturer_for(course)
+	def is_lecturer_for?(course)
 		course.lecturer.id==self.id
 	end
 end

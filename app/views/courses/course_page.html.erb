@@ -8,7 +8,7 @@
     <div class="question-item no-questions"> No questions available </div>
 
     <% course.questions.sort_by{|question| [-question.upvote_count, question.downvote_count, question.created_at]}.each do |question| %>
-      <% next if student.has_flagged?(question) or question.has_passed_flag_threshold %>
+      <% next if student.has_flagged?(question) or question.has_passed_flag_threshold? %>
 
       <%= render(partial: 'question', locals: { question: question, lecturer: lecturer, student: student, course: course }) %>
     <% end %>

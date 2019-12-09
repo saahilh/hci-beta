@@ -32,7 +32,7 @@ module AuthenticationHelper
 
 	def authenticate_lecturer_for_course
 		if @lecturer
-			return if @lecturer.id.to_s == @course.lecturer.id.to_s # success
+			return if @lecturer.is_lecturer_for?(@course) # success
 			
 			message = "Error: lecturer does not have access to course"
 		else
