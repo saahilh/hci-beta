@@ -47,13 +47,13 @@ $(document).on('click', '#create-account-button', function(e){
       if(response.data.errors.length > 0){
         $('#confirmation h4').text('Error');
         $('#back').removeAttr('data-dismiss');
-        $('#create-modal-message').text('');
-        $('#create-modal-message').append($('<p>' + response.data.errors.join('</p></p>') + '</p>'));
+        $('#create-account-modal .modal-message').text('');
+        $('#create-account-modal .modal-message').append($('<p>' + response.data.errors.join('</p></p>') + '</p>'));
       }
       else{
         $('#confirmation h4').text('Success!');
         $('#back').attr('data-dismiss', 'modal');
-        $('#create-modal-message').text('Successfully created account');
+        $('#create-account-modal .modal-message').text('Successfully created account');
       }
       
       $('#submission').hide(); 
