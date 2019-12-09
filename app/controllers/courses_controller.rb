@@ -1,6 +1,6 @@
 class CoursesController < ActionController::Base
 	include AuthenticationHelper
-	
+
 	layout "general"
 
 	before_action :set_course, except: [:select_course, :create]
@@ -28,7 +28,7 @@ class CoursesController < ActionController::Base
 
 	def select_course
 		@course = Course.find_by(name: params[:course_code].upcase.gsub(" ", ""))
-		puts params[:course_code]
+
 		if @course
 			render json: { data: { redirect: "/courses/#{@course.id}" }}
 		else
