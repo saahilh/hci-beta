@@ -1,0 +1,13 @@
+<% if include_button %>
+  <a id="show-modal" class="hidden" data-toggle="modal" data-target="#<%= id %>"></a>
+<% end %>
+
+<div id="<%= id %>" class="<%= id %> modal fade" role="dialog" modal-backdrop="dynamic">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <%= render(partial: body) %>
+      </div>
+    </div>
+  </div>
+</div>

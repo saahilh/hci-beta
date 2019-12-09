@@ -39,5 +39,5 @@
   </div>
 </div>
 
-<%= render(partial: 'create_account_modal') %>
-<%= render(partial: '/partials/message_modal', locals: { id: 'message-modal', header: 'Error' }) %>
+<%= render(partial: '/partials/modal', locals: { body: '/partials/create_account_modal', id: 'create-account-modal', include_button: false }) %>
+<%= render(partial: '/partials/modal', locals: { body: '/partials/message_modal', id: 'message-modal', include_button: true }) %>
