@@ -3,7 +3,7 @@
 
 <div class="custom-container lecturer-profile">
   <div class="custom-panel course-list custom">
-    <%= render(partial: 'course_list', locals: { courses: lecturer.courses }) %>
+    <%= render(partial: 'course_list', locals: { courses: @lecturer.courses }) %>
   </div>
 
   <div class="custom-panel create-class">
