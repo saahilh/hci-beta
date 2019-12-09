@@ -47,28 +47,13 @@ class PollsController < ActionController::Base
 
 	def answer
 		option = Option.find(params[:option_id])
+		changed = @poll.was_responded_to_by?(@student)
 
-		existing_response = nil
-		changed = false
-
-		@poll.options.each do |option|
-			if option.was_responded_to_by?(@student)
-				existing_response = option.get_response_by(@student)
-				break
-			end
+		if changed
+			@poll.get_response_by(@student).delete
 		end
 
-		if existing_response
-			changed = existing_response.option != option
-		end
-
-		if changed or existing_response.nil?
-			PollResponse.create(student_id: @student.id, option_id: option.id)
-
-			if changed
-				existing_response.delete
-			end
-		end
+		PollResponse.create(student_id: @student.id, option_id: option.id)
 
 		CourseChannel.broadcast_to(
 			@poll.course,

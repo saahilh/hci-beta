@@ -11,4 +11,12 @@ class Poll < ApplicationRecord
 
     vote_data
   end
+
+  def was_responded_to_by?(student)
+    self.options.map { |option| option.was_responded_to_by?(student) }.include? true
+  end
+
+  def get_response_by(student)
+    self.options.map { |option| option.get_response_by(student) }.find { |option| !option.nil? }
+  end
 end
