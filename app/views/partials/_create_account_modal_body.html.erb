@@ -14,12 +14,4 @@
   <button id="create-account-button" class="btn btn-default fit create-account-button">Create Account</button>
 </div>
 
-<div id="confirmation">
-  <h4 class="center">Error</h4>
-
-  <p class="modal-message"></p>
-
-  <div id="back" class="close-modal">
-    <button class="btn btn-default fit">Okay</button>
-  </div>
-</div>
+<%= render(partial: '/partials/message_modal_body') %>
