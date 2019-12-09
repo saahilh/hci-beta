@@ -9,11 +9,11 @@ class PollsController < ActionController::Base
 	before_action :authenticate_lecturer_for_course, only: [:new]
 
 	def new
-  	render "poll_class"
+  		render "poll_class"
 	end
 
 	def create
-		Poll.where(course: @course.id, active: true).all.each {|poll| poll.update_column(:active, false)}
+		Poll.where(course: @course.id, active: true).all.each { |poll| poll.update_column(:active, false) }
 		poll = Poll.create(question: params[:question], course: @course, active: true)
 
 		params[:options].each do |number, value|
@@ -30,9 +30,7 @@ class PollsController < ActionController::Base
 	end
 
 	def show
-		poll_type = @poll.active ? "active_poll" : "lecturer_poll_results"
-
-		render poll_type, locals: { poll: @poll }
+		render 'poll', locals: { poll: @poll, course: @poll.course }
 	end
 
 	def end
@@ -44,7 +42,7 @@ class PollsController < ActionController::Base
 			chart: render_to_string('student_poll_results', layout: false, locals: { poll: @poll }) 
 		)
 
-		render 'lecturer_poll_results', locals: { poll: @poll }
+		render 'poll', locals: { poll: @poll, course: @poll.course }
 	end
 
 	def answer
