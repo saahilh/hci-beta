@@ -9,7 +9,7 @@ class PollsController < ActionController::Base
 	before_action :authenticate_lecturer_for_course, only: [:new]
 
 	def new
-  		render "poll_class"
+  		render "poll_class", locals: { course: @course }
 	end
 
 	def create
