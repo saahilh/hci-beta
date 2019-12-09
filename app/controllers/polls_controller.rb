@@ -1,6 +1,6 @@
 class PollsController < ActionController::Base
 	include AuthenticationHelper
-	layout: "courses"
+	layout "general"
 
 	before_action :set_course, only: [:new, :show, :create, :end]
 	before_action :set_lecturer, only: [:new]
@@ -30,11 +30,9 @@ class PollsController < ActionController::Base
 	end
 
 	def show
-		if @poll.active
-			render "active_poll", locals: { poll: @poll }
-		else
-			render 'lecturer_poll_results', locals: { poll: @poll }
-		end
+		poll_type = @poll.active ? "active_poll" : "lecturer_poll_results"
+
+		render poll_type, locals: { poll: @poll }
 	end
 
 	def end
