@@ -1,19 +1,5 @@
 <div id="q<%=question.id%>" class="question-item">
-  <% if !lecturer.nil? && lecturer.id == course.lecturer.id %> 
-    <div class="question-data">
-      <div class="thumbs">
-        <span class="fa fa-thumbs-up"> <%= question.upvote_count %></span>
-        <span class="fa fa-thumbs-down"> <%= question.downvote_count %></span>
-      </div>
-      <span class="question-text"><%= question.question %></span>
-    </div>
-
-    <%= link_to("in class", "#{course_question_path(course, question)}/in_class", method: :post, remote: true, class: "in-class btn btn-default#{question.answer_in_class? ? " btn-success" :  " text-success"}") %>
-
-    <%= link_to("after class", "#{course_question_path(course, question)}/after_class", method: :post, remote: true, class: "after-class btn btn-default#{question.answer_after_class? ? " btn-primary" :  " text-primary"}") %>
-
-    <%= link_to("", course_question_path(course, question), method: :delete, class: "btn fa fa-trash icon-2x btn-danger", remote: true) %>
-  <% else %>
-    <%= render(partial: "student_question", locals: { course: course, question: question }) %>
-  <% end %>
+  <% question_type = (!lecturer.nil? && lecturer.id == course.lecturer.id) ? "/courses/lecturer_question" : "/courses/student_question" %> 
+  
+  <%= render(partial: question_type, locals: {course: course, question: question, student: student }) %>
 </div>
