@@ -35,8 +35,8 @@ module AuthenticationHelper
 			return if @lecturer.id.to_s == @course.lecturer.id.to_s # success
 
 			render '/message', locals: { message: "Error: lecturer does not have access to course" }
-    else
-      render '/message', locals: { message: "Error: not logged in" }
-    end
+		else
+			render '/message', locals: { message: "Error: not logged in" }
+		end
 	end
 end
