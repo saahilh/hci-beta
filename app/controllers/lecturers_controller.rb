@@ -8,7 +8,7 @@ class LecturersController < ActionController::Base
   def login
     @lecturer = Lecturer.find_by(email: params[:email])
 
-    if(!@lecturer.nil? && @lecturer.authenticate(params[:pw]))
+    if(!@lecturer.nil? && @lecturer.authenticate(params[:password]))
       session[:lecturer_id] = @lecturer.id
 
       render json: { data: { redirect: "/lecturers/#{@lecturer.id}" } }
