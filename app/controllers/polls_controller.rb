@@ -1,5 +1,6 @@
 class PollsController < ActionController::Base
 	include AuthenticationHelper
+	layout: "courses"
 
 	before_action :set_course, only: [:new, :show, :create, :end]
 	before_action :set_lecturer, only: [:new]

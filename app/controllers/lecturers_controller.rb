@@ -1,5 +1,7 @@
 class LecturersController < ActionController::Base
   include AuthenticationHelper
+  
+  layout "general"
 
   before_action :set_lecturer, only: [:show]
 

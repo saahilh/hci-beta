@@ -1,5 +1,7 @@
 class CoursesController < ActionController::Base
 	include AuthenticationHelper
+	
+	layout "general"
 
 	before_action :set_course, except: [:select_course, :create]
 	before_action :set_student, only: [:show, :ask_question]
