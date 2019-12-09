@@ -32,7 +32,7 @@
 // });
 
 $(document).on('click', '#back', function(){ 
-  $('.confirmation').hide(); 
+  $('#confirmation').hide(); 
   $('#submission').show(); 
 });
 
@@ -45,19 +45,19 @@ $(document).on('click', '#create-account-button', function(e){
     data: form.serialize(),
     success: function(response){ 
       if(response.data.errors.length > 0){
-        $('.modal-body.confirmation h4').text('Error');
+        $('#confirmation h4').text('Error');
         $('#back').removeAttr('data-dismiss');
         $('#create-modal-message').text('');
         $('#create-modal-message').append($('<p>' + response.data.errors.join('</p></p>') + '</p>'));
       }
       else{
-        $('.modal-body.confirmation h4').text('Success!');
+        $('#confirmation h4').text('Success!');
         $('#back').attr('data-dismiss', 'modal');
         $('#create-modal-message').text('Successfully created account');
       }
       
       $('#submission').hide(); 
-      $('.confirmation').show();
+      $('#confirmation').show();
     },
     dataType: 'json'
   });

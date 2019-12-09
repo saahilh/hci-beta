@@ -1,16 +1,18 @@
 <a id="show-modal" class="hidden" data-toggle="modal" data-target="#<%= id %>"></a>
 
-<div id="<%= id %>" class="modal fade" role="dialog" style="overflow:hidden; display:none">
+<div id="<%= id %>" class="<%= id %> modal fade" role="dialog" style="overflow:hidden; display:none" modal-backdrop="dynamic">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
-      <div class="modal-body confirmation">
-        <h4 class="center"><%= header.html_safe %></h4>
+      <div class="modal-body">
+        <div id="confirmation">
+          <h4 class="center"><%= header.html_safe %></h4>
 
-        <p class="modal-message"></p>
-    
-        <button type="button" class="btn big-btn btn-default fit" data-dismiss="modal">
-          Okay
-        </button>
+          <p class="modal-message"></p>
+      
+          <button type="button" class="btn big-btn btn-default fit" data-dismiss="modal">
+            Okay
+          </button>
+          </div>
         </div>
       </div>
     </div>

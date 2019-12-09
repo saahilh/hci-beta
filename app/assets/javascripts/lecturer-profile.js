@@ -10,11 +10,11 @@ $(document).ready(function(){
       data: form.serialize(),
       success: function(response){
         if(response.data.errors.length > 0){
-          $('#message-modal .modal-body.confirmation h4').text('Error')
+          $('#message-modal #confirmation h4').text('Error')
           $('#message-modal .modal-message').text(response.data.errors.join('\n'));
         }
         else{
-          $('#message-modal .modal-body.confirmation h4').text('Success!')
+          $('#message-modal #confirmation h4').text('Success!')
 
           $('#message-modal .modal-message').text('Successfully created course ' + response.data.course_name);
           $('.class-list').append(createCourseIndexItem(response.data.course_id, response.data.course_name));

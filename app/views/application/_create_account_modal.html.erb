@@ -1,37 +1,38 @@
 <div id="create-account-modal" class="create-account-modal modal fade" role="dialog" modal-backdrop="dynamic">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
-      <div id="submission" class="modal-body">
-        <form action="/lecturers" method="post">
-          <% inputs = {
-              name: "Preferred Name",
-              email: "Email",
-              password: "Password",
-              password_confirmation: "Confirm Password"
-            }
-          %>
+      <div class="modal-body">
+        <div id="submission">
+          <form action="/lecturers" method="post">
+            <% inputs = {
+                name: "Preferred Name",
+                email: "Email",
+                password: "Password",
+                password_confirmation: "Confirm Password"
+              }
+            %>
 
-          <% inputs.each do |input, text| %>
-            <% input_type = input.to_s.include?("password") ? "password" : "textarea" %>
+            <% inputs.each do |input, text| %>
+              <% input_type = input.to_s.include?("password") ? "password" : "textarea" %>
 
-            <div class="form-group">
-              <label for="lecturer[<%= input %>]"><%= text %></label>
-              <input type="<%= input_type %>" class="form-control" name="lecturer[<%= input %>]">
-            </div>
-          <% end %>
-        </form>
+              <div class="form-group">
+                <label for="lecturer[<%= input %>]"><%= text %></label>
+                <input type="<%= input_type %>" class="form-control" name="lecturer[<%= input %>]">
+              </div>
+            <% end %>
+          </form>
 
-        <button id="create-account-button" class="btn btn-default fit create-account-button">Create Account</button>
+          <button id="create-account-button" class="btn btn-default fit create-account-button">Create Account</button>
+        </div>
 
-      </div>
+        <div id="confirmation" style="display:none;">
+          <h4 class="center">Error</h4>
 
-      <div class="modal-body confirmation" style="display:none;">
-        <h4 class="center">Error</h4>
+          <p id="create-modal-message" class="modal-message"></p>
 
-        <p id="create-modal-message" class="modal-message"></p>
-
-        <div id="back" class="close-modal">
-          <button class="btn btn-default fit">Okay</button>
+          <div id="back" class="close-modal">
+            <button class="btn btn-default fit">Okay</button>
+          </div>
         </div>
       </div>
     </div>
