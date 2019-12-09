@@ -13,7 +13,8 @@ class PollsController < ActionController::Base
 	end
 
 	def create
-		Poll.where(course: @course.id, active: true).all.each { |poll| poll.update_column(:active, false) }
+		@course.deactivate_all_polls # in case poll wasn't properly closed
+
 		poll = Poll.create(question: params[:question], course: @course, active: true)
 
 		params[:options].each do |number, value|
@@ -34,7 +35,7 @@ class PollsController < ActionController::Base
 	end
 
 	def end
-		@poll.update_column(:active, false)
+		@poll.deactivate
 
 		CourseChannel.broadcast_to(
 			@course, 

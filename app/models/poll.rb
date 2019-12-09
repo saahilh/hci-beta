@@ -19,4 +19,8 @@ class Poll < ApplicationRecord
   def get_response_by(student)
     self.options.map { |option| option.get_response_by(student) }.find { |option| !option.nil? }
   end
+
+  def deactivate
+    self.update_column(:active, false)
+  end
 end
