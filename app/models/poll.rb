@@ -23,4 +23,10 @@ class Poll < ApplicationRecord
   def deactivate
     self.update_column(:active, false)
   end
+
+  def add_options(options)
+    options.each do |number, value|
+      Option.create(number: number.to_i, value: value, poll: self)
+    end
+  end
 end

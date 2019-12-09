@@ -16,10 +16,7 @@ class PollsController < ActionController::Base
 		@course.deactivate_all_polls # in case poll wasn't properly closed
 
 		poll = Poll.create(question: params[:question], course: @course, active: true)
-
-		params[:options].each do |number, value|
-			Option.create(number: number.to_i, value: value, poll: poll)
-		end
+		poll.add_options(params[:options])
 
 		CourseChannel.broadcast_to(
 			@course, 
@@ -50,9 +47,7 @@ class PollsController < ActionController::Base
 		option = Option.find(params[:option_id])
 		changed = @poll.was_responded_to_by?(@student)
 
-		if changed
-			@poll.get_response_by(@student).delete
-		end
+		@poll.get_response_by(@student).delete if changed
 
 		PollResponse.create(student_id: @student.id, option_id: option.id)
 
