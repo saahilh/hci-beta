@@ -23,11 +23,10 @@ class PollsController < ActionController::Base
 			poll: render_to_string('_student_poll', layout: false, locals: { poll: poll, student: nil })
 		)
 
-		redirect_to course_poll_path(poll.course, poll)
+		redirect_to course_poll_path(@course, poll)
 	end
 
 	def show
-		render 'poll', locals: { poll: @poll, course: @course }
 	end
 
 	def end
@@ -39,7 +38,7 @@ class PollsController < ActionController::Base
 			chart: render_to_string(partial: 'student_poll_results', layout: false, locals: { poll: @poll }) 
 		)
 
-		render 'poll', locals: { poll: @poll, course: @course }
+		redirect_to course_poll_path(@course, @poll)
 	end
 
 	def answer
