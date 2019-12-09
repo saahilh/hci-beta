@@ -95,12 +95,3 @@
     grid-column: return-button;
   }
 }
-
-.close-modal {
-  display: grid;
-  grid-template-columns: [left-margin] 1fr [button] 2fr [right-margin] 1fr;
-
-  button {
-    grid-column: button;
-  }
-}
