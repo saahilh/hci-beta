@@ -29,8 +29,8 @@ $(document).ready(function(){
 
   function createCourseIndexItem(courseId, courseName){
     let button = '';
-    courseSelectButton  = `<a class="btn big-btn btn-default fit course-button" data-method="get" href="/courses/${courseId}">${courseName}</a>`;
-    courseDeleteButton  = `<a class="btn big-btn btn-danger delete-button fa fa-trash" rel="nofollow" data-method="delete" href="/courses/${courseId}"></a>`;
+    courseSelectButton = `<a class="btn big-btn btn-default fit course-button" data-method="get" href="/courses/${courseId}">${courseName}</a>`;
+    courseDeleteButton = `<a class="btn big-btn btn-danger delete-button fa fa-trash" rel="nofollow" data-method="delete" href="/courses/${courseId}"></a>`;
     return `<div class="list-item">${courseSelectButton}${courseDeleteButton}</div>`;
   }
 

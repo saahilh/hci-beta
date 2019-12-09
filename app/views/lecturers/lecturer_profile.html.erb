@@ -2,23 +2,8 @@
 <%= javascript_tag "roomName = \"\"" %>
 
 <div class="custom-container lecturer-profile">
-  <div class="custom-panel lecturer-classes custom">
-    <div class="header">
-      <span>Classes</span>
-    </div>
-
-    <div class="contents">
-      <div class="list class-list">
-        <div class="list-item empty-grid"> (you have no courses) </div>
-        
-        <% lecturer.courses.sort_by { |course| course.name }.each do |course| %>
-          <div class="list-item">
-            <%= link_to(course.name, course_path(course), method: :get, class: "btn big-btn btn-default fit course-button") %>
-            <%= link_to("", course, method: :delete, class: "btn big-btn btn-danger delete-button fa fa-trash") %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+  <div class="custom-panel course-list custom">
+    <%= render(partial: 'course_list', locals: { courses: lecturer.courses }) %>
   </div>
 
   <div class="custom-panel create-class">
