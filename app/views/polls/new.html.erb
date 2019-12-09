@@ -1,7 +1,8 @@
 <%= render(partial: '/partials/nav_bar', locals: { is_poll: true }) %>
-<h1 class="course-name">Course: <%= @course.name %></h1>
 
 <%= javascript_tag "roomName = \"#{@course.name}\"" %>
+
+<h1 class="course-name">Course: <%= @course.name %></h1>
 
 <span>Question</span>
 
