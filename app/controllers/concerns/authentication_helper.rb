@@ -27,7 +27,7 @@ module AuthenticationHelper
 
 		return unless @lecturer.nil?
 
-		render '/message', locals: { message: "Error: not logged in" }
+		render '/application/message', locals: { message: "Error: not logged in" }
 	end
 
 	def authenticate_lecturer_for_course
@@ -39,6 +39,6 @@ module AuthenticationHelper
 			message =  "Error: not logged in"
 		end
 
-		render '/message', locals: { message: message }
+		render '/application/message', locals: { message: message }
 	end
 end
