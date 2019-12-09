@@ -9,7 +9,6 @@ class PollsController < ActionController::Base
 	before_action :authenticate_lecturer_for_course, only: [:new]
 
 	def new
-  		render "poll_class", locals: { course: @course }
 	end
 
 	def create
@@ -28,7 +27,7 @@ class PollsController < ActionController::Base
 	end
 
 	def show
-		render 'poll', locals: { poll: @poll, course: @poll.course }
+		render 'poll', locals: { poll: @poll, course: @course }
 	end
 
 	def end
@@ -40,7 +39,7 @@ class PollsController < ActionController::Base
 			chart: render_to_string(partial: 'student_poll_results', layout: false, locals: { poll: @poll }) 
 		)
 
-		render 'poll', locals: { poll: @poll, course: @poll.course }
+		render 'poll', locals: { poll: @poll, course: @course }
 	end
 
 	def answer

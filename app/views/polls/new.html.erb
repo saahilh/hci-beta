@@ -1,11 +1,11 @@
 <%= render(partial: '/partials/nav_bar', locals: { is_poll: true }) %>
-<h1 class="course-name">Course: <%= course.name %></h1>
+<h1 class="course-name">Course: <%= @course.name %></h1>
 
-<%= javascript_tag "roomName = \"#{course.name}\"" %>
+<%= javascript_tag "roomName = \"#{@course.name}\"" %>
 
 <span>Question</span>
 
-<form id="poll-form" class="poll-form" action="<%= course_polls_path(course) %>" method="post">
+<form id="poll-form" class="poll-form" action="<%= course_polls_path(@course) %>" method="post">
   <input id="poll-question" class="poll-question" name="question" type="textarea" class="form-control" placeholder="Type your question for the poll here"/>
   
   <div id="poll-options" class="poll-options"></div>
