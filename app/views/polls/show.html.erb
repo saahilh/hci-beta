@@ -1,0 +1,45 @@
+<%= render(partial: '/partials/nav_bar') %>
+
+<%= javascript_tag "roomName = \"#{@course.name}\"" %>
+
+<h1 class="course-name">Course: <%= @course.name %></h1>
+
+<% if @poll.active %>
+  <span>Question</span>
+
+  <div class="poll-form">
+    <input class="poll-question" type="textarea" value="<%= @poll.question %>"/>
+
+    <div class="poll-options">
+      <% @poll.options.order(:number).each do |option| %>
+        <div class="poll-option">
+          <span>Option <%= option.number %></span>
+          <input type="textarea" value="<%= option.value %>"/>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="response-counter center" class="row">
+    <p><span id="counter">0</span> out of <span id="active-connections"><%= ActionCable.server.connections.length - 1 %></span> students have answered</p>
+  </div>
+
+  <div class="end-poll-container">
+    <%= link_to("End Poll and View Results", "#{course_poll_path(@course, @poll)}/end", method: :post, class: "btn big-btn btn-default end-poll") %>
+  </div>
+<% else %>
+  <div class="custom-panel">
+    <h2 class="header"><%= @poll.question %> </h2>
+
+    <div class="content">
+      <div class="chart">
+        <%= column_chart @poll.get_vote_data %>
+      </div>
+
+      <div class="poll-results-buttons">
+        <%= link_to("New Poll", "#{course_path(@course)}/polls/new" , method: :get, class: "btn big-btn btn-default new-poll-button") %>
+        <%= link_to("Return to Questions", course_path(@course) , method: :get, class: "btn big-btn btn-default return-button") %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,6 +1,6 @@
 .poll-form {
   display: grid;
-  grid-template-rows: [poll-question] 1fr [poll-options] 10fr [poll-buttons] 1fr;
+  grid-template-rows: [poll-question] 1fr [poll-options] 6fr [poll-buttons] 1fr;
   grid-gap: 3% 3%;
 
   .poll-question {
@@ -93,14 +93,5 @@
 
   .return-button {
     grid-column: return-button;
-  }
-}
-
-.close-modal {
-  display: grid;
-  grid-template-columns: [left-margin] 1fr [button] 2fr [right-margin] 1fr;
-
-  button {
-    grid-column: button;
   }
 }

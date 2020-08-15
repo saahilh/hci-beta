@@ -57,7 +57,7 @@ class Question < ApplicationRecord
 		)
 	end
 
-	def has_passed_flag_threshold
+	def has_passed_flag_threshold?
 		Flag.where(course: self.course, question: self).count >= FLAG_THRESHOLD
 	end
 

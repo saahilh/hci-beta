@@ -27,16 +27,18 @@ module AuthenticationHelper
 
 		return unless @lecturer.nil?
 
-		render '/message', locals: { message: "Error: not logged in" }
+		render '/application/message', locals: { message: "Error: not logged in" }
 	end
 
 	def authenticate_lecturer_for_course
 		if @lecturer
-			return if @lecturer.id.to_s == @course.lecturer.id.to_s # success
+			return if @lecturer.is_lecturer_for?(@course) # success
+			
+			message = "Error: lecturer does not have access to course"
+		else
+			message =  "Error: not logged in"
+		end
 
-			render '/message', locals: { message: "Error: lecturer does not have access to course" }
-    else
-      render '/message', locals: { message: "Error: not logged in" }
-    end
+		render '/application/message', locals: { message: message }
 	end
 end

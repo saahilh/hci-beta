@@ -1,0 +1,8 @@
+<% inputs.each do |input, text| %>
+    <% input_type = input.to_s.include?("password") ? "password" : "textarea" %>
+
+    <div class="form-group">
+        <label for="lecturer[<%= input %>]"><%= text %></label>
+        <input type="<%= input_type %>" class="form-control" name="lecturer[<%= input %>]">
+    </div>
+<% end %>

@@ -1,42 +1,12 @@
 <div class="custom-container">
   <div class="custom-panel course-selection">
-    <div class="header">
-      <h4>If you're a student, enter a class code</h4>
-    </div>
-
-    <div class="contents">
-      <form class="one-item" action="select_course" method="post">
-        <input class="awesomplete fit" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list="<%=Course.all.pluck(:name).join(",")%>">
-        <button id="join-class" class="btn big-btn btn-inverse fit">Join Class</button>
-      </form>
-    </div>
+    <%= render(partial: "/partials/course_selection_form") %>
   </div>
 
   <div class="custom-panel lecturer-login">
-    <div class="header">
-      <h4>Are you a lecturer?</h4>
-    </div>
-
-    <div class="contents">
-        <form class="two-item" action="login" method="post">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" name="email">
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="pw">
-          </div>
-          <div class="form-group">
-            <button id="lecturer-login" class="btn big-btn btn-inverse login-button fit">Login</button>
-          </div>
-        </form>
-        <div class="account-creation">
-          <span>or <b class="link" data-toggle="modal" data-target="#create-account-modal">click here to create an account</b></span>
-        </div>
-    </div>
+    <%= render(partial: "/partials/lecturer_login_form") %>
   </div>
 </div>
 
-<%= render(partial: 'create_account_modal') %>
-<%= render(partial: '/partials/message_modal', locals: { id: 'message-modal', header: 'Error' }) %>
+<%= render(partial: '/partials/modal', locals: { body: '/partials/create_account_modal_body', id: 'create-account-modal', include_button: false }) %>
+<%= render(partial: '/partials/modal', locals: { body: '/partials/message_modal_body', id: 'message-modal', include_button: true }) %>

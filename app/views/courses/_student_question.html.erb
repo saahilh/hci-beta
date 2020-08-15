@@ -1,0 +1,16 @@
+<div class="question-data">
+    <span class="question-text" maxlength="105"><%= question.question %></span>
+    <span class="question-status">Status: <%= question.status %></span>
+</div>
+
+<form class="upvotes" data-remote="true" action="<%=course_question_path(course, question)%>/upvote" method="post">
+    <button type="submit" class="btn fa fa-thumbs-up<%= !student.nil? && student.has_upvoted?(question) ? " btn-primary" : " text-primary" %>"> <%= question.upvote_count %></button>
+</form>
+
+<form class="downvotes" data-remote="true" action="<%=course_question_path(course, question)%>/downvote" method="post">
+    <button type="submit" class="btn fa fa-thumbs-down<%= !student.nil? && student.has_downvoted?(question) ? " btn-danger" : " text-danger" %>"> <%= question.downvote_count %></button>
+</form>
+
+<form class="flag" action="<%=course_question_path(course, question)%>/flag" method="post">
+    <button type="submit" class="btn fa fa-flag btn-warning" data-remote="true"></button>
+</form>

@@ -1,0 +1,10 @@
+<div class="header">
+    <h4>If you're a student, enter a class code</h4>
+</div>
+
+<div class="contents">
+    <form class="one-item" action="select_course" method="post">
+        <input class="awesomplete fit" name="course_code" type="textarea" placeholder="e.g., ECSE 424" data-list="<%=Course.all.pluck(:name).join(",")%>">
+        <button id="join-class" class="btn big-btn btn-inverse fit">Join Class</button>
+    </form>
+</div>

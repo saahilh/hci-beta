@@ -1,0 +1,16 @@
+<div class="header">
+    <span>Classes</span>
+</div>
+
+<div class="contents">
+    <div class="list class-list">
+    <div class="list-item empty-grid"> (you have no courses) </div>
+    
+    <% courses.sort_by { |course| course.name }.each do |course| %>
+        <div class="list-item">
+        <%= link_to(course.name, course_path(course), method: :get, class: "btn big-btn btn-default fit course-button") %>
+        <%= link_to("", course, method: :delete, class: "btn big-btn btn-danger delete-button fa fa-trash") %>
+        </div>
+    <% end %>
+    </div>
+</div>

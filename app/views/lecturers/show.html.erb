@@ -1,0 +1,14 @@
+<%= render(partial: '/partials/nav_bar') %>
+<%= javascript_tag "roomName = \"\"" %>
+
+<div class="custom-container lecturer-profile">
+  <div class="custom-panel course-list custom">
+    <%= render(partial: 'course_list', locals: { courses: @lecturer.courses }) %>
+  </div>
+
+  <div class="custom-panel create-class">
+    <%= render(partial: 'create_class') %>
+  </div>
+
+  <%= render(partial: '/partials/modal', locals: { body: '/partials/message_modal_body', id: 'message-modal', include_button: true }) %>
+</div>

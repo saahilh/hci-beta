@@ -1,12 +1,14 @@
 class LecturersController < ActionController::Base
   include AuthenticationHelper
+  
+  layout "general"
 
   before_action :set_lecturer, only: [:show]
 
   def login
     @lecturer = Lecturer.find_by(email: params[:email])
 
-    if(!@lecturer.nil? && @lecturer.authenticate(params[:pw]))
+    if(!@lecturer.nil? && @lecturer.authenticate(params[:password]))
       session[:lecturer_id] = @lecturer.id
 
       render json: { data: { redirect: "/lecturers/#{@lecturer.id}" } }
@@ -16,7 +18,6 @@ class LecturersController < ActionController::Base
   end
 
   def show
-  	render 'lecturer_profile', locals: { lecturer: @lecturer }
   end
 
   def logout
