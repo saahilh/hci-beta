@@ -30,7 +30,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'sass-rails', '~> 5.0'
 
-gem 'chartkick', '~> 3.2'
+gem 'chartkick', '~> 3.4'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'bootstrap-sass', '~> 3.4'
 gem 'jquery-rails', '~> 4.3'
